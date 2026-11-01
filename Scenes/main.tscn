@@ -7,8 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://bsk8nvk32havo" path="res://Blender/bedroom_computer.tscn" id="5_kry3j"]
 [ext_resource type="PackedScene" uid="uid://vq0h1naw4wbj" path="res://Blender/trash_basket.tscn" id="6_21xkr"]
 [ext_resource type="PackedScene" uid="uid://dvlrfn2fyb8t4" path="res://Blender/poster.tscn" id="7_6bp64"]
+[ext_resource type="LightmapGIData" uid="uid://dkbvxgh80s5cn" path="res://LightmapGI/main.lmbake" id="8_344ge"]
 
 [sub_resource type="Environment" id="Environment_k1mfq"]
+background_energy_multiplier = 0.0
+ambient_light_source = 1
+reflected_light_source = 1
 tonemap_mode = 4
 
 [node name="Main" type="Node3D" unique_id=1130199733]
@@ -19,16 +23,8 @@ current = true
 fov = 30.0
 size = 4.0
 
-[node name="bedroom" parent="." unique_id=758360824 instance=ExtResource("1_bo1nx")]
-
-[node name="judson" parent="." unique_id=1984091925 instance=ExtResource("2_8gbba")]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1930867948]
 environment = SubResource("Environment_k1mfq")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1132301836]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 1.5)
-shadow_enabled = true
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="." unique_id=179660139]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -36,19 +32,42 @@ size = Vector3(6, 5, 6)
 origin_offset = Vector3(0, 0.5, 1)
 box_projection = true
 
-[node name="gaming_chair" parent="." unique_id=1229674328 instance=ExtResource("3_8gbba")]
+[node name="LightmapGI" type="LightmapGI" parent="." unique_id=834974876]
+quality = 3
+bounces = 16
+bias = 0.01
+light_data = ExtResource("8_344ge")
+
+[node name="Lights" type="Node3D" parent="." unique_id=1735948713]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights" unique_id=1042579131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 1.5)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights" unique_id=1513293358]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 1.5)
+light_energy = 0.5
+light_bake_mode = 1
+shadow_enabled = true
+
+[node name="Decor" type="Node3D" parent="." unique_id=92963413]
+
+[node name="bedroom" parent="Decor" unique_id=758360824 instance=ExtResource("1_bo1nx")]
+
+[node name="gaming_chair" parent="Decor" unique_id=1229674328 instance=ExtResource("3_8gbba")]
 transform = Transform3D(0.7071067, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.7071067, 0.65, 0, -0.75)
 
-[node name="gaming_table" parent="." unique_id=1865217919 instance=ExtResource("4_jjvhh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -1.7)
+[node name="gaming_table" parent="Decor" unique_id=1865217919 instance=ExtResource("4_jjvhh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, -1.7)
 
-[node name="bedroom_computer" parent="." unique_id=1402054447 instance=ExtResource("5_kry3j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.77, -1.85)
+[node name="bedroom_computer" parent="Decor" unique_id=1402054447 instance=ExtResource("5_kry3j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.75, -1.7)
 
-[node name="trash_basket" parent="." unique_id=1854314434 instance=ExtResource("6_21xkr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1.5)
+[node name="trash_basket" parent="Decor" unique_id=1854314434 instance=ExtResource("6_21xkr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, -1.5)
 
-[node name="poster" parent="." unique_id=324369928 instance=ExtResource("7_6bp64")]
+[node name="poster" parent="Decor" unique_id=324369928 instance=ExtResource("7_6bp64")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1.99)
 
-[node name="LightmapGI" type="LightmapGI" parent="." unique_id=834974876]
+[node name="MainChar" parent="." unique_id=1984091925 instance=ExtResource("2_8gbba")]
