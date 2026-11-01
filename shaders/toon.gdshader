@@ -19,7 +19,7 @@ uniform vec4 shadow_color: source_color = vec4(0.705);
 
 uniform float _specular_smoothness : hint_range(0.0,0.5) = 0.01;
 uniform float _specular_strength : hint_range(0.0,0.25) = 0.075;
-uniform float _glossiness : hint_range(0.0,0.5) = 0.1;
+uniform float _glossiness : hint_range(0.01,0.5) = 0.1;
 
 uniform float _rim_size : hint_range(0,1) = 0.5;
 uniform float _rim_smoothness : hint_range(0.0,0.5) = 0.01;
