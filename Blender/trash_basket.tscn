@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://vq0h1naw4wbj"]
+
+[ext_resource type="PackedScene" uid="uid://dj6arf313ty8r" path="res://Blender/trash_basket.blend" id="1_qh1g1"]
+
+[node name="trash_basket" unique_id=1854314434 instance=ExtResource("1_qh1g1")]

@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bd664xjv6d1s1"]
+
+[ext_resource type="Shader" uid="uid://sg6ulua2y6qq" path="res://shaders/toon.gdshader" id="1_gu5l6"]
+[ext_resource type="Texture2D" uid="uid://udw66wg1h50x" path="res://Textures/judson/judson_face.png" id="2_gu5l6"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_gu5l6")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/tex = ExtResource("2_gu5l6")
+shader_parameter/normal_strength = 1.0
+shader_parameter/shadow = 0.5
+shader_parameter/shadow_width = 0.0
+shader_parameter/shadow_color = Color(0.705, 0.705, 0.705, 0.705)
+shader_parameter/_specular_smoothness = 0.01
+shader_parameter/_specular_strength = 0.075
+shader_parameter/_glossiness = 0.1
+shader_parameter/_rim_size = 0.5
+shader_parameter/_rim_smoothness = 0.01

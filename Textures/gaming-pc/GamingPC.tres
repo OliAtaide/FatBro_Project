@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cfywjlkxxveqa"]
+
+[ext_resource type="Texture2D" uid="uid://bqvb823rnva0j" path="res://Textures/gaming-pc/texturedFacets_albedo.jpeg" id="1_qmyp5"]
+[ext_resource type="Texture2D" uid="uid://bd1j4feuumfrd" path="res://Textures/gaming-pc/texturedFacets_AO.jpeg" id="2_dlbbq"]
+[ext_resource type="Texture2D" uid="uid://3iwj8ah4aqw3" path="res://Textures/gaming-pc/texturedFacets_emissive.jpeg" id="3_xpbyi"]
+[ext_resource type="Texture2D" uid="uid://du68840n0of4o" path="res://Textures/gaming-pc/texturedFacets_metallic.jpeg" id="4_l5p6o"]
+[ext_resource type="Texture2D" uid="uid://bc01kx1tj5401" path="res://Textures/gaming-pc/texturedFacets_normal.png" id="5_vxm4e"]
+[ext_resource type="Texture2D" uid="uid://cv8giwr3hcvys" path="res://Textures/gaming-pc/texturedFacets_roughness.jpeg" id="6_nxkaj"]
+
+[resource]
+albedo_texture = ExtResource("1_qmyp5")
+metallic = 1.0
+metallic_texture = ExtResource("4_l5p6o")
+roughness_texture = ExtResource("6_nxkaj")
+emission_enabled = true
+emission_texture = ExtResource("3_xpbyi")
+normal_enabled = true
+normal_texture = ExtResource("5_vxm4e")
+ao_enabled = true
+ao_texture = ExtResource("2_dlbbq")

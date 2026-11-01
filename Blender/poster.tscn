@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dvlrfn2fyb8t4"]
+
+[ext_resource type="PackedScene" uid="uid://b66vl3r24dk08" path="res://Blender/poster.blend" id="1_fus7h"]
+
+[node name="poster" unique_id=324369928 instance=ExtResource("1_fus7h")]

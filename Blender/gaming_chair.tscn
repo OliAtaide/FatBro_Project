@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cajdapmfoewjd"]
+
+[ext_resource type="PackedScene" uid="uid://cd0vdht4qf5au" path="res://Blender/gaming_chair.blend" id="1_0tu0q"]
+
+[node name="gaming_chair" unique_id=1229674328 instance=ExtResource("1_0tu0q")]

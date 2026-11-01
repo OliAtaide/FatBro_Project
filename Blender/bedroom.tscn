@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://obj3okuoa28"]
+
+[ext_resource type="PackedScene" uid="uid://dle1l27sp81cs" path="res://Blender/bedroom.blend" id="1_o8m0d"]
+
+[node name="bedroom" unique_id=758360824 instance=ExtResource("1_o8m0d")]

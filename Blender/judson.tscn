@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cjmk34ad8jhb5"]
+
+[ext_resource type="PackedScene" uid="uid://byh2akdm7p2vg" path="res://Blender/judson.blend" id="1_520mp"]
+
+[node name="judson" unique_id=1984091925 instance=ExtResource("1_520mp")]
+
+[node name="Hair_001" parent="Armature/Skeleton3D/Head_2" parent_id_path=PackedInt32Array(1902249683) index="3" unique_id=1082069688]
+visible = false

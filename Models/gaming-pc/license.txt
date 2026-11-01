@@ -1,0 +1,8 @@
+Model Information:
+* title:	Gaming PC
+* source:	https://sketchfab.com/3d-models/gaming-pc-fa306afe7142441fa72672881ef290c4
+* author:	Harrison Sikora (https://sketchfab.com/harrisonsikora)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
