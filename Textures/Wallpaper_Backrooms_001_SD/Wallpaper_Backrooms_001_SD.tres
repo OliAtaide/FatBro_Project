@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dknebb5wvq8nn"]
+
+[ext_resource type="Texture2D" uid="uid://dwa0d5fmcg1f1" path="res://Textures/Wallpaper_Backrooms_001_SD/Wallpaper_Backrooms_001_blue.png" id="1_vrogg"]
+[ext_resource type="Texture2D" uid="uid://db7pwwvt8xgld" path="res://Textures/Wallpaper_Backrooms_001_SD/Wallpaper_Backrooms_001_height.png" id="2_qwrr4"]
+[ext_resource type="Texture2D" uid="uid://btnpbsr01nn5w" path="res://Textures/Wallpaper_Backrooms_001_SD/Wallpaper_Backrooms_001_normal.png" id="3_52s8e"]
+[ext_resource type="Texture2D" uid="uid://bf8a1nhleqcb5" path="res://Textures/Wallpaper_Backrooms_001_SD/Wallpaper_Backrooms_001_roughness.png" id="4_f1d8a"]
+
+[resource]
+albedo_texture = ExtResource("1_vrogg")
+roughness_texture = ExtResource("4_f1d8a")
+normal_enabled = true
+normal_texture = ExtResource("3_52s8e")
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("2_qwrr4")
+uv1_scale = Vector3(2.5, 2.5, 2.5)
+uv1_offset = Vector3(0.23, 0, 0)

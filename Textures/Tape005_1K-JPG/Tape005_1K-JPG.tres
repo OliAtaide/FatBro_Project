@@ -1,12 +1,12 @@
-[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="acg_ljinm2vd"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dps8tgpfvsxtj"]
 
-[ext_resource type="Texture2D" uid="uid://acg_ju9q0x14" id="Color" path="./Tape005_1K-JPG_Color.jpg"]
-[ext_resource type="Texture2D" uid="uid://acg_xvpgufrq" id="Displacement" path="./Tape005_1K-JPG_Displacement.jpg"]
-[ext_resource type="Texture2D" uid="uid://acg_k146atxn" id="Roughness" path="./Tape005_1K-JPG_Roughness.jpg"]
-[ext_resource type="Texture2D" uid="uid://acg_42uxvnji" id="NormalGL" path="./Tape005_1K-JPG_NormalGL.jpg"]
+[ext_resource type="Texture2D" uid="uid://bw0xseyyxnsm4" path="res://Textures/Tape005_1K-JPG/Tape005_1K-JPG_Color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://deth6t56ywo63" path="res://Textures/Tape005_1K-JPG/Tape005_1K-JPG_NormalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://c8p1p4fsn6bem" path="res://Textures/Tape005_1K-JPG/Tape005_1K-JPG_Roughness.jpg" id="Roughness"]
+
 [resource]
 albedo_texture = ExtResource("Color")
 roughness_texture = ExtResource("Roughness")
 roughness_texture_channel = 4
-normal_texture = ExtResource("NormalGL")
 normal_enabled = true
+normal_texture = ExtResource("NormalGL")

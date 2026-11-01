@@ -48,8 +48,8 @@ _subresources={
 },
 "Wall": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Textures/Paint004/Paint004.tres",
-"use_external/path": "uid://ncaojjrmlb1r"
+"use_external/fallback_path": "res://Textures/Wallpaper_Backrooms_001_SD/Wallpaper_Backrooms_001_SD.tres",
+"use_external/path": "uid://dknebb5wvq8nn"
 }
 }
 }

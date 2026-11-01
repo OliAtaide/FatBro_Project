@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://dbsdqyqnr38xr" path="res://Textures/Paint004/Paint004_1K-JPG_White.jpg" id="1_6wxqr"]
 [ext_resource type="Texture2D" uid="uid://bc7patqytcmwo" path="res://Textures/Paint004/Paint004_1K-JPG_AmbientOcclusion.jpg" id="2_b5gqy"]
 [ext_resource type="Texture2D" uid="uid://i3aj0rhkxbk6" path="res://Textures/Paint004/Paint004_1K-JPG_NormalGL.jpg" id="3_521ch"]
-[ext_resource type="Texture2D" uid="uid://boynbj4c1qmxr" path="res://Textures/Paint004/Paint004_1K-JPG_Displacement.jpg" id="3_g34sp"]
 [ext_resource type="Texture2D" uid="uid://d1funhdb0ttpd" path="res://Textures/Paint004/Paint004_1K-JPG_Roughness.jpg" id="4_6336e"]
 
 [resource]
