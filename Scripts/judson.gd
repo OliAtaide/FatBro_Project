@@ -32,6 +32,10 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 ## Played on each bite when he's fed. Optional.
 @export var chomp: AudioStream
 @export var heart: Texture2D = preload("res://UI/heart.svg")
+## Bone the mouth is placed relative to.
+@export var head_bone := &"Head"
+## Fallback head height (metres) if [member head_bone] isn't on his skeleton.
+@export var head_height := 0.72
 ## Where food goes in, relative to his head bone (metres, in his own space; +Z is forward).
 @export var mouth_offset := Vector3(0.0, 0.03, 0.3)
 @export var bites := 3
@@ -47,12 +51,12 @@ var _tap_times: Array[float] = []
 var _home: Vector3
 var _modifier_influence := {}
 var _chew_tween: Tween
+var _warned_no_head := false
 
 @onready var _anim := find_children("*", "AnimationPlayer").front() as AnimationPlayer
 @onready var _skeleton := find_children("*", "Skeleton3D").front() as Skeleton3D
 @onready var _squeak_player := AudioStreamPlayer.new()
 @onready var _chomp_player := AudioStreamPlayer.new()
-@onready var _head_bone := _skeleton.find_bone("Head")
 # squashed while he chews (not the root: that would squash his tap shape too, which Jolt rejects)
 @onready var _body := get_node("Armature") as Node3D
 @onready var _body_scale := _body.scale
@@ -125,7 +129,18 @@ func can_eat() -> bool:
 
 
 func mouth_position() -> Vector3:
-	var head := _skeleton.global_transform * _skeleton.get_bone_global_pose(_head_bone).origin
+	# looked up here rather than in _ready, in case the skeleton's bones aren't named yet then
+	var bone := _skeleton.find_bone(head_bone)
+	var head := global_position + global_basis * Vector3.UP * head_height
+	if bone != -1:
+		head = _skeleton.global_transform * _skeleton.get_bone_global_pose(bone).origin
+	elif not _warned_no_head:
+		_warned_no_head = true
+		var names := PackedStringArray()
+		for i in _skeleton.get_bone_count():
+			names.append(_skeleton.get_bone_name(i))
+		push_warning("No '%s' bone on %s, so the mouth is a guess. Bones: %s"
+				% [head_bone, _skeleton.get_path(), ", ".join(names)])
 	return head + global_basis * mouth_offset
 
 
