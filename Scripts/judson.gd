@@ -33,7 +33,7 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 @export var chomp: AudioStream
 @export var heart: Texture2D = preload("res://UI/heart.svg")
 ## Where food goes in, relative to his head bone (metres, in his own space; +Z is forward).
-@export var mouth_offset := Vector3(0.0, 0.05, 0.12)
+@export var mouth_offset := Vector3(0.0, 0.03, 0.3)
 @export var bites := 3
 ## How many taps within [member spam_window] seconds knock him over.
 @export var taps_to_fall := 6
