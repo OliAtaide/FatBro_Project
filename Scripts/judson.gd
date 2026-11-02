@@ -20,6 +20,13 @@ const LIBRARIES := {
 	&"get_up": preload("res://Mixamo/Getting Up.fbx"),
 	&"wave": preload("res://Mixamo/Waving.fbx"),
 }
+## Clips recorded with the body turned to one side, squared up to face the same way as idle.
+const SQUARE_UP := [GUT_REACT]
+## One-shot clips a new tap or press restarts. Each also gets registered under a twin name,
+## so a restart crossfades from the clip into its twin instead of snapping to frame 0.
+const RESTARTABLE := [GUT_REACT]
+const TWIN_SUFFIX := "_again"
+const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 
 @export var squeak: AudioStream = preload("res://Audio/squeak.ogg")
 ## How many taps within [member spam_window] seconds knock him over.
@@ -43,9 +50,16 @@ func _ready() -> void:
 	_home = global_position
 	for library: StringName in LIBRARIES:
 		_anim.add_animation_library(library, LIBRARIES[library])
+	for animation: StringName in SQUARE_UP:
+		_turn_to_match(_anim.get_animation(animation), _anim.get_animation(IDLE))
+	for animation: StringName in RESTARTABLE:
+		var library := _anim.get_animation_library(animation.get_slice("/", 0))
+		library.add_animation(animation.get_slice("/", 1) + TWIN_SUFFIX, _anim.get_animation(animation))
 	_anim.playback_default_blend_time = blend_time
 	_anim.animation_finished.connect(_on_animation_finished)
 	_anim.play(IDLE)
+	# pose him right away, so the first frame isn't a T-pose
+	_anim.advance(0.0)
 
 	# look-at, arm spread, etc. get faded out while he's on the floor
 	for modifier in _skeleton.find_children("*", "SkeletonModifier3D", false):
@@ -81,40 +95,61 @@ func poke() -> void:
 	if _tap_times.size() >= taps_to_fall:
 		_tap_times.clear()
 		_set_down(true)
-		_anim.play(FALL)
+		# a little longer than usual: the fall starts with his body turned aside
+		_anim.play(FALL, blend_time * 2.0)
 	else:
 		_play_from_start(GUT_REACT)
 
 
 func wave() -> void:
-	if not _down:
-		_play_from_start(WAVE)
+	if not _down and _anim.current_animation != WAVE:
+		_anim.play(WAVE)
 
 
 func _play_from_start(animation: StringName) -> void:
+	# (an AnimationPlayer can't crossfade a clip into itself, hence the twin)
 	if _anim.current_animation == animation:
-		_anim.seek(0.0, true)
-	else:
-		_anim.play(animation)
+		animation = StringName(animation + TWIN_SUFFIX)
+	_anim.play(animation)
 
 
 func _get_up() -> void:
 	# The fall carries his hips backward, but Getting Up starts with them right under
-	# where he stood. Move him to where he landed, then ease him home as he rises.
-	var drift := _hips_position(FALL, INF) - _hips_position(GET_UP, 0.0)
+	# where he stood. Shift him back by that drift in step with the crossfade, so his
+	# hips stay put while the two poses blend, then ease him home as he rises.
+	# (hips tracks are stored normalized by the retarget, so scale them back to metres)
+	var drift := (_hips_position(FALL, INF) - _hips_position(GET_UP, 0.0)) * _skeleton.motion_scale
 	drift.y = 0.0
-	global_position = _home + _skeleton.global_basis * drift
-	_anim.play(GET_UP, 0.0)
-	create_tween().tween_property(self, "global_position", _home, _anim.current_animation_length) \
+	var get_up_blend := blend_time * 2.0
+	_anim.play(GET_UP, get_up_blend)
+	var tween := create_tween()
+	tween.tween_property(self, "global_position", _home + _skeleton.global_basis * drift, get_up_blend)
+	tween.tween_property(self, "global_position", _home, _anim.current_animation_length - get_up_blend) \
 			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func _hips_position(animation: StringName, time: float) -> Vector3:
 	var clip := _anim.get_animation(animation)
-	var track := clip.find_track(^"%GeneralSkeleton:Hips", Animation.TYPE_POSITION_3D)
+	var track := clip.find_track(HIPS_TRACK, Animation.TYPE_POSITION_3D)
 	if track == -1:
 		return Vector3.ZERO
 	return clip.position_track_interpolate(track, minf(time, clip.length))
+
+
+## Turns [param clip] about the vertical axis so his hips start out facing the same way
+## as in [param reference]. Edits the imported clip in place; running it again is a no-op.
+static func _turn_to_match(clip: Animation, reference: Animation) -> void:
+	var turn := Quaternion(Vector3.UP, _hips_heading(reference) - _hips_heading(clip))
+	for type in [Animation.TYPE_ROTATION_3D, Animation.TYPE_POSITION_3D]:
+		var track := clip.find_track(HIPS_TRACK, type)
+		for key in clip.track_get_key_count(track):
+			clip.track_set_key_value(track, key, turn * clip.track_get_key_value(track, key))
+
+
+static func _hips_heading(clip: Animation) -> float:
+	var track := clip.find_track(HIPS_TRACK, Animation.TYPE_ROTATION_3D)
+	var forward := Basis(clip.rotation_track_interpolate(track, 0.0)).z
+	return atan2(forward.x, forward.z)
 
 
 func _set_down(down: bool) -> void:
