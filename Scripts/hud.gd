@@ -9,7 +9,7 @@ extends CanvasLayer
 @export var button_spot := Vector3(0.8, 0.55, 0.0)
 
 @onready var _wave_button: Button = $WaveButton
-
+@onready var _food_button: Button = $FoodButton
 
 func _ready() -> void:
 	_wave_button.pressed.connect(character.wave)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://j5gnor0ultj"
-path="res://.godot/imported/batch_g12_wave.png-8620cbe4293b7d8d859e8b4714f66093.ctex"
+uid="uid://ctyhl4fd7o0l"
+path="res://.godot/imported/food_button.png-aa30a943028462202952cee9268110d7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/batch_g12_wave.png"
-dest_files=["res://.godot/imported/batch_g12_wave.png-8620cbe4293b7d8d859e8b4714f66093.ctex"]
+source_file="res://UI/food_button.png"
+dest_files=["res://.godot/imported/food_button.png-aa30a943028462202952cee9268110d7.ctex"]
 
 [params]
 
