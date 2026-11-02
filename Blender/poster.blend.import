@@ -49,7 +49,7 @@ _subresources={
 "Tape": {
 "use_external/enabled": true,
 "use_external/fallback_path": "res://Textures/Tape005_1K-JPG/Tape005_1K-JPG.tres",
-"use_external/path": "res://Textures/Tape005_1K-JPG/Tape005_1K-JPG.tres"
+"use_external/path": "uid://dps8tgpfvsxtj"
 }
 }
 }

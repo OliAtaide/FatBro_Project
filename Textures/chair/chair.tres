@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cd4iodocd5d2l"]
+
+[ext_resource type="Texture2D" uid="uid://8ua2610ysddv" path="res://Textures/chair/chair_diffuse5.jpeg" id="1_wu7nw"]
+[ext_resource type="Texture2D" uid="uid://bai8agcehnav4" path="res://Textures/chair/internal_ground_ao_texture.jpeg" id="2_0k5ah"]
+[ext_resource type="Texture2D" uid="uid://c2oirv2t243wu" path="res://Textures/chair/chair_normal_5.jpeg" id="3_wk2gd"]
+[ext_resource type="Texture2D" uid="uid://dxie2kswdxbq2" path="res://Textures/chair/chair_roughnes5.jpeg" id="4_gchxj"]
+
+[resource]
+albedo_texture = ExtResource("1_wu7nw")
+roughness_texture = ExtResource("4_gchxj")
+normal_enabled = true
+normal_texture = ExtResource("3_wk2gd")
+ao_enabled = true
+ao_light_affect = 1.0
+ao_texture = ExtResource("2_0k5ah")

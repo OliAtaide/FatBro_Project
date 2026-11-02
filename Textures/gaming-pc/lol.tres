@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dt085b7j7ucec"]
+
+[ext_resource type="Texture2D" uid="uid://cfq86jol7gyum" path="res://Textures/gaming-pc/lol.jpg" id="1_g70h8"]
+
+[resource]
+shading_mode = 0
+albedo_texture = ExtResource("1_g70h8")

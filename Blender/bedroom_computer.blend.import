@@ -39,7 +39,20 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
+_subresources={
+"materials": {
+"7355608": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Textures/gaming-pc/lol.tres",
+"use_external/path": "uid://dt085b7j7ucec"
+},
+"Material": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Textures/Plastic012A_1K-JPG/Plastic012A_1K-JPG.tres",
+"use_external/path": "res://Textures/Plastic012A_1K-JPG/Plastic012A_1K-JPG.tres"
+}
+}
+}
 blender/nodes/visible=0
 blender/nodes/active_collection_only=false
 blender/nodes/punctual_lights=false
