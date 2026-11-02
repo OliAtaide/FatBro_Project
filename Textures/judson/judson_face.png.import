@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://udw66wg1h50x"
 path.s3tc="res://.godot/imported/judson_face.png-fdf6a6f7fa28dad7047a180d77a53779.s3tc.ctex"
+path.etc2="res://.godot/imported/judson_face.png-fdf6a6f7fa28dad7047a180d77a53779.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/judson/judson_face.png"
-dest_files=["res://.godot/imported/judson_face.png-fdf6a6f7fa28dad7047a180d77a53779.s3tc.ctex"]
+dest_files=["res://.godot/imported/judson_face.png-fdf6a6f7fa28dad7047a180d77a53779.s3tc.ctex", "res://.godot/imported/judson_face.png-fdf6a6f7fa28dad7047a180d77a53779.etc2.ctex"]
 
 [params]
 

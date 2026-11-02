@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://7ho04o3gtbmm"
 path.s3tc="res://.godot/imported/texturedFacets_normal.png-0fc03cf2d0697200040b096f678de817.s3tc.ctex"
+path.etc2="res://.godot/imported/texturedFacets_normal.png-0fc03cf2d0697200040b096f678de817.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Blender/textures/texturedFacets_normal.png"
-dest_files=["res://.godot/imported/texturedFacets_normal.png-0fc03cf2d0697200040b096f678de817.s3tc.ctex"]
+dest_files=["res://.godot/imported/texturedFacets_normal.png-0fc03cf2d0697200040b096f678de817.s3tc.ctex", "res://.godot/imported/texturedFacets_normal.png-0fc03cf2d0697200040b096f678de817.etc2.ctex"]
 
 [params]
 

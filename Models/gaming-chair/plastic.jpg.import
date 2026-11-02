@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c0mu2pulw380d"
 path.s3tc="res://.godot/imported/plastic.jpg-3c4feb0626415703c22d08964e92d882.s3tc.ctex"
+path.etc2="res://.godot/imported/plastic.jpg-3c4feb0626415703c22d08964e92d882.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Models/gaming-chair/plastic.jpg"
-dest_files=["res://.godot/imported/plastic.jpg-3c4feb0626415703c22d08964e92d882.s3tc.ctex"]
+dest_files=["res://.godot/imported/plastic.jpg-3c4feb0626415703c22d08964e92d882.s3tc.ctex", "res://.godot/imported/plastic.jpg-3c4feb0626415703c22d08964e92d882.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://decd01hxln6yb"
 path.s3tc="res://.godot/imported/leather diffuse.jpg-6763bbff92d2e80620d178fbcfd3c343.s3tc.ctex"
+path.etc2="res://.godot/imported/leather diffuse.jpg-6763bbff92d2e80620d178fbcfd3c343.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Models/gaming-chair/leather diffuse.jpg"
-dest_files=["res://.godot/imported/leather diffuse.jpg-6763bbff92d2e80620d178fbcfd3c343.s3tc.ctex"]
+dest_files=["res://.godot/imported/leather diffuse.jpg-6763bbff92d2e80620d178fbcfd3c343.s3tc.ctex", "res://.godot/imported/leather diffuse.jpg-6763bbff92d2e80620d178fbcfd3c343.etc2.ctex"]
 
 [params]
 

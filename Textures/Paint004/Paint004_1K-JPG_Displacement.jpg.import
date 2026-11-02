@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://boynbj4c1qmxr"
 path.s3tc="res://.godot/imported/Paint004_1K-JPG_Displacement.jpg-7aa03314baf0f61199b97b40a019183e.s3tc.ctex"
+path.etc2="res://.godot/imported/Paint004_1K-JPG_Displacement.jpg-7aa03314baf0f61199b97b40a019183e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/Paint004/Paint004_1K-JPG_Displacement.jpg"
-dest_files=["res://.godot/imported/Paint004_1K-JPG_Displacement.jpg-7aa03314baf0f61199b97b40a019183e.s3tc.ctex"]
+dest_files=["res://.godot/imported/Paint004_1K-JPG_Displacement.jpg-7aa03314baf0f61199b97b40a019183e.s3tc.ctex", "res://.godot/imported/Paint004_1K-JPG_Displacement.jpg-7aa03314baf0f61199b97b40a019183e.etc2.ctex"]
 
 [params]
 

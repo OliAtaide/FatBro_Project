@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cpmlhb1leh3ap"
 path.s3tc="res://.godot/imported/Tape005_1K-JPG_Displacement.jpg-1f539f28c76b8ad8b55e4770e38d1f43.s3tc.ctex"
+path.etc2="res://.godot/imported/Tape005_1K-JPG_Displacement.jpg-1f539f28c76b8ad8b55e4770e38d1f43.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/Tape005_1K-JPG/Tape005_1K-JPG_Displacement.jpg"
-dest_files=["res://.godot/imported/Tape005_1K-JPG_Displacement.jpg-1f539f28c76b8ad8b55e4770e38d1f43.s3tc.ctex"]
+dest_files=["res://.godot/imported/Tape005_1K-JPG_Displacement.jpg-1f539f28c76b8ad8b55e4770e38d1f43.s3tc.ctex", "res://.godot/imported/Tape005_1K-JPG_Displacement.jpg-1f539f28c76b8ad8b55e4770e38d1f43.etc2.ctex"]
 
 [params]
 

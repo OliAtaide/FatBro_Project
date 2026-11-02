@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://3iwj8ah4aqw3"
 path.s3tc="res://.godot/imported/texturedFacets_emissive.jpeg-fca8f8f2f3c840d84505f51994914bbc.s3tc.ctex"
+path.etc2="res://.godot/imported/texturedFacets_emissive.jpeg-fca8f8f2f3c840d84505f51994914bbc.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/gaming-pc/texturedFacets_emissive.jpeg"
-dest_files=["res://.godot/imported/texturedFacets_emissive.jpeg-fca8f8f2f3c840d84505f51994914bbc.s3tc.ctex"]
+dest_files=["res://.godot/imported/texturedFacets_emissive.jpeg-fca8f8f2f3c840d84505f51994914bbc.s3tc.ctex", "res://.godot/imported/texturedFacets_emissive.jpeg-fca8f8f2f3c840d84505f51994914bbc.etc2.ctex"]
 
 [params]
 
