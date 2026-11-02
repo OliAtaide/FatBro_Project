@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://nvx41t2w4a06" path="res://Scripts/hud.gd" id="1_hud"]
 [ext_resource type="Texture2D" uid="uid://j5gnor0ultj" path="res://UI/wave_button.png" id="2_fccik"]
 [ext_resource type="Texture2D" uid="uid://ctyhl4fd7o0l" path="res://UI/food_button.png" id="3_bjfho"]
+[ext_resource type="PackedScene" path="res://Scenes/food_menu.tscn" id="4_menu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjfho"]
 
@@ -42,3 +43,5 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_6fbih")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon = ExtResource("3_bjfho")
+
+[node name="FoodMenu" parent="." unique_id=902114367 instance=ExtResource("4_menu")]

@@ -1,0 +1,135 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/food_menu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="2_food"]
+[ext_resource type="Resource" uid="uid://bso2egadg3td6" path="res://Resources/Food/ramen.tres" id="3_ramn"]
+[ext_resource type="Resource" uid="uid://cct2nu6cfqbep" path="res://Resources/Food/kfc.tres" id="4_kfc"]
+[ext_resource type="Resource" uid="uid://d4mdwo5eif37v" path="res://Resources/Food/pepsi.tres" id="5_peps"]
+[ext_resource type="Resource" uid="uid://su34ivg7wq1u" path="res://Resources/Food/oreo.tres" id="6_oreo"]
+[ext_resource type="Resource" uid="uid://bt2o2fnfd4w1j" path="res://Resources/Food/monster.tres" id="7_mons"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sheet"]
+bg_color = Color(0.97, 0.97, 0.96, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+content_margin_left = 20.0
+content_margin_top = 18.0
+content_margin_right = 20.0
+content_margin_bottom = 28.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.88, 0.88, 0.87, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card_pressed"]
+bg_color = Color(0.88, 0.95, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.55, 0.55, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close"]
+bg_color = Color(0.1, 0.55, 0.55, 1)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[sub_resource type="Theme" id="Theme_sheet"]
+Button/colors/font_color = Color(0.2, 0.22, 0.24, 1)
+Button/colors/font_hover_color = Color(0.2, 0.22, 0.24, 1)
+Button/colors/font_pressed_color = Color(0.2, 0.22, 0.24, 1)
+Button/colors/font_focus_color = Color(0.2, 0.22, 0.24, 1)
+Button/font_sizes/font_size = 22
+Button/styles/focus = SubResource("StyleBoxEmpty_focus")
+Button/styles/hover = SubResource("StyleBoxFlat_card")
+Button/styles/normal = SubResource("StyleBoxFlat_card")
+Button/styles/pressed = SubResource("StyleBoxFlat_card_pressed")
+Label/colors/font_color = Color(0.2, 0.22, 0.24, 1)
+Label/font_sizes/font_size = 30
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_sheet")
+
+[node name="FoodMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_menu")
+foods = Array[ExtResource("2_food")]([ExtResource("3_ramn"), ExtResource("4_kfc"), ExtResource("5_peps"), ExtResource("6_oreo"), ExtResource("7_mons")])
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.45)
+
+[node name="Sheet" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_sheet")
+
+[node name="VBox" type="VBoxContainer" parent="Sheet"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="Sheet/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Sheet/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Snacks"
+
+[node name="CloseButton" type="Button" parent="Sheet/VBox/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_close")
+theme_override_styles/hover = SubResource("StyleBoxFlat_close")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_close")
+text = "×"
+
+[node name="Grid" type="GridContainer" parent="Sheet/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3

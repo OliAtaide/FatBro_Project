@@ -1,36 +1,32 @@
 class_name Feeder
 extends Node3D
 
-## Pokémon GO style feeding. A snack floats at the bottom of the screen: drag it onto
-## him and let go to feed him, or just tap it to switch to the next one.
+## Pokémon GO style feeding. Once a snack is picked (see [method hold]) it floats at the
+## bottom of the screen: drag it onto him and let go to feed him.
 
 @export var character: Judson
-@export var foods: Array[FoodData] = []
-## Longest side of a snack, in metres. The models come in at all sorts of scales, so
-## each one is resized to this.
+## Longest side of a snack, in metres.
 @export var food_size := 0.18
 ## Where the snack rests, in pixels up from the bottom edge of the screen.
 @export var rest_height := 150.0
 ## How far from the camera the snack is held, in metres.
 @export var hold_distance := 2.2
-## A press that moves less than this many pixels is a tap, not a drag.
-@export var drag_threshold := 12.0
 @export var spin_speed := 0.8
 
-var _index := 0
+var _held: FoodData
+var _shown: FoodData
 var _food: Node3D
-var _pressed := false
 var _dragging := false
 var _busy := false
-var _press_position: Vector2
 
 @onready var _camera := get_viewport().get_camera_3d()
 
 
-func _ready() -> void:
-	if foods.is_empty():
-		return
-	_show_food(0)
+## Puts [param food] at the bottom of the screen, ready to feed him.
+func hold(food: FoodData) -> void:
+	_held = food
+	if not _busy:
+		_show_food()
 
 
 func _process(delta: float) -> void:
@@ -47,40 +43,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
 	if button and button.button_index == MOUSE_BUTTON_LEFT:
 		if button.pressed and _is_on_food(button.position):
-			_pressed = true
-			_press_position = button.position
-			get_viewport().set_input_as_handled()
-		elif not button.pressed and _pressed:
-			_pressed = false
-			get_viewport().set_input_as_handled()
-			if _dragging:
-				_dragging = false
-				_release(button.position)
-			else:
-				_show_food(_index + 1)
-	var motion := event as InputEventMouseMotion
-	if motion and _pressed:
-		if not _dragging and motion.position.distance_to(_press_position) > drag_threshold:
 			_dragging = true
-		if _dragging:
-			_food.global_position = _camera.project_position(motion.position, hold_distance)
+			get_viewport().set_input_as_handled()
+		elif not button.pressed and _dragging:
+			_dragging = false
+			get_viewport().set_input_as_handled()
+			_release(button.position)
+	var motion := event as InputEventMouseMotion
+	if motion and _dragging:
+		_food.global_position = _camera.project_position(motion.position, hold_distance)
 		get_viewport().set_input_as_handled()
 
 
-func _show_food(index: int) -> void:
+func _show_food() -> void:
 	if _food:
 		_food.queue_free()
-	_index = wrapi(index, 0, foods.size())
-	_food = Node3D.new()
+	_shown = _held
+	_food = _held.instantiate_fitted(food_size)
 	add_child(_food)
-	var model := foods[_index].model.instantiate() as Node3D
-	_food.add_child(model)
-	# centre the model on the holder and scale it so every snack ends up the same size
-	var bounds := _bounds(model)
-	var size := maxf(bounds.size.x, maxf(bounds.size.y, bounds.size.z))
-	var fit := food_size / size if size > 0.0 else 1.0
-	model.scale = Vector3.ONE * fit
-	model.position = -bounds.get_center() * fit
 	_food.global_position = _rest_position()
 	_food.scale = Vector3.ZERO
 	create_tween().tween_property(_food, "scale", Vector3.ONE, 0.25) \
@@ -101,13 +81,17 @@ func _release(screen_position: Vector2) -> void:
 		tween.tween_interval(0.4)
 		tween.tween_callback(func() -> void:
 			_busy = false
-			_show_food(_index))
+			_show_food())
 	else:
 		# missed him (or he's on the floor): float back down to the rest spot
 		var tween := create_tween()
 		tween.tween_property(food, "global_position", _rest_position(), 0.3) \
 				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		tween.tween_callback(func() -> void: _busy = false)
+		tween.tween_callback(func() -> void:
+			_busy = false
+			# a different snack was picked while this one was in the air
+			if _shown != _held:
+				_show_food())
 
 
 func _rest_position() -> Vector3:
@@ -129,14 +113,3 @@ func _is_on_character(screen_position: Vector2) -> bool:
 			character.global_position + _camera.global_basis.x * 0.45))
 	var area := Rect2(head.x - half_width, head.y, half_width * 2.0, feet.y - head.y)
 	return area.has_point(screen_position)
-
-
-## The model's bounding box, in its own space.
-static func _bounds(model: Node3D) -> AABB:
-	var bounds := AABB()
-	var first := true
-	for mesh: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
-		var box := model.global_transform.affine_inverse() * mesh.global_transform * mesh.get_aabb()
-		bounds = box if first else bounds.merge(box)
-		first = false
-	return bounds
