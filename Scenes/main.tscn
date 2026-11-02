@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://vq0h1naw4wbj" path="res://Blender/trash_basket.tscn" id="6_21xkr"]
 [ext_resource type="PackedScene" uid="uid://dvlrfn2fyb8t4" path="res://Blender/poster.tscn" id="7_6bp64"]
 [ext_resource type="LightmapGIData" uid="uid://dkbvxgh80s5cn" path="res://LightmapGI/main.lmbake" id="8_344ge"]
+[ext_resource type="PackedScene" path="res://Scenes/hud.tscn" id="9_hud"]
 
 [sub_resource type="Environment" id="Environment_k1mfq"]
 background_energy_multiplier = 0.0
@@ -78,5 +79,8 @@ transform = Transform3D(1, 0, 0, 0, 0.9845625, 0.17503333, 0, -0.17503333, 0.984
 
 [node name="LookAtModifier3D" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 660686197) index="4" unique_id=1551249133]
 target_node = NodePath("../../../../Camera3D")
+
+[node name="HUD" parent="." instance=ExtResource("9_hud")]
+character = NodePath("../MainChar")
 
 [editable path="MainChar"]

@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="WaveButton" type="Button" parent="."]
+custom_minimum_size = Vector2(130, 72)
+theme_override_font_sizes/font_size = 28
+text = "Wave"
