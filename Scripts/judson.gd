@@ -2,7 +2,7 @@ class_name Judson
 extends Node3D
 
 ## Tap him and he squeaks and clutches his gut. Keep tapping and he keels over, lies
-## there a moment, then gets back up.
+## there a moment, then gets back up. Feed him (see [Feeder]) and he chomps happily.
 
 signal down_changed(down: bool)
 
@@ -29,6 +29,12 @@ const TWIN_SUFFIX := "_again"
 const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 
 @export var squeak: AudioStream = preload("res://Audio/squeak.ogg")
+## Played on each bite when he's fed. Optional.
+@export var chomp: AudioStream
+@export var heart: Texture2D = preload("res://UI/heart.svg")
+## Where food goes in, relative to his head bone (metres, in his own space; +Z is forward).
+@export var mouth_offset := Vector3(0.0, 0.05, 0.12)
+@export var bites := 3
 ## How many taps within [member spam_window] seconds knock him over.
 @export var taps_to_fall := 6
 @export var spam_window := 2.0
@@ -40,10 +46,16 @@ var _down := false
 var _tap_times: Array[float] = []
 var _home: Vector3
 var _modifier_influence := {}
+var _chew_tween: Tween
 
 @onready var _anim := find_children("*", "AnimationPlayer").front() as AnimationPlayer
 @onready var _skeleton := find_children("*", "Skeleton3D").front() as Skeleton3D
 @onready var _squeak_player := AudioStreamPlayer.new()
+@onready var _chomp_player := AudioStreamPlayer.new()
+@onready var _head_bone := _skeleton.find_bone("Head")
+# squashed while he chews (not the root: that would squash his tap shape too, which Jolt rejects)
+@onready var _body := get_node("Armature") as Node3D
+@onready var _body_scale := _body.scale
 
 
 func _ready() -> void:
@@ -68,6 +80,8 @@ func _ready() -> void:
 	_squeak_player.stream = squeak
 	_squeak_player.max_polyphony = 4
 	add_child(_squeak_player)
+	_chomp_player.stream = chomp
+	add_child(_chomp_player)
 
 	# touches arrive as emulated mouse clicks, which this picks up through the physics picking
 	var tap_area := Area3D.new()
@@ -104,6 +118,54 @@ func poke() -> void:
 func wave() -> void:
 	if not _down and _anim.current_animation != WAVE:
 		_anim.play(WAVE)
+
+
+func can_eat() -> bool:
+	return not _down
+
+
+func mouth_position() -> Vector3:
+	var head := _skeleton.global_transform * _skeleton.get_bone_global_pose(_head_bone).origin
+	return head + global_basis * mouth_offset
+
+
+## Purely for show: a few squashy chomps and some hearts.
+func eat() -> void:
+	if _down:
+		return
+	if _chew_tween:
+		_chew_tween.kill()
+	_chew_tween = create_tween()
+	for bite in bites:
+		_chew_tween.tween_callback(_play_chomp)
+		_chew_tween.tween_property(_body, "scale", _body_scale * Vector3(1.06, 0.94, 1.06), 0.08) \
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		_chew_tween.tween_property(_body, "scale", _body_scale, 0.14) \
+				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	for i in 3:
+		get_tree().create_timer(0.15 * i).timeout.connect(_float_heart)
+
+
+func _play_chomp() -> void:
+	if chomp:
+		_chomp_player.pitch_scale = randf_range(0.9, 1.1)
+		_chomp_player.play()
+
+
+func _float_heart() -> void:
+	var sprite := Sprite3D.new()
+	sprite.texture = heart
+	sprite.pixel_size = 0.15 / heart.get_width()
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.shaded = false
+	add_child(sprite)
+	var start := mouth_position() + global_basis * Vector3(randf_range(-0.15, 0.15), 0.15, 0.0)
+	sprite.global_position = start
+	var tween := create_tween().set_parallel()
+	tween.tween_property(sprite, "global_position", start + Vector3.UP * 0.4, 0.9) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(sprite, "modulate:a", 0.0, 0.9).set_ease(Tween.EASE_IN)
+	tween.chain().tween_callback(sprite.queue_free)
 
 
 func _play_from_start(animation: StringName) -> void:

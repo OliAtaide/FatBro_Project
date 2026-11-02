@@ -9,6 +9,13 @@
 [ext_resource type="PackedScene" uid="uid://dvlrfn2fyb8t4" path="res://Blender/poster.tscn" id="7_6bp64"]
 [ext_resource type="LightmapGIData" uid="uid://dkbvxgh80s5cn" path="res://LightmapGI/main.lmbake" id="8_344ge"]
 [ext_resource type="PackedScene" uid="uid://jjx4rki0mpav" path="res://Scenes/hud.tscn" id="9_hud"]
+[ext_resource type="Script" path="res://Scripts/feeder.gd" id="10_feed"]
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="16_food"]
+[ext_resource type="Resource" uid="uid://cct2nu6cfqbep" path="res://Resources/Food/kfc.tres" id="11_kfc"]
+[ext_resource type="Resource" uid="uid://bt2o2fnfd4w1j" path="res://Resources/Food/monster.tres" id="12_mons"]
+[ext_resource type="Resource" uid="uid://su34ivg7wq1u" path="res://Resources/Food/oreo.tres" id="13_oreo"]
+[ext_resource type="Resource" uid="uid://d4mdwo5eif37v" path="res://Resources/Food/pepsi.tres" id="14_peps"]
+[ext_resource type="Resource" uid="uid://bso2egadg3td6" path="res://Resources/Food/ramen.tres" id="15_ramn"]
 
 [sub_resource type="Environment" id="Environment_k1mfq"]
 background_energy_multiplier = 0.0
@@ -78,5 +85,10 @@ bone = -1
 
 [node name="HUD" parent="." unique_id=1686899980 node_paths=PackedStringArray("character") instance=ExtResource("9_hud")]
 character = NodePath("../MainChar")
+
+[node name="Feeder" type="Node3D" parent="." unique_id=1377215094 node_paths=PackedStringArray("character")]
+script = ExtResource("10_feed")
+character = NodePath("../MainChar")
+foods = Array[ExtResource("16_food")]([ExtResource("15_ramn"), ExtResource("11_kfc"), ExtResource("14_peps"), ExtResource("13_oreo"), ExtResource("12_mons")])
 
 [editable path="MainChar"]
