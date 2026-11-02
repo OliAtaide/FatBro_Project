@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://d4mdwo5eif37v"]
+
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="1_5xrer"]
+[ext_resource type="PackedScene" uid="uid://i5qknlusjh06" path="res://Blender/pepsi_can.tscn" id="1_yvpdf"]
+
+[resource]
+script = ExtResource("1_5xrer")
+title = "Pepsi"
+model = ExtResource("1_yvpdf")
+metadata/_custom_type_script = "uid://clecpk4kys28i"

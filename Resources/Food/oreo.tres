@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://su34ivg7wq1u"]
+
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="1_00io1"]
+[ext_resource type="PackedScene" uid="uid://s26mnfkqujv6" path="res://Blender/oreo_pack.tscn" id="1_ttyck"]
+
+[resource]
+script = ExtResource("1_00io1")
+title = "Oreos"
+model = ExtResource("1_ttyck")
+metadata/_custom_type_script = "uid://clecpk4kys28i"

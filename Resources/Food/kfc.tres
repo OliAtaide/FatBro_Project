@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://cct2nu6cfqbep"]
+
+[ext_resource type="PackedScene" uid="uid://dq8j7telqxt4n" path="res://Blender/kfc_bucket.tscn" id="1_d3mua"]
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="1_jis1n"]
+
+[resource]
+script = ExtResource("1_jis1n")
+title = "KFC"
+model = ExtResource("1_d3mua")
+metadata/_custom_type_script = "uid://clecpk4kys28i"

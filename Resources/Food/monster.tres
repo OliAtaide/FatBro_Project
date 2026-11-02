@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://bt2o2fnfd4w1j"]
+
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="1_no1s4"]
+[ext_resource type="PackedScene" uid="uid://41585dn1til3" path="res://Blender/monster_can.tscn" id="1_vcku5"]
+
+[resource]
+script = ExtResource("1_no1s4")
+title = "Monster Energy"
+model = ExtResource("1_vcku5")
+metadata/_custom_type_script = "uid://clecpk4kys28i"

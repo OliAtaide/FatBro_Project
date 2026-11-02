@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://bso2egadg3td6"]
+
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="1_hkj2i"]
+[ext_resource type="PackedScene" uid="uid://dthea66jdyhx2" path="res://Blender/cup_noodles.tscn" id="1_kfly4"]
+
+[resource]
+script = ExtResource("1_hkj2i")
+title = "Cup Noodles"
+model = ExtResource("1_kfly4")
+metadata/_custom_type_script = "uid://clecpk4kys28i"

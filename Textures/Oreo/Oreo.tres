@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dnuen6a1yhcv8"]
+
+[ext_resource type="Shader" uid="uid://sg6ulua2y6qq" path="res://shaders/toon.gdshader" id="1_d2btc"]
+[ext_resource type="Texture2D" uid="uid://c0ix3oc1yy5hb" path="res://Textures/Oreo/008.jpeg" id="2_nnxrq"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_d2btc")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/tex = ExtResource("2_nnxrq")
+shader_parameter/normal_strength = 1.0
+shader_parameter/shadow = 0.5
+shader_parameter/shadow_width = 0.10000000475000001
+shader_parameter/shadow_color = Color(0.705, 0.705, 0.705, 0.705)
+shader_parameter/_specular_smoothness = 0.10000000475
+shader_parameter/_specular_strength = 0.10000000475
+shader_parameter/_glossiness = 0.1
+shader_parameter/_rim_size = 0.5
+shader_parameter/_rim_smoothness = 0.10000000475

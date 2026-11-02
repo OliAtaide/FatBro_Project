@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dq8j7telqxt4n"]
+
+[ext_resource type="PackedScene" uid="uid://dh036060u11r3" path="res://Blender/kfc_bucket.blend" id="1_vn04i"]
+
+[node name="kfc_bucket" unique_id=726006028 instance=ExtResource("1_vn04i")]
