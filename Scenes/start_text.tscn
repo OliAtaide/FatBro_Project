@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://cuith06rueac7"]
+
+[ext_resource type="Theme" uid="uid://bhfcbl747y17d" path="res://UI/main.tres" id="1_nqx3n"]
+[ext_resource type="Texture2D" uid="uid://bjx6us7dgqmbk" path="res://Textures/judson/little_judson.jpg" id="2_aqjnx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqx3n"]
+content_margin_left = 20.0
+content_margin_top = 18.0
+content_margin_right = 20.0
+content_margin_bottom = 28.0
+bg_color = Color(0.97, 0.97, 0.96, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aqjnx"]
+bg_color = Color(0.1, 0.55, 0.55, 1)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+
+[node name="StartText" type="CanvasLayer" unique_id=1729118013]
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1459491781]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_nqx3n")
+
+[node name="Sheet" type="PanelContainer" parent="MarginContainer" unique_id=1845139092]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_nqx3n")
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/Sheet" unique_id=1839814045]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/Sheet/VBox" unique_id=328857794]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/Sheet/VBox/Header" unique_id=879060292]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Você ganhou um
+Mini Judson"
+
+[node name="CloseButton" type="Button" parent="MarginContainer/Sheet/VBox/Header" unique_id=1075120330]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(52, 52)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_aqjnx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_aqjnx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_aqjnx")
+text = "×"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/Sheet/VBox" unique_id=365741275]
+layout_mode = 2
+text = "Feliz Aniversário, Judson Vinicius.
+Como presente dou a você uma versão pequena sua. Eu quero que você o tenha."
+fit_content = true
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Sheet/VBox" unique_id=434547283]
+layout_mode = 2
+texture = ExtResource("2_aqjnx")
+expand_mode = 5
