@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://jjx4rki0mpav" path="res://Scenes/hud.tscn" id="9_hud"]
 [ext_resource type="Script" uid="uid://ohhl5q5iahk4" path="res://Scripts/feeder.gd" id="10_feed"]
 [ext_resource type="PackedScene" uid="uid://x3y7dpa0eoab" path="res://Blender/doll.tscn" id="11_d1ilt"]
+[ext_resource type="Script" path="res://Scripts/music.gd" id="12_music"]
+[ext_resource type="AudioStream" uid="uid://c15ghn1s0uiq4" path="res://Audio/main_theme.ogg" id="13_theme"]
 
 [sub_resource type="Environment" id="Environment_k1mfq"]
 background_energy_multiplier = 0.0
@@ -94,6 +96,11 @@ feeder = NodePath("../Feeder")
 
 [node name="Feeder" type="Node3D" parent="." unique_id=1377215094 node_paths=PackedStringArray("character")]
 script = ExtResource("10_feed")
+character = NodePath("../MainChar")
+
+[node name="Music" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("character")]
+stream = ExtResource("13_theme")
+script = ExtResource("12_music")
 character = NodePath("../MainChar")
 
 [editable path="MainChar"]

@@ -5,6 +5,8 @@ extends Node3D
 ## there a moment, then gets back up. Feed him (see [Feeder]) and he chomps happily.
 
 signal down_changed(down: bool)
+## He started or stopped playing one of [constant EMOTE_SOUNDS] (the music fades out for it).
+signal performing_changed(performing: bool)
 
 const IDLE := &"idle/mixamo_com"
 const GUT_REACT := &"gut_react/mixamo_com"
@@ -29,6 +31,11 @@ const EMOTES := {
 	WAVE: "Wave",
 	GUITAR_ACOUSTIC: "Acoustic Guitar",
 	GUITAR_ELECTRIC: "Electric Guitar",
+}
+## Emotes with a sound of their own. The emote loops until its sound has played out.
+const EMOTE_SOUNDS := {
+	GUITAR_ACOUSTIC: preload("res://Audio/acoustic_guitar.ogg"),
+	GUITAR_ELECTRIC: preload("res://Audio/electric_guitar.ogg"),
 }
 ## Clips recorded with the body turned to one side, squared up to face the same way as idle.
 const SQUARE_UP := [GUT_REACT]
@@ -64,11 +71,15 @@ var _modifier_tweens := {}
 var _look_at: LookAtModifier3D
 var _chew_tween: Tween
 var _warned_no_head := false
+## The emote whose sound is playing, if any.
+var _performing := &""
+var _emote_sound_tween: Tween
 
 @onready var _anim := find_children("*", "AnimationPlayer").front() as AnimationPlayer
 @onready var _skeleton := find_children("*", "Skeleton3D").front() as Skeleton3D
 @onready var _squeak_player := AudioStreamPlayer.new()
 @onready var _chomp_player := AudioStreamPlayer.new()
+@onready var _emote_player := AudioStreamPlayer.new()
 # squashed while he chews (not the root: that would squash his tap shape too, which Jolt rejects)
 @onready var _body := get_node("Armature") as Node3D
 @onready var _body_scale := _body.scale
@@ -102,6 +113,10 @@ func _ready() -> void:
 	add_child(_squeak_player)
 	_chomp_player.stream = chomp
 	add_child(_chomp_player)
+	add_child(_emote_player)
+	_emote_player.finished.connect(_on_emote_sound_finished)
+	for animation: StringName in EMOTE_SOUNDS:
+		_anim.get_animation(animation).loop_mode = Animation.LOOP_LINEAR
 
 	# touches arrive as emulated mouse clicks, which this picks up through the physics picking
 	var tap_area := Area3D.new()
@@ -270,11 +285,40 @@ func _fade(modifier: SkeletonModifier3D, influence: float, time: float) -> void:
 
 
 func _on_current_animation_changed(animation: StringName) -> void:
+	_set_emote_sound(animation)
 	# while he's down every modifier is already off, and getting up turns them back on
 	if _down or not _look_at:
 		return
 	var influence: float = 0.0 if animation in EMOTES else _modifier_influence[_look_at]
 	_fade(_look_at, influence, blend_time)
+
+
+## Starts [param animation]'s sound if it has one; fades out any other that's playing
+## (he got poked, knocked over or picked something else).
+func _set_emote_sound(animation: StringName) -> void:
+	var performing: StringName = animation if animation in EMOTE_SOUNDS else &""
+	if performing == _performing:
+		return
+	var was_performing := _performing != &""
+	_performing = performing
+	if _emote_sound_tween:
+		_emote_sound_tween.kill()
+	if _performing:
+		_emote_player.stream = EMOTE_SOUNDS[_performing]
+		_emote_player.volume_db = 0.0
+		_emote_player.play()
+	elif _emote_player.playing:
+		_emote_sound_tween = create_tween()
+		_emote_sound_tween.tween_property(_emote_player, "volume_db", -40.0, 0.3)
+		_emote_sound_tween.tween_callback(_emote_player.stop)
+	if was_performing != (_performing != &""):
+		performing_changed.emit(not was_performing)
+
+
+func _on_emote_sound_finished() -> void:
+	# the emote has been looping along with its sound; the sound's done, so is he
+	if _performing and _anim.current_animation == _performing:
+		_anim.play(IDLE)
 
 
 func _on_animation_finished(animation: StringName) -> void:
