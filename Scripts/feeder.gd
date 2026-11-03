@@ -29,6 +29,15 @@ func hold(food: FoodData) -> void:
 		_show_food()
 
 
+## Takes the snack off the screen until the next [method hold]. One already on its way
+## to his mouth still gets eaten.
+func put_away() -> void:
+	_held = null
+	_dragging = false
+	if not _busy:
+		_hide_food()
+
+
 func _process(delta: float) -> void:
 	if not _food or _busy:
 		return
@@ -56,6 +65,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _show_food() -> void:
+	if not _held:
+		_hide_food()
+		return
 	if _food:
 		_food.queue_free()
 	_shown = _held
@@ -65,6 +77,18 @@ func _show_food() -> void:
 	_food.scale = Vector3.ZERO
 	create_tween().tween_property(_food, "scale", Vector3.ONE, 0.25) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _hide_food() -> void:
+	_shown = null
+	if not _food:
+		return
+	var food := _food
+	_food = null
+	var tween := create_tween()
+	tween.tween_property(food, "scale", Vector3.ZERO, 0.2) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tween.tween_callback(food.queue_free)
 
 
 func _release(screen_position: Vector2) -> void:
