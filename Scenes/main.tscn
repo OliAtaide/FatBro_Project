@@ -86,8 +86,7 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.785, 1.275, -1.555)
 
 [node name="LookAtModifier3D" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 2100107292) index="4" unique_id=1551249133]
 target_node = NodePath("../../../../Camera3D")
-bone_name = "Head_2"
-bone = -1
+bone_name = "Head"
 
 [node name="HUD" parent="." unique_id=1686899980 node_paths=PackedStringArray("character", "feeder") instance=ExtResource("9_hud")]
 character = NodePath("../MainChar")

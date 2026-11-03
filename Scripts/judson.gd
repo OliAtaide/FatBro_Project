@@ -16,9 +16,9 @@ const WAVE := &"wave/mixamo_com"
 const LIBRARIES := {
 	&"idle": preload("res://Mixamo/Idle.fbx"),
 	&"gut_react": preload("res://Mixamo/Standing React Large Gut.fbx"),
-	&"fall": preload("res://Mixamo/Falling Back Death.fbx"),
-	&"get_up": preload("res://Mixamo/Getting Up.fbx"),
-	&"wave": preload("res://Mixamo/Waving.fbx"),
+	&"fall": preload("res://Mixamo/Touch/Falling Back Death.fbx"),
+	&"get_up": preload("res://Mixamo/Touch/Getting Up.fbx"),
+	&"wave": preload("res://Mixamo/Emotes/Waving.fbx"),
 }
 ## Clips recorded with the body turned to one side, squared up to face the same way as idle.
 const SQUARE_UP := [GUT_REACT]
