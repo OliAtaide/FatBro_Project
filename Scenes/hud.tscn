@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://j5gnor0ultj" path="res://UI/wave_button.png" id="2_fccik"]
 [ext_resource type="Texture2D" uid="uid://ctyhl4fd7o0l" path="res://UI/food_button.png" id="3_bjfho"]
 [ext_resource type="PackedScene" path="res://Scenes/food_menu.tscn" id="4_menu"]
+[ext_resource type="PackedScene" path="res://Scenes/emote_menu.tscn" id="5_emote"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjfho"]
 
@@ -45,3 +46,5 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon = ExtResource("3_bjfho")
 
 [node name="FoodMenu" parent="." unique_id=902114367 instance=ExtResource("4_menu")]
+
+[node name="EmoteMenu" parent="." instance=ExtResource("5_emote")]

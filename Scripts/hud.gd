@@ -12,10 +12,12 @@ extends CanvasLayer
 @onready var _wave_button: Button = $WaveButton
 @onready var _food_button: Button = $FoodButton
 @onready var _food_menu: FoodMenu = $FoodMenu
+@onready var _emote_menu: EmoteMenu = $EmoteMenu
 
 
 func _ready() -> void:
-	_wave_button.pressed.connect(character.wave)
+	_wave_button.pressed.connect(_emote_menu.open)
+	_emote_menu.emote_chosen.connect(character.emote)
 	character.down_changed.connect(func(down: bool) -> void: _wave_button.disabled = down)
 	_food_button.pressed.connect(_food_menu.open)
 	_food_menu.food_chosen.connect(feeder.hold)

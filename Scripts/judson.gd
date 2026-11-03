@@ -11,6 +11,8 @@ const GUT_REACT := &"gut_react/mixamo_com"
 const FALL := &"fall/mixamo_com"
 const GET_UP := &"get_up/mixamo_com"
 const WAVE := &"wave/mixamo_com"
+const GUITAR_ACOUSTIC := &"guitar_acoustic/mixamo_com"
+const GUITAR_ELECTRIC := &"guitar_electric/mixamo_com"
 
 # Mixamo clips, retargeted onto Judson's skeleton by their import settings
 const LIBRARIES := {
@@ -19,6 +21,14 @@ const LIBRARIES := {
 	&"fall": preload("res://Mixamo/Touch/Falling Back Death.fbx"),
 	&"get_up": preload("res://Mixamo/Touch/Getting Up.fbx"),
 	&"wave": preload("res://Mixamo/Emotes/Waving.fbx"),
+	&"guitar_acoustic": preload("res://Mixamo/Emotes/Guitar Playing (Acoustic).fbx"),
+	&"guitar_electric": preload("res://Mixamo/Emotes/Guitar Playing (Electric).fbx"),
+}
+## Emotes the HUD's emote menu offers, in order: animation -> name on its card.
+const EMOTES := {
+	WAVE: "Wave",
+	GUITAR_ACOUSTIC: "Acoustic Guitar",
+	GUITAR_ELECTRIC: "Electric Guitar",
 }
 ## Clips recorded with the body turned to one side, squared up to face the same way as idle.
 const SQUARE_UP := [GUT_REACT]
@@ -50,6 +60,8 @@ var _down := false
 var _tap_times: Array[float] = []
 var _home: Vector3
 var _modifier_influence := {}
+var _modifier_tweens := {}
+var _look_at: LookAtModifier3D
 var _chew_tween: Tween
 var _warned_no_head := false
 
@@ -80,6 +92,10 @@ func _ready() -> void:
 	# look-at, arm spread, etc. get faded out while he's on the floor
 	for modifier in _skeleton.find_children("*", "SkeletonModifier3D", false):
 		_modifier_influence[modifier] = modifier.influence
+	# and the look-at alone while he emotes, so his head follows the emote instead
+	var look_ats := _skeleton.find_children("*", "LookAtModifier3D", false)
+	_look_at = look_ats.front() if look_ats else null
+	_anim.current_animation_changed.connect(_on_current_animation_changed)
 
 	_squeak_player.stream = squeak
 	_squeak_player.max_polyphony = 4
@@ -119,9 +135,16 @@ func poke() -> void:
 		_play_from_start(GUT_REACT)
 
 
-func wave() -> void:
-	if not _down and _anim.current_animation != WAVE:
-		_anim.play(WAVE)
+## Plays one of [constant EMOTES]. Ignored while he's down or already doing it.
+func emote(animation: StringName) -> void:
+	if not _down and animation in EMOTES and _anim.current_animation != animation:
+		_anim.play(animation)
+
+
+## The clip behind [param animation] (a "library/clip" name), straight from [constant LIBRARIES].
+static func clip(animation: StringName) -> Animation:
+	var library: AnimationLibrary = LIBRARIES[StringName(animation.get_slice("/", 0))]
+	return library.get_animation(animation.get_slice("/", 1))
 
 
 func can_eat() -> bool:
@@ -233,8 +256,25 @@ func _set_down(down: bool) -> void:
 	_down = down
 	for modifier: SkeletonModifier3D in _modifier_influence:
 		var influence: float = 0.0 if down else _modifier_influence[modifier]
-		create_tween().tween_property(modifier, "influence", influence, blend_time * 2.0)
+		_fade(modifier, influence, blend_time * 2.0)
 	down_changed.emit(down)
+
+
+## Eases [param modifier] to [param influence], taking over from any fade already running.
+func _fade(modifier: SkeletonModifier3D, influence: float, time: float) -> void:
+	if _modifier_tweens.has(modifier):
+		(_modifier_tweens[modifier] as Tween).kill()
+	var tween := create_tween()
+	tween.tween_property(modifier, "influence", influence, time)
+	_modifier_tweens[modifier] = tween
+
+
+func _on_current_animation_changed(animation: StringName) -> void:
+	# while he's down every modifier is already off, and getting up turns them back on
+	if _down or not _look_at:
+		return
+	var influence: float = 0.0 if animation in EMOTES else _modifier_influence[_look_at]
+	_fade(_look_at, influence, blend_time)
 
 
 func _on_animation_finished(animation: StringName) -> void:

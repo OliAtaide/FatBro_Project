@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/bottom_sheet.tscn" id="1_sheet"]
+[ext_resource type="Script" path="res://Scripts/emote_menu.gd" id="2_menu"]
+
+[node name="EmoteMenu" instance=ExtResource("1_sheet")]
+script = ExtResource("2_menu")
+title = "Emotes"
