@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://dsmpyp7n2owdu"
-path="res://.godot/imported/Waving.fbx-ec361d1cc2bb49107bbc72d753a1f85c.res"
+uid="uid://c328sm81ww1ca"
+path="res://.godot/imported/Getting Up.fbx-5086a9b2ffa1bdedce0050792e7fe1b4.res"
 
 [deps]
 
-source_file="res://Mixamo/Waving.fbx"
-dest_files=["res://.godot/imported/Waving.fbx-ec361d1cc2bb49107bbc72d753a1f85c.res"]
+source_file="res://Mixamo/Touch/Getting Up.fbx"
+dest_files=["res://.godot/imported/Getting Up.fbx-5086a9b2ffa1bdedce0050792e7fe1b4.res"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://c328sm81ww1ca"
-path="res://.godot/imported/Getting Up.fbx-c889a9e26d9fa8f13ca91cf217ee5cc2.res"
+uid="uid://dmce7v5ymdy4m"
+path="res://.godot/imported/Falling Back Death.fbx-86f22ea5055cf73ce78006be9a81ff00.res"
 
 [deps]
 
-source_file="res://Mixamo/Getting Up.fbx"
-dest_files=["res://.godot/imported/Getting Up.fbx-c889a9e26d9fa8f13ca91cf217ee5cc2.res"]
+source_file="res://Mixamo/Touch/Falling Back Death.fbx"
+dest_files=["res://.godot/imported/Falling Back Death.fbx-86f22ea5055cf73ce78006be9a81ff00.res"]
 
 [params]
 

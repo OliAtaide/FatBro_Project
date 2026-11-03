@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://dmce7v5ymdy4m"
-path="res://.godot/imported/Falling Back Death.fbx-7b5e55ee7cac4116d651dd956035cfb4.res"
+uid="uid://dsmpyp7n2owdu"
+path="res://.godot/imported/Waving.fbx-2b703d9d3a28faaf7cf0426c1a315e46.res"
 
 [deps]
 
-source_file="res://Mixamo/Falling Back Death.fbx"
-dest_files=["res://.godot/imported/Falling Back Death.fbx-7b5e55ee7cac4116d651dd956035cfb4.res"]
+source_file="res://Mixamo/Emotes/Waving.fbx"
+dest_files=["res://.godot/imported/Waving.fbx-2b703d9d3a28faaf7cf0426c1a315e46.res"]
 
 [params]
 

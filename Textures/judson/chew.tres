@@ -1,0 +1,25 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://pnj8d4sv1ex6"]
+
+[ext_resource type="Texture2D" uid="uid://3kd4n8y7tba3" path="res://Textures/judson/judson_face_chew0.png" id="1_63icj"]
+[ext_resource type="Texture2D" uid="uid://bs0g5xh8e35jj" path="res://Textures/judson/judson_face_chew1.png" id="2_fe8pp"]
+[ext_resource type="Texture2D" uid="uid://dytx1ilr6ksdc" path="res://Textures/judson/judson_face_chew2.png" id="3_hvol6"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_63icj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_fe8pp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hvol6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_fe8pp")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]

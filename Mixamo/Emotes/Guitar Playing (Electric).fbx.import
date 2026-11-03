@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
-uid="uid://dfsrdgg5juur7"
-path="res://.godot/imported/idle (2).fbx-91e903bbd81a673ae396fe1f8aa0cad0.scn"
+type="AnimationLibrary"
+uid="uid://f4h7dhib70k4"
+path="res://.godot/imported/Guitar Playing (Electric).fbx-65b73de03b21476b082ee7310ce0ab27.res"
 
 [deps]
 
-source_file="res://Mixamo/idle (2).fbx"
-dest_files=["res://.godot/imported/idle (2).fbx-91e903bbd81a673ae396fe1f8aa0cad0.scn"]
+source_file="res://Mixamo/Emotes/Guitar Playing (Electric).fbx"
+dest_files=["res://.godot/imported/Guitar Playing (Electric).fbx-65b73de03b21476b082ee7310ce0ab27.res"]
 
 [params]
 

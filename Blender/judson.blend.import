@@ -46,6 +46,16 @@ _subresources={
 "use_external/fallback_path": "res://Textures/judson/judson_face.tres",
 "use_external/path": "uid://bd664xjv6d1s1"
 },
+"Glass": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Textures/judson/judson_glass.tres",
+"use_external/path": "uid://bg68a1jy6ag83"
+},
+"Hair": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Textures/judson/judson_hair.tres",
+"use_external/path": "uid://vtjka2rmbxcj"
+},
 "Material": {
 "use_external/enabled": true,
 "use_external/fallback_path": "res://Textures/judson/judson.tres",
@@ -59,8 +69,7 @@ _subresources={
 "retarget/bone_renamer/unique_node/make_unique": true,
 "retarget/bone_renamer/unique_node/skeleton_name": "GeneralSkeleton",
 "retarget/rest_fixer/apply_node_transforms": true,
-"retarget/rest_fixer/normalize_position_tracks": true,
-"retarget/rest_fixer/overwrite_axis": true
+"retarget/rest_fixer/normalize_position_tracks": true
 }
 }
 }
