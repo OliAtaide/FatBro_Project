@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bhfcbl747y17d" path="res://UI/main.tres" id="1_nqx3n"]
 [ext_resource type="Texture2D" uid="uid://bjx6us7dgqmbk" path="res://Textures/judson/little_judson.jpg" id="2_aqjnx"]
+[ext_resource type="Script" path="res://Scripts/start_text.gd" id="3_start"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqx3n"]
 content_margin_left = 20.0
@@ -22,6 +23,16 @@ corner_radius_bottom_right = 26
 corner_radius_bottom_left = 26
 
 [node name="StartText" type="CanvasLayer" unique_id=1729118013]
+layer = 2
+script = ExtResource("3_start")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.45)
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1459491781]
 anchors_preset = 15

@@ -6,6 +6,8 @@ extends CanvasLayer
 
 @export var character: Judson
 @export var feeder: Feeder
+## Welcome card shown on launch. The buttons stay hidden until it's closed. Optional.
+@export var start_text: StartText
 ## Where the right-hand button sits, in the character's own space (metres; +X is his
 ## left, which is the right of the screen). The left-hand button mirrors it.
 @export var button_spot := Vector3(0.8, 0.55, 0.0)
@@ -34,6 +36,11 @@ func _ready() -> void:
 	_back_button.pressed.connect(_on_back_pressed)
 	for button in _feeding_buttons:
 		button.hide()
+	# nothing to press until the welcome card's been closed
+	if start_text:
+		for button in _main_buttons:
+			button.hide()
+		start_text.closed.connect(_swap_buttons.bind([] as Array[Button], _main_buttons))
 
 
 func _process(_delta: float) -> void:
