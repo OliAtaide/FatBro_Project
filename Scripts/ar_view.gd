@@ -3,8 +3,12 @@ extends Node
 
 ## Pokémon GO style "AR": swaps the room for the phone's back camera and turns the 3D
 ## camera as the phone turns (gyroscope, with gravity keeping the horizon level), so he
-## seems to stand out there in the real world. No surface tracking: he stays in front of
-## where the phone was pointing when AR was switched on.
+## seems to stand out there in the real world.
+##
+## There's no surface tracking, so the floor is a guess: [member phone_height] below the
+## phone, levelled by gravity. A soft shadow grounds him on it, and tapping the floor in
+## the camera view sends him hopping over to that spot. Turning and tilting the phone keeps
+## him in place; walking around doesn't (he moves with you).
 
 signal active_changed(active: bool)
 ## Couldn't switch AR on (no permission, no camera...). [param reason] is for showing.
@@ -14,18 +18,26 @@ const CAMERA_PERMISSION := "android.permission.CAMERA"
 
 @export var camera: Camera3D
 @export var world_environment: WorldEnvironment
-@export var character: Node3D
+@export var character: Judson
+## Taps it claims (on the snack, on him) don't move him. Optional.
+@export var feeder: Feeder
 ## Hidden while AR is on (the room, its furniture...).
 @export var hide_in_ar: Array[Node3D] = []
 
 @export_group("View")
-## Where the phone starts out, in his space (metres; +Z is in front of him). About a
-## metre above his feet is roughly where a phone held at chest height would be.
-@export var eye_offset := Vector3(0.0, 1.0, 2.6)
+## How far above the floor the phone is held (metres). Most people hold it at about
+## chest height; if he looks sunk into the floor, lower this, and raise it if he floats.
+@export_range(0.3, 2.5, 0.05) var phone_height := 1.35
+## How far in front of the phone he stands when AR switches on (metres).
+@export var start_distance := 2.0
+## Taps further away than this (metres) don't move him: too far to judge on a guessed floor.
+@export var max_place_distance := 6.0
 ## Vertical field of view of a typical phone's back camera, held upright (degrees).
 @export_range(20.0, 100.0) var fov := 65.0
 ## How quickly gravity pulls the horizon back level against gyroscope drift (per second).
 @export var level_correction := 4.0
+## Radius of the shadow under him (metres).
+@export var shadow_radius := 0.45
 
 @export_group("Camera image")
 ## Quarter turns (clockwise) applied to the camera image; -1 uses the turn the camera
@@ -51,6 +63,11 @@ var _world_in_phone := Basis.IDENTITY
 var _heading := Basis.IDENTITY
 ## What AR mode changed, put back by [method stop].
 var _saved := {}
+var _shadow := MeshInstance3D.new()
+## Where and when the current touch went down, and whether something else claimed it.
+var _press_position := Vector2.ZERO
+var _press_time := 0
+var _press_claimed := true
 
 
 func _ready() -> void:
@@ -64,7 +81,17 @@ func _ready() -> void:
 	_layer.hide()
 	add_child(_layer)
 	_cbcr_texture.which_feed = CameraServer.FEED_CBCR_IMAGE
+
+	var quad := QuadMesh.new()
+	quad.size = Vector2.ONE * shadow_radius * 2.0
+	quad.orientation = PlaneMesh.FACE_Y
+	_shadow.mesh = quad
+	var shadow_material := ShaderMaterial.new()
+	shadow_material.shader = preload("res://shaders/blob_shadow.gdshader")
+	_shadow.material_override = shadow_material
+	_shadow.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	set_process(false)
+	set_process_unhandled_input(false)
 
 
 ## Whether the AR button is worth showing: phones, or anywhere if [member allow_without_camera].
@@ -111,6 +138,7 @@ func start() -> void:
 	_saved = {
 		camera_transform = camera.global_transform,
 		camera_fov = camera.fov,
+		character_transform = character.global_transform,
 		background_mode = environment.background_mode,
 		canvas_max_layer = environment.background_canvas_max_layer,
 		hidden = hide_in_ar.filter(func(node: Node3D) -> bool: return node.visible),
@@ -121,11 +149,15 @@ func start() -> void:
 		node.hide()
 
 	camera.fov = fov
-	camera.global_position = character.global_transform * eye_offset
+	# the floor's where his feet are; the phone's held phone_height above it, a few steps back
+	camera.global_position = character.global_position \
+			+ character.global_basis.z.normalized() * start_distance + Vector3.UP * phone_height
 	_start_orientation()
 	_update_camera_basis()
+	character.add_child(_shadow)
 	active = true
 	set_process(true)
+	set_process_unhandled_input(true)
 	active_changed.emit(true)
 
 
@@ -134,6 +166,11 @@ func stop() -> void:
 		return
 	active = false
 	set_process(false)
+	set_process_unhandled_input(false)
+	character.remove_child(_shadow)
+	# back to his spot in the room
+	var home: Transform3D = _saved.character_transform
+	character.place(home.origin, home.origin + home.basis.z, false)
 	if _feed:
 		_feed.feed_is_active = false
 	CameraServer.monitoring_feeds = false
@@ -148,11 +185,53 @@ func stop() -> void:
 	active_changed.emit(false)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	# touches arrive as emulated mouse clicks; a quick tap on the floor (not a drag, not on
+	# the snack or him) sends him there
+	var click := event as InputEventMouseButton
+	if not click or click.button_index != MOUSE_BUTTON_LEFT:
+		return
+	if click.pressed:
+		_press_position = click.position
+		_press_time = Time.get_ticks_msec()
+		_press_claimed = feeder != null and feeder.claims(click.position)
+		return
+	var tap := not _press_claimed and click.position.distance_to(_press_position) < 24.0 \
+			and Time.get_ticks_msec() - _press_time < 400
+	_press_claimed = true
+	if tap:
+		var spot = floor_point(click.position)
+		if spot != null:
+			character.place(spot, camera.global_position)
+
+
+## Where the screen point [param screen_position] lands on the guessed floor, or null if
+## it's above the horizon or too far off to trust.
+func floor_point(screen_position: Vector2) -> Variant:
+	var from := camera.project_ray_origin(screen_position)
+	var direction := camera.project_ray_normal(screen_position)
+	var floor_height: float = (_saved.character_transform as Transform3D).origin.y
+	if direction.y > -0.02:
+		return null
+	var spot := from + direction * ((floor_height - from.y) / direction.y)
+	var to_spot := spot - camera.global_position
+	to_spot.y = 0.0
+	if to_spot.length() > max_place_distance:
+		return null
+	return spot
+
+
 func _process(delta: float) -> void:
 	step_sensors(Input.get_gyroscope(), Input.get_gravity(), delta)
 	_update_camera_basis()
 	if _feed:
 		_update_image()
+	# the shadow stays on the floor when he hops, shrinking a little the higher he gets
+	var floor_height: float = (_saved.character_transform as Transform3D).origin.y
+	var lift := character.global_position.y - floor_height
+	_shadow.global_position = Vector3(character.global_position.x, floor_height + 0.005,
+			character.global_position.z)
+	_shadow.scale = Vector3.ONE * clampf(1.0 - lift * 1.2, 0.6, 1.0)
 
 
 ## Advances the phone's orientation by one frame of sensor readings (both in the phone's

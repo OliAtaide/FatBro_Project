@@ -38,6 +38,14 @@ func put_away() -> void:
 		_hide_food()
 
 
+## Whether a touch at [param screen_position] is the feeder's business: on the snack (or
+## dragging it), or on him.
+func claims(screen_position: Vector2) -> bool:
+	if _food and (_dragging or _is_on_food(screen_position)):
+		return true
+	return _is_on_character(screen_position)
+
+
 func _process(delta: float) -> void:
 	if not _food or _busy:
 		return

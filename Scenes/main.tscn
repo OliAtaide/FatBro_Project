@@ -111,11 +111,12 @@ character = NodePath("../MainChar")
 
 [node name="StartText" parent="." unique_id=2095732558 instance=ExtResource("14_start")]
 
-[node name="ArView" type="Node" parent="." node_paths=PackedStringArray("camera", "world_environment", "character", "hide_in_ar")]
+[node name="ArView" type="Node" parent="." node_paths=PackedStringArray("camera", "world_environment", "character", "feeder", "hide_in_ar")]
 script = ExtResource("15_ar")
 camera = NodePath("../Camera3D")
 world_environment = NodePath("../WorldEnvironment")
 character = NodePath("../MainChar")
+feeder = NodePath("../Feeder")
 hide_in_ar = [NodePath("../Decor")]
 
 [editable path="MainChar"]

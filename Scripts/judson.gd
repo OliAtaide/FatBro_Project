@@ -27,6 +27,8 @@ const SQUARE_UP := [GUT_REACT]
 ## so a restart crossfades from the clip into its twin instead of snapping to frame 0.
 const RESTARTABLE := [GUT_REACT]
 const TWIN_SUFFIX := "_again"
+## Clips his head follows on its own, instead of looking at the camera (emotes do too).
+const NO_LOOK_AT := [GUT_REACT]
 const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 
 @export var squeak: AudioStream = preload("res://Audio/squeak.ogg")
@@ -52,6 +54,9 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 ## Seconds he lies on the floor before getting up.
 @export var stay_down_time := 1.0
 @export var blend_time := 0.2
+## The hop he does when [method place]d somewhere new.
+@export var hop_height := 0.25
+@export var hop_time := 0.4
 
 var _down := false
 var _tap_times: Array[float] = []
@@ -69,6 +74,7 @@ var _emote_sound_tween: Tween
 ## Follows his head bone; the hat being worn (if any) is its only child.
 var _hat_mount: BoneAttachment3D
 var _hat: Node3D
+var _place_tween: Tween
 
 @onready var _anim := animation_player(self)
 @onready var _skeleton := find_children("*", "Skeleton3D").front() as Skeleton3D
@@ -166,6 +172,37 @@ func _add_emote(data: EmoteData) -> StringName:
 			_anim.get_animation(animation).loop_mode = Animation.LOOP_LINEAR
 	_emotes[animation] = data
 	return animation
+
+
+## Moves him to [param spot], turned to face [param look_toward] (ignored if INF), with a
+## little hop unless [param hop] is off. That's where he gets back up to after a fall, too.
+## A hop is ignored while he's on the floor; returns whether he moved.
+func place(spot: Vector3, look_toward := Vector3.INF, hop := true) -> bool:
+	if _down and hop:
+		return false
+	_home = spot
+	var turn_to := global_rotation.y
+	if look_toward != Vector3.INF:
+		var facing := look_toward - spot
+		if Vector2(facing.x, facing.z).length() > 0.001:
+			# he faces his own +Z
+			turn_to = atan2(facing.x, facing.z)
+	if _place_tween:
+		_place_tween.kill()
+	if not hop:
+		global_position = spot
+		global_rotation.y = turn_to
+		return true
+	var from := global_position
+	var turn_from := global_rotation.y
+	var turn := wrapf(turn_to - turn_from, -PI, PI)
+	var step := func(t: float) -> void:
+		global_position = from.lerp(spot, t) + Vector3.UP * hop_height * sin(t * PI)
+		global_rotation.y = turn_from + turn * t
+	_place_tween = create_tween()
+	_place_tween.tween_method(step, 0.0, 1.0, hop_time) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	return true
 
 
 ## Pops [param hat] onto his head, swapping out any he had on. Null takes it off.
@@ -332,7 +369,10 @@ func _on_current_animation_changed(animation: StringName) -> void:
 	# while he's down every modifier is already off, and getting up turns them back on
 	if _down or not _look_at:
 		return
-	var influence: float = 0.0 if animation in _emotes else _modifier_influence[_look_at]
+	# (a restart plays the clip's twin, which counts as the clip)
+	var clip := StringName(animation.trim_suffix(TWIN_SUFFIX))
+	var looks_away := animation in _emotes or clip in NO_LOOK_AT
+	var influence: float = 0.0 if looks_away else _modifier_influence[_look_at]
 	_fade(_look_at, influence, blend_time)
 
 
