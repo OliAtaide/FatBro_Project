@@ -5,9 +5,8 @@
 
 [resource]
 script = ExtResource("1_3qu0u")
-title = "Cap"
+title = "Mestre Pokémon"
 model = ExtResource("1_u1imv")
-scale_tweak = 1.25
-offset = Vector3(0, -0.04, 0)
-rotation_tweak = Vector3(20, 0, 0)
+scale_tweak = 1.2
+offset = Vector3(0, -0.175, 0.05)
 metadata/_custom_type_script = "uid://chp21twuba1y2"

@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="HatData" format=3]
+[gd_resource type="Resource" script_class="HatData" format=3 uid="uid://cx4dwvl75y1k7"]
 
 [ext_resource type="PackedScene" uid="uid://cob3j8exbgaye" path="res://Blender/Hats/cowboy_hat.tscn" id="1_cowb"]
 [ext_resource type="Script" uid="uid://chp21twuba1y2" path="res://Scripts/hat.gd" id="2_hat"]
 
 [resource]
 script = ExtResource("2_hat")
-title = "Cowboy Hat"
+title = "Buu Morgan"
 model = ExtResource("1_cowb")
 scale_tweak = 1.4
 offset = Vector3(0, -0.07, 0)
