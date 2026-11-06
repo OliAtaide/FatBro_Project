@@ -2,21 +2,28 @@ extends CanvasLayer
 
 ## On-screen controls: a pair of buttons on either side of the character, kept there
 ## whatever the phone's aspect ratio. Normally they're emote and food, with the hat
-## button over the food one; once a snack is picked they become back (put it away) and
-## swap snack, until back is pressed.
+## button over the food one and the AR button (phones only) over the emote one; once a
+## snack is picked they become back (put it away) and swap snack, until back is pressed.
+## In AR the buttons stay put on screen, since the view turns with the phone.
 
 @export var character: Judson
 @export var feeder: Feeder
 ## Welcome card shown on launch. The buttons stay hidden until it's closed. Optional.
 @export var start_text: StartText
+## Switches the camera view on and off. Optional; without it there's no AR button.
+@export var ar_view: ArView
 ## Where the right-hand button sits, in the character's own space (metres; +X is his
 ## left, which is the right of the screen). The left-hand button mirrors it.
 @export var button_spot := Vector3(0.8, 0.55, 0.0)
 ## Where the hat button sits, in the character's space.
 @export var hat_button_spot := Vector3(-0.8, 1.0, 0.0)
+## Where the AR button sits, in the character's space.
+@export var ar_button_spot := Vector3(0.8, 1.0, 0.0)
 @export var swap_time := 0.15
 
 var _swap_tween: Tween
+## Frames left before the buttons stop following him (in AR), or -1 while they follow.
+var _freeze_in := -1
 
 @onready var _wave_button: Button = $WaveButton
 @onready var _food_button: Button = $FoodButton
@@ -26,7 +33,8 @@ var _swap_tween: Tween
 @onready var _emote_menu: EmoteMenu = $EmoteMenu
 @onready var _hat_button: Button = $HatButton
 @onready var _hat_menu: HatMenu = $HatMenu
-## Left-hand button, right-hand button (and the hat button, for the main ones).
+@onready var _ar_button: Button = $ARButton
+## Left-hand button, right-hand button (then the hat and AR buttons, for the main ones).
 @onready var _main_buttons: Array[Button] = [_food_button, _wave_button, _hat_button]
 @onready var _feeding_buttons: Array[Button] = [_back_button, _swap_food_button]
 
@@ -42,6 +50,13 @@ func _ready() -> void:
 	_hat_button.pressed.connect(_hat_menu.open)
 	_hat_menu.hat_chosen.connect(_on_hat_chosen)
 	_show_hat_on_button(null)
+	if ar_view and ar_view.is_supported():
+		_main_buttons.append(_ar_button)
+		_ar_button.pressed.connect(ar_view.toggle)
+		ar_view.active_changed.connect(_on_ar_active_changed)
+		ar_view.failed.connect(_on_ar_failed)
+	else:
+		_ar_button.hide()
 	for button in _feeding_buttons:
 		button.hide()
 	# nothing to press until the welcome card's been closed
@@ -52,10 +67,25 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if _freeze_in == 0:
+		return
+	_freeze_in = maxi(_freeze_in - 1, -1)
 	for buttons in [_main_buttons, _feeding_buttons]:
 		_place(buttons[0], button_spot * Vector3(-1.0, 1.0, 1.0))
 		_place(buttons[1], button_spot)
 	_place(_hat_button, hat_button_spot)
+	_place(_ar_button, ar_button_spot)
+
+
+func _on_ar_active_changed(active: bool) -> void:
+	_ar_button.text = "3D" if active else "AR"
+	# in AR: one more placement from the starting view, then they stay there
+	_freeze_in = 1 if active else -1
+
+
+func _on_ar_failed(reason: String) -> void:
+	push_warning("AR: " + reason)
+	OS.alert(reason, "AR")
 
 
 func _on_food_chosen(food: FoodData) -> void:

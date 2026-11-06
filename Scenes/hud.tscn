@@ -100,6 +100,22 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon_alignment = 1
 expand_icon = true
 
+[node name="ARButton" type="Button" parent="."]
+custom_minimum_size = Vector2(120, 120)
+offset_right = 120.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxTexture_hat")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hat")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hat")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
+text = "AR"
+
 [node name="FoodMenu" parent="." unique_id=902114367 instance=ExtResource("4_menu")]
 
 [node name="EmoteMenu" parent="." unique_id=1263281917 instance=ExtResource("5_emote")]

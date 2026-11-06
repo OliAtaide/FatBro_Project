@@ -24,6 +24,11 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
+[input_devices]
+
+sensors/enable_gravity=true
+sensors/enable_gyroscope=true
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
