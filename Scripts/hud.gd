@@ -79,8 +79,8 @@ func _process(_delta: float) -> void:
 
 func _on_ar_active_changed(active: bool) -> void:
 	_ar_button.text = "3D" if active else "AR"
-	# in AR: one more placement from the starting view, then they stay there
-	_freeze_in = 1 if active else -1
+	# in AR they stay where they were in the room view (the AR view turns with the phone)
+	_freeze_in = 0 if active else -1
 
 
 func _on_ar_failed(reason: String) -> void:

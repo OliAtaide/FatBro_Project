@@ -12,13 +12,14 @@ uniform sampler2D feed_main : filter_linear;
 uniform sampler2D feed_cbcr : filter_linear;
 /** 0 = RGB, 1 = YCbCr in one image, 2 = Y and CbCr in separate images. */
 uniform int mode = 0;
-/** Screen UV -> image UV: rotation, crop and the feed's own transform, all in one. */
+/** Screen UV -> image UV (both top-down): rotation and crop, all in one. */
 uniform vec2 uv_x = vec2(1.0, 0.0);
 uniform vec2 uv_y = vec2(0.0, 1.0);
 uniform vec2 uv_origin = vec2(0.0);
 
 void fragment() {
-	vec2 uv = uv_x * SCREEN_UV.x + uv_y * SCREEN_UV.y + uv_origin;
+	// (the rect's own UV: covers the screen, top-left to bottom-right)
+	vec2 uv = uv_x * UV.x + uv_y * UV.y + uv_origin;
 	if (mode != 0) {
 		// BT.709, the same conversion Godot uses for camera backgrounds
 		vec3 ycbcr = mode == 2

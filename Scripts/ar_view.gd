@@ -28,8 +28,9 @@ const CAMERA_PERMISSION := "android.permission.CAMERA"
 @export var level_correction := 4.0
 
 @export_group("Camera image")
-## Quarter turns applied to the camera image; -1 picks automatically (a landscape image
-## on a portrait screen gets turned once). Try 1 or 3 if it shows up sideways or upside down.
+## Quarter turns (clockwise) applied to the camera image; -1 uses the turn the camera
+## itself reports (Android works it out from how the sensor is mounted). Set 0 to 3 by hand
+## if it still shows up sideways or upside down.
 @export_range(-1, 3) var image_quarter_turns := -1
 @export var mirror_image := false
 ## Lets AR switch on without a camera (a plain dark background), to try it on a desktop.
@@ -212,7 +213,9 @@ func _update_image() -> void:
 		return
 	var turns := image_quarter_turns
 	if turns < 0:
-		turns = 1 if (image_size.x > image_size.y) != (screen.x > screen.y) else 0
+		# Android reports the turn as a bare rotation in the feed's transform (about the
+		# image's corner, so it can't be used as is: that samples off the edge of the image)
+		turns = posmod(roundi(_feed.feed_transform.get_rotation() / (PI / 2.0)), 4)
 	var shown_size := image_size if turns % 2 == 0 else Vector2(image_size.y, image_size.x)
 	# crop whichever way the image overhangs the screen, so it fills it without stretching
 	var image_aspect := shown_size.x / shown_size.y
@@ -224,10 +227,10 @@ func _update_image() -> void:
 		crop.y = image_aspect / screen_aspect
 	if mirror_image:
 		crop.x = -crop.x
-	# screen UV -> centred -> cropped -> turned -> back to 0..1 -> the feed's own transform
-	var uv := Transform2D(0.0, Vector2(0.5, 0.5)) * Transform2D(turns * PI / 2.0, Vector2.ZERO) \
+	# screen UV -> centred -> cropped -> turned (a clockwise turn on screen samples the image
+	# turned the other way) -> back to 0..1. UVs run top to bottom, like the image's rows.
+	var uv := Transform2D(0.0, Vector2(0.5, 0.5)) * Transform2D(-turns * PI / 2.0, Vector2.ZERO) \
 			* Transform2D(0.0, crop, 0.0, Vector2.ZERO) * Transform2D(0.0, Vector2(-0.5, -0.5))
-	uv = _feed.feed_transform * uv
 	_material.set_shader_parameter("uv_x", uv.x)
 	_material.set_shader_parameter("uv_y", uv.y)
 	_material.set_shader_parameter("uv_origin", uv.origin)
@@ -264,16 +267,22 @@ func _find_back_camera() -> CameraFeed:
 	return null
 
 
-## Picks the largest format up to 1920 pixels wide (sharp enough, without the cost of 4K).
+## Picks the largest format up to 1920 pixels wide (sharp enough, without the cost of 4K),
+## preferring YUV: Godot's Android camera handles that one's row padding, but not the RGB
+## ones', which can come out garbled.
 func _pick_format(feed: CameraFeed) -> void:
 	var formats := feed.get_formats()
 	var best := -1
-	var best_width := 0
+	var best_score := -1
 	for i in formats.size():
-		var width: int = (formats[i] as Dictionary).get("width", 0)
-		if width <= 1920 and width > best_width:
+		var format := formats[i] as Dictionary
+		var width: int = format.get("width", 0)
+		if width > 1920:
+			continue
+		var score := width + (100000 if format.get("format", "") == "YUV_420_888" else 0)
+		if score > best_score:
 			best = i
-			best_width = width
+			best_score = score
 	if best == -1 and formats:
 		best = 0
 	if best != -1:
