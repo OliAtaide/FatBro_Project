@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c0n4i8eyn3am1" path="res://UI/back_button.svg" id="6_back"]
 [ext_resource type="PackedScene" path="res://Scenes/hat_menu.tscn" id="7_hats"]
 [ext_resource type="PackedScene" uid="uid://cjmk34ad8jhb5" path="res://Blender/judson.tscn" id="8_5ep0j"]
+[ext_resource type="Texture2D" path="res://UI/camera_icon.svg" id="9_photo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjfho"]
 
@@ -97,6 +98,19 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_hat_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_hat")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_hat")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PhotoButton" type="Button" parent="."]
+custom_minimum_size = Vector2(120, 120)
+offset_right = 120.0
+offset_bottom = 120.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_hat")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hat")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hat")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
+icon = ExtResource("9_photo")
 icon_alignment = 1
 expand_icon = true
 

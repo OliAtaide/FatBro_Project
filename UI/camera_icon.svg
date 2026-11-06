@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <!-- white camera: body with a bump on top, a lens ring and a flash dot -->
+  <path fill="#ffffff" d="M34 22 h28 l5 9 h11 a8 8 0 0 1 8 8 v32 a8 8 0 0 1 -8 8 h-60 a8 8 0 0 1 -8 -8 v-32 a8 8 0 0 1 8 -8 h11 z"/>
+  <circle cx="48" cy="55" r="17" fill="#008080"/>
+  <circle cx="48" cy="55" r="11" fill="#ffffff"/>
+  <circle cx="74" cy="41" r="3.5" fill="#008080"/>
+</svg>
