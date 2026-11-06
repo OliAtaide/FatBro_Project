@@ -142,6 +142,6 @@ func _is_on_character(screen_position: Vector2) -> bool:
 	var feet := _camera.unproject_position(character.global_position)
 	var head := _camera.unproject_position(character.mouth_position() + Vector3.UP * 0.2)
 	var half_width := feet.distance_to(_camera.unproject_position(
-			character.global_position + _camera.global_basis.x * 0.45))
+			character.global_position + _camera.global_basis.x * 0.45 * character.global_basis.get_scale().x))
 	var area := Rect2(head.x - half_width, head.y, half_width * 2.0, feet.y - head.y)
 	return area.has_point(screen_position)

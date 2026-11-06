@@ -29,7 +29,12 @@ const CAMERA_PERMISSION := "android.permission.CAMERA"
 ## chest height; if he looks sunk into the floor, lower this, and raise it if he floats.
 @export_range(0.3, 2.5, 0.05) var phone_height := 1.35
 ## How far in front of the phone he stands when AR switches on (metres).
-@export var start_distance := 2.0
+@export var start_distance := 1.5
+## His size in AR: 1 is life-size (about 1.1 m tall, a big boy in a real room). Pinching
+## the screen resizes him, between [member min_scale] and [member max_scale].
+@export_range(0.05, 1.0, 0.05) var character_scale := 0.5
+@export var min_scale := 0.15
+@export var max_scale := 1.0
 ## Taps further away than this (metres) don't move him: too far to judge on a guessed floor.
 @export var max_place_distance := 6.0
 ## Vertical field of view of a typical phone's back camera, held upright (degrees).
@@ -154,6 +159,14 @@ func start() -> void:
 			+ character.global_basis.z.normalized() * start_distance + Vector3.UP * phone_height
 	_start_orientation()
 	_update_camera_basis()
+	# (the shadow's his child, so it shrinks with him)
+	character.scale = Vector3.ONE * character_scale
+	# he appears where the phone's pointing at the floor; pointing at the horizon (or too far
+	# off), he stays start_distance in front
+	var screen := camera.get_viewport().get_visible_rect().size
+	var spot = floor_point(screen / 2.0)
+	if spot != null and (spot - camera.global_position).length() > 0.6:
+		character.place(spot, camera.global_position, false)
 	character.add_child(_shadow)
 	active = true
 	set_process(true)
@@ -171,6 +184,7 @@ func stop() -> void:
 	# back to his spot in the room
 	var home: Transform3D = _saved.character_transform
 	character.place(home.origin, home.origin + home.basis.z, false)
+	character.scale = home.basis.get_scale()
 	if _feed:
 		_feed.feed_is_active = false
 	CameraServer.monitoring_feeds = false
@@ -186,6 +200,13 @@ func stop() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# pinch to resize him (kept for the next time AR's switched on, too)
+	var pinch := event as InputEventMagnifyGesture
+	if pinch:
+		character_scale = clampf(character_scale * pinch.factor, min_scale, max_scale)
+		character.scale = Vector3.ONE * character_scale
+		get_viewport().set_input_as_handled()
+		return
 	# touches arrive as emulated mouse clicks; a quick tap on the floor (not a drag, not on
 	# the snack or him) sends him there
 	var click := event as InputEventMouseButton

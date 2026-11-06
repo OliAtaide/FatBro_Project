@@ -57,6 +57,9 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 ## The hop he does when [method place]d somewhere new.
 @export var hop_height := 0.25
 @export var hop_time := 0.4
+## Size of the capsule you tap to poke him, at full size (metres).
+@export var tap_radius := 0.4
+@export var tap_height := 1.1
 
 var _down := false
 var _tap_times: Array[float] = []
@@ -75,6 +78,11 @@ var _emote_sound_tween: Tween
 var _hat_mount: BoneAttachment3D
 var _hat: Node3D
 var _place_tween: Tween
+# what you tap to poke him (touches arrive as emulated clicks, picked up by physics picking)
+var _tap_area := Area3D.new()
+var _tap_shape := CollisionShape3D.new()
+## His scale the tap shape was last sized for.
+var _tap_size := 0.0
 
 @onready var _anim := animation_player(self)
 @onready var _skeleton := find_children("*", "Skeleton3D").front() as Skeleton3D
@@ -118,16 +126,32 @@ func _ready() -> void:
 	_emote_player.finished.connect(_on_emote_sound_finished)
 
 	# touches arrive as emulated mouse clicks, which this picks up through the physics picking
-	var tap_area := Area3D.new()
-	var tap_shape := CollisionShape3D.new()
-	var capsule := CapsuleShape3D.new()
-	capsule.radius = 0.4
-	capsule.height = 1.1
-	tap_shape.shape = capsule
-	tap_shape.position.y = capsule.height / 2.0
-	tap_area.add_child(tap_shape)
-	tap_area.input_event.connect(_on_tap_area_input_event)
-	add_child(tap_area)
+	_tap_shape.shape = CapsuleShape3D.new()
+	_tap_area.add_child(_tap_shape)
+	_tap_area.input_event.connect(_on_tap_area_input_event)
+	add_child(_tap_area)
+	_fit_tap_shape()
+	# (sized to match whenever he's scaled, see _fit_tap_shape)
+	set_notify_transform(true)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSFORM_CHANGED and _tap_area.is_inside_tree():
+		_fit_tap_shape()
+
+
+## Sizes his tap shape to him. Physics (Jolt) doesn't follow a scaled parent properly, so
+## the shape's area cancels out his scale and the capsule itself is resized instead.
+func _fit_tap_shape() -> void:
+	var size := global_basis.get_scale().y
+	if is_equal_approx(size, _tap_size):
+		return
+	_tap_size = size
+	_tap_area.scale = Vector3.ONE / scale
+	var capsule := _tap_shape.shape as CapsuleShape3D
+	capsule.radius = tap_radius * size
+	capsule.height = tap_height * size
+	_tap_shape.position.y = capsule.height / 2.0
 
 
 func poke() -> void:
@@ -196,8 +220,10 @@ func place(spot: Vector3, look_toward := Vector3.INF, hop := true) -> bool:
 	var from := global_position
 	var turn_from := global_rotation.y
 	var turn := wrapf(turn_to - turn_from, -PI, PI)
+	# (a hop as high for him at any size)
+	var height := hop_height * global_basis.get_scale().y
 	var step := func(t: float) -> void:
-		global_position = from.lerp(spot, t) + Vector3.UP * hop_height * sin(t * PI)
+		global_position = from.lerp(spot, t) + Vector3.UP * height * sin(t * PI)
 		global_rotation.y = turn_from + turn * t
 	_place_tween = create_tween()
 	_place_tween.tween_method(step, 0.0, 1.0, hop_time) \
