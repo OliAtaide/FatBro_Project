@@ -20,6 +20,21 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_36asn"]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hat"]
+content_margin_left = 22.0
+content_margin_top = 22.0
+content_margin_right = 22.0
+content_margin_bottom = 22.0
+texture = ExtResource("5_7gr8i")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hat_pressed"]
+content_margin_left = 22.0
+content_margin_top = 22.0
+content_margin_right = 22.0
+content_margin_bottom = 22.0
+texture = ExtResource("5_7gr8i")
+modulate_color = Color(0.8, 0.8, 0.8, 1)
+
 [node name="HUD" type="CanvasLayer" unique_id=214244856]
 script = ExtResource("1_hud")
 
@@ -74,15 +89,15 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon = ExtResource("3_bjfho")
 
 [node name="HatButton" type="Button" parent="." unique_id=849645628]
-custom_minimum_size = Vector2(110, 110)
-offset_right = 110.0
-offset_bottom = 110.0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_bjfho")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_fccik")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_6fbih")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
+custom_minimum_size = Vector2(120, 120)
+offset_right = 120.0
+offset_bottom = 120.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_hat")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hat")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hat")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
-icon = ExtResource("5_7gr8i")
+icon_alignment = 1
 expand_icon = true
 
 [node name="FoodMenu" parent="." unique_id=902114367 instance=ExtResource("4_menu")]
