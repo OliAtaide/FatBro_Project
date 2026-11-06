@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EmoteData" format=3 uid="uid://bfe0h3820s7pt"]
+
+[ext_resource type="AnimationLibrary" uid="uid://f4h7dhib70k4" path="res://Mixamo/Emotes/Guitar Playing (Electric).fbx" id="1_qagj5"]
+[ext_resource type="AudioStream" uid="uid://fuewpw65baqt" path="res://Audio/electric_guitar.ogg" id="2_gamnx"]
+[ext_resource type="Script" uid="uid://cymll0xgxx1ci" path="res://Scripts/emote.gd" id="3_375iq"]
+
+[resource]
+script = ExtResource("3_375iq")
+title = "Guitarra"
+animation = ExtResource("1_qagj5")
+audio = ExtResource("2_gamnx")
+metadata/_custom_type_script = "uid://cymll0xgxx1ci"

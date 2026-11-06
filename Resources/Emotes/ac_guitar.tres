@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EmoteData" format=3 uid="uid://bjqddsvecp2ww"]
+
+[ext_resource type="Script" uid="uid://cymll0xgxx1ci" path="res://Scripts/emote.gd" id="1_26mkl"]
+[ext_resource type="AnimationLibrary" uid="uid://cj0mfu06vbf5g" path="res://Mixamo/Emotes/Guitar Playing (Acoustic).fbx" id="1_xm04u"]
+[ext_resource type="AudioStream" uid="uid://d2vjhf0fc0ooc" path="res://Audio/acoustic_guitar.ogg" id="2_m6na3"]
+
+[resource]
+script = ExtResource("1_26mkl")
+title = "Violão"
+animation = ExtResource("1_xm04u")
+audio = ExtResource("2_m6na3")
+metadata/_custom_type_script = "uid://cymll0xgxx1ci"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EmoteData" format=3 uid="uid://v16b4wr0wp28"]
+
+[ext_resource type="AnimationLibrary" uid="uid://dsmpyp7n2owdu" path="res://Mixamo/Emotes/Waving.fbx" id="1_kydlb"]
+[ext_resource type="Script" uid="uid://cymll0xgxx1ci" path="res://Scripts/emote.gd" id="3_cx2nk"]
+
+[resource]
+script = ExtResource("3_cx2nk")
+title = "Olá"
+animation = ExtResource("1_kydlb")
+metadata/_custom_type_script = "uid://cymll0xgxx1ci"
