@@ -5,16 +5,13 @@ extends Node3D
 ## there a moment, then gets back up. Feed him (see [Feeder]) and he chomps happily.
 
 signal down_changed(down: bool)
-## He started or stopped playing one of [constant EMOTE_SOUNDS] (the music fades out for it).
+## He started or stopped an emote that has a sound of its own (the music fades out for it).
 signal performing_changed(performing: bool)
 
 const IDLE := &"idle/mixamo_com"
 const GUT_REACT := &"gut_react/mixamo_com"
 const FALL := &"fall/mixamo_com"
 const GET_UP := &"get_up/mixamo_com"
-const WAVE := &"wave/mixamo_com"
-const GUITAR_ACOUSTIC := &"guitar_acoustic/mixamo_com"
-const GUITAR_ELECTRIC := &"guitar_electric/mixamo_com"
 
 # Mixamo clips, retargeted onto Judson's skeleton by their import settings
 const LIBRARIES := {
@@ -22,21 +19,8 @@ const LIBRARIES := {
 	&"gut_react": preload("res://Mixamo/Standing React Large Gut.fbx"),
 	&"fall": preload("res://Mixamo/Touch/Falling Back Death.fbx"),
 	&"get_up": preload("res://Mixamo/Touch/Getting Up.fbx"),
-	&"wave": preload("res://Mixamo/Emotes/Waving.fbx"),
-	&"guitar_acoustic": preload("res://Mixamo/Emotes/Guitar Playing (Acoustic).fbx"),
-	&"guitar_electric": preload("res://Mixamo/Emotes/Guitar Playing (Electric).fbx"),
 }
-## Emotes the HUD's emote menu offers, in order: animation -> name on its card.
-const EMOTES := {
-	WAVE: "Wave",
-	GUITAR_ACOUSTIC: "Acoustic Guitar",
-	GUITAR_ELECTRIC: "Electric Guitar",
-}
-## Emotes with a sound of their own. The emote loops until its sound has played out.
-const EMOTE_SOUNDS := {
-	GUITAR_ACOUSTIC: preload("res://Audio/acoustic_guitar.ogg"),
-	GUITAR_ELECTRIC: preload("res://Audio/electric_guitar.ogg"),
-}
+# (emotes aren't listed here: each [EmoteData] brings its own clip, see [method emote])
 ## Clips recorded with the body turned to one side, squared up to face the same way as idle.
 const SQUARE_UP := [GUT_REACT]
 ## One-shot clips a new tap or press restarts. Each also gets registered under a twin name,
@@ -77,6 +61,8 @@ var _modifier_tweens := {}
 var _look_at: LookAtModifier3D
 var _chew_tween: Tween
 var _warned_no_head := false
+## Emotes played so far: animation name -> its [EmoteData].
+var _emotes := {}
 ## The emote whose sound is playing, if any.
 var _performing := &""
 var _emote_sound_tween: Tween
@@ -124,8 +110,6 @@ func _ready() -> void:
 	add_child(_chomp_player)
 	add_child(_emote_player)
 	_emote_player.finished.connect(_on_emote_sound_finished)
-	for animation: StringName in EMOTE_SOUNDS:
-		_anim.get_animation(animation).loop_mode = Animation.LOOP_LINEAR
 
 	# touches arrive as emulated mouse clicks, which this picks up through the physics picking
 	var tap_area := Area3D.new()
@@ -159,10 +143,29 @@ func poke() -> void:
 		_play_from_start(GUT_REACT)
 
 
-## Plays one of [constant EMOTES]. Ignored while he's down or already doing it.
-func emote(animation: StringName) -> void:
-	if not _down and animation in EMOTES and _anim.current_animation != animation:
+## Plays [param data]. Ignored while he's down or already doing it. One with a sound
+## loops until the sound has played out.
+func emote(data: EmoteData) -> void:
+	if _down or not data or not data.animation:
+		return
+	var animation := _add_emote(data)
+	if _anim.current_animation != animation:
 		_anim.play(animation)
+
+
+## Loads [param data]'s clip into his AnimationPlayer the first time it's played, under
+## the resource's file name (e.g. "emote_wave"), and returns the animation name to play it by.
+func _add_emote(data: EmoteData) -> StringName:
+	# (prefixed, so an emote called "idle" can't clash with his own clips)
+	var file := data.resource_path.get_file().get_basename().validate_node_name().replace(",", "_")
+	var library := StringName("emote_" + (file if file else str(data.get_instance_id())))
+	var animation := StringName("%s/%s" % [library, data.clip_name()])
+	if not _anim.has_animation_library(library):
+		_anim.add_animation_library(library, data.animation)
+		if data.audio:
+			_anim.get_animation(animation).loop_mode = Animation.LOOP_LINEAR
+	_emotes[animation] = data
+	return animation
 
 
 ## Pops [param hat] onto his head, swapping out any he had on. Null takes it off.
@@ -200,12 +203,6 @@ static func animation_player(model: Node) -> AnimationPlayer:
 	player.name = "AnimationPlayer"
 	model.add_child(player)
 	return player
-
-
-## The clip behind [param animation] (a "library/clip" name), straight from [constant LIBRARIES].
-static func clip(animation: StringName) -> Animation:
-	var library: AnimationLibrary = LIBRARIES[StringName(animation.get_slice("/", 0))]
-	return library.get_animation(animation.get_slice("/", 1))
 
 
 func can_eat() -> bool:
@@ -335,14 +332,16 @@ func _on_current_animation_changed(animation: StringName) -> void:
 	# while he's down every modifier is already off, and getting up turns them back on
 	if _down or not _look_at:
 		return
-	var influence: float = 0.0 if animation in EMOTES else _modifier_influence[_look_at]
+	var influence: float = 0.0 if animation in _emotes else _modifier_influence[_look_at]
 	_fade(_look_at, influence, blend_time)
 
 
-## Starts [param animation]'s sound if it has one; fades out any other that's playing
+## Starts [param animation]'s emote sound if it has one; fades out any other that's playing
 ## (he got poked, knocked over or picked something else).
 func _set_emote_sound(animation: StringName) -> void:
-	var performing: StringName = animation if animation in EMOTE_SOUNDS else &""
+	var performing: StringName = &""
+	if animation in _emotes and (_emotes[animation] as EmoteData).audio:
+		performing = animation
 	if performing == _performing:
 		return
 	var was_performing := _performing != &""
@@ -350,7 +349,7 @@ func _set_emote_sound(animation: StringName) -> void:
 	if _emote_sound_tween:
 		_emote_sound_tween.kill()
 	if _performing:
-		_emote_player.stream = EMOTE_SOUNDS[_performing]
+		_emote_player.stream = (_emotes[_performing] as EmoteData).audio
 		_emote_player.volume_db = 0.0
 		_emote_player.play()
 	elif _emote_player.playing:

@@ -1,11 +1,12 @@
 class_name EmoteMenu
 extends BottomSheet
 
-## The emote roster: a card for every emote in [constant Judson.EMOTES], each showing
-## him partway through the move, so a new emote only needs adding there.
+## The emote roster: a card for every emote in [member emotes], each showing him partway
+## through the move, so a new emote only needs its resource adding to the list.
 
-signal emote_chosen(animation: StringName)
+signal emote_chosen(emote: EmoteData)
 
+@export var emotes: Array[EmoteData] = []
 ## Posed and rendered for each card's picture.
 @export var character_scene: PackedScene = preload("res://Blender/judson.tscn")
 ## How far through each emote (0 to 1) its card's pose is taken from.
@@ -17,9 +18,9 @@ signal emote_chosen(animation: StringName)
 
 func _ready() -> void:
 	super()
-	for animation: StringName in Judson.EMOTES:
-		_add_card(Judson.EMOTES[animation], _render_pose(Judson.clip(animation)),
-				emote_chosen.emit.bind(animation))
+	for emote in emotes:
+		if emote and emote.animation:
+			_add_card(emote.title, _render_pose(emote.clip()), emote_chosen.emit.bind(emote))
 
 
 func _render_pose(clip: Animation) -> Texture2D:
