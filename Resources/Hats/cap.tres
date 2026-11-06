@@ -7,4 +7,7 @@
 script = ExtResource("1_3qu0u")
 title = "Cap"
 model = ExtResource("1_u1imv")
+scale_tweak = 1.25
+offset = Vector3(0, -0.04, 0)
+rotation_tweak = Vector3(20, 0, 0)
 metadata/_custom_type_script = "uid://chp21twuba1y2"

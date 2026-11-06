@@ -7,4 +7,5 @@
 script = ExtResource("2_bgvk0")
 title = "Top Hat"
 model = ExtResource("1_tns8j")
+scale_tweak = 1.35
 metadata/_custom_type_script = "uid://chp21twuba1y2"

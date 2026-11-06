@@ -58,7 +58,7 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 @export var bites := 3
 @export_group("Hats")
 ## Where a hat's brim sits, relative to his head bone (metres, in the bone's space).
-@export var hat_spot := Vector3(0.0, 0.32, 0.0)
+@export var hat_spot := Vector3(0.0, 0.25, 0.0)
 ## How wide a hat comes out (metres), before its own [member HatData.scale_tweak].
 @export var hat_width := 0.5
 @export_group("")
@@ -84,7 +84,7 @@ var _emote_sound_tween: Tween
 var _hat_mount: BoneAttachment3D
 var _hat: Node3D
 
-@onready var _anim := find_children("*", "AnimationPlayer").front() as AnimationPlayer
+@onready var _anim := animation_player(self)
 @onready var _skeleton := find_children("*", "Skeleton3D").front() as Skeleton3D
 @onready var _squeak_player := AudioStreamPlayer.new()
 @onready var _chomp_player := AudioStreamPlayer.new()
@@ -188,6 +188,18 @@ func wear(hat: HatData) -> void:
 	spot.scale = Vector3.ZERO
 	create_tween().tween_property(spot, "scale", Vector3.ONE, 0.25) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+## [param model]'s AnimationPlayer. The importer only makes one if the .blend has an
+## action of its own, so if it didn't, one's added here for the Mixamo clips to go in.
+static func animation_player(model: Node) -> AnimationPlayer:
+	var players := model.find_children("*", "AnimationPlayer")
+	if players:
+		return players.front()
+	var player := AnimationPlayer.new()
+	player.name = "AnimationPlayer"
+	model.add_child(player)
+	return player
 
 
 ## The clip behind [param animation] (a "library/clip" name), straight from [constant LIBRARIES].

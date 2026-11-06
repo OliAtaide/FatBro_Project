@@ -29,7 +29,7 @@ func _render_pose(clip: Animation) -> Texture2D:
 	var texture := _snapshot(model, camera_eye, camera_target)
 	var library := AnimationLibrary.new()
 	library.add_animation(&"pose", clip)
-	var player := model.find_children("*", "AnimationPlayer").front() as AnimationPlayer
+	var player := Judson.animation_player(model)
 	player.add_animation_library(&"preview", library)
 	player.play(&"preview/pose")
 	player.seek(clip.length * pose_at, true)

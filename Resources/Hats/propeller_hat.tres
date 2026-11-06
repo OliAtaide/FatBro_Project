@@ -7,4 +7,7 @@
 script = ExtResource("2_wevme")
 title = "Propeller Hat"
 model = ExtResource("1_f13yw")
+scale_tweak = 1.3
+offset = Vector3(0, -0.01, 0)
+rotation_tweak = Vector3(8, 0, 0)
 metadata/_custom_type_script = "uid://chp21twuba1y2"

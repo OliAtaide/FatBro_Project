@@ -7,4 +7,5 @@
 script = ExtResource("2_3kinp")
 title = "Crown"
 model = ExtResource("1_n2a7e")
+scale_tweak = 1.05
 metadata/_custom_type_script = "uid://chp21twuba1y2"
