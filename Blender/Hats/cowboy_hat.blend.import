@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://14irkvp3s7w1"
-path="res://.godot/imported/pepsi_can.blend-8793cc2293ee9baf67b9256541e2c7a3.scn"
+uid="uid://c4pi563ggqbsq"
+path="res://.godot/imported/cowboy_hat.blend-072fcc1cc195fa7fcbe2b14563da2c2b.scn"
 
 [deps]
 
-source_file="res://Blender/pepsi_can.blend"
-dest_files=["res://.godot/imported/pepsi_can.blend-8793cc2293ee9baf67b9256541e2c7a3.scn"]
+source_file="res://Blender/Hats/cowboy_hat.blend"
+dest_files=["res://.godot/imported/cowboy_hat.blend-072fcc1cc195fa7fcbe2b14563da2c2b.scn"]
 
 [params]
 
@@ -41,17 +41,17 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"Material": {
+"pasted__M_Hat": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Textures/Pepsi/Pepsi.tres",
-"use_external/path": "uid://c1j52whsma6dk"
+"use_external/fallback_path": "res://Textures/cowboy_hat/cowboy_hat.tres",
+"use_external/path": "uid://c61wl0v6chd2m"
 }
 }
 }
 blender/nodes/visible=0
 blender/nodes/active_collection_only=false
-blender/nodes/punctual_lights=false
-blender/nodes/cameras=false
+blender/nodes/punctual_lights=true
+blender/nodes/cameras=true
 blender/nodes/custom_properties=true
 blender/nodes/modifiers=1
 blender/meshes/vertex_colors=1

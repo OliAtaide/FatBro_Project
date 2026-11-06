@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bfbejyely0sgs"]
+
+[ext_resource type="PackedScene" uid="uid://btody1mnmqxih" path="res://Blender/Hats/propeller_hat.blend" id="1_iiwb5"]
+
+[node name="propeller_hat" unique_id=705097578 instance=ExtResource("1_iiwb5")]

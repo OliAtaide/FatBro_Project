@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c88gee1ecil66"]
+
+[ext_resource type="Shader" uid="uid://sg6ulua2y6qq" path="res://shaders/toon.gdshader" id="1_2cofm"]
+[ext_resource type="Texture2D" uid="uid://dga5xm1luypg3" path="res://Textures/top_hat/TopHat_2.png" id="2_6p8vr"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_2cofm")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/tex = ExtResource("2_6p8vr")
+shader_parameter/normal_strength = 1.0
+shader_parameter/shadow = 0.5
+shader_parameter/shadow_width = 0.10000000475000001
+shader_parameter/shadow_color = Color(0.705, 0.705, 0.705, 0.705)
+shader_parameter/_specular_smoothness = 0.10000000475
+shader_parameter/_specular_strength = 0.10000000475
+shader_parameter/_glossiness = 0.1
+shader_parameter/_rim_size = 0.5
+shader_parameter/_rim_smoothness = 0.10000000475

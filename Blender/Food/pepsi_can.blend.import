@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dh036060u11r3"
-path="res://.godot/imported/kfc_bucket.blend-d6edada77d9332428b365b595532d0b2.scn"
+uid="uid://14irkvp3s7w1"
+path="res://.godot/imported/pepsi_can.blend-db2c282af1478e464037d135b8b823cf.scn"
 
 [deps]
 
-source_file="res://Blender/kfc_bucket.blend"
-dest_files=["res://.godot/imported/kfc_bucket.blend-d6edada77d9332428b365b595532d0b2.scn"]
+source_file="res://Blender/Food/pepsi_can.blend"
+dest_files=["res://.godot/imported/pepsi_can.blend-db2c282af1478e464037d135b8b823cf.scn"]
 
 [params]
 
@@ -41,15 +41,10 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"Chicken": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Textures/KFC/fried_chicken.tres",
-"use_external/path": "uid://cnj1sfgbkfxe8"
-},
 "Material": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Textures/KFC/kfc.tres",
-"use_external/path": "uid://dfony14rbisyo"
+"use_external/fallback_path": "res://Textures/Pepsi/Pepsi.tres",
+"use_external/path": "uid://c1j52whsma6dk"
 }
 }
 }

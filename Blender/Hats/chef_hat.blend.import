@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cd5c88wsf3i6n"
-path="res://.godot/imported/cup_noodles.blend-4ea56bc31370b8ace182d6fdec877a25.scn"
+uid="uid://enb3826mmicn"
+path="res://.godot/imported/chef_hat.blend-de47c379b77724e4170ac2337eaa2ca0.scn"
 
 [deps]
 
-source_file="res://Blender/cup_noodles.blend"
-dest_files=["res://.godot/imported/cup_noodles.blend-4ea56bc31370b8ace182d6fdec877a25.scn"]
+source_file="res://Blender/Hats/chef_hat.blend"
+dest_files=["res://.godot/imported/chef_hat.blend-de47c379b77724e4170ac2337eaa2ca0.scn"]
 
 [params]
 
@@ -41,15 +41,10 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "materials": {
-"CaseWrapper": {
+"Material": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Textures/ramen/RamenCase.tres",
-"use_external/path": "uid://c3q115tycerf5"
-},
-"LID-TOP": {
-"use_external/enabled": true,
-"use_external/fallback_path": "res://Textures/ramen/RamenTOP.tres",
-"use_external/path": "uid://j2ktbj3xqtpe"
+"use_external/fallback_path": "res://Textures/cap/chef_hat.tres",
+"use_external/path": "uid://efg0ugxbkjp0"
 }
 }
 }

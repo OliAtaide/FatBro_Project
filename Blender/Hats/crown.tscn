@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://ds3jpl8gxlx5u"]
+
+[ext_resource type="PackedScene" uid="uid://dy8tntdta5dsm" path="res://Blender/Hats/crown.blend" id="1_u0117"]
+
+[node name="crown" unique_id=1376403562 instance=ExtResource("1_u0117")]

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://r1wcebhenueh"
-path="res://.godot/imported/oreo_pack.blend-296d1829d6d6f9f6439a6348298f07bc.scn"
+uid="uid://eg6m0s7aro0c"
+path="res://.godot/imported/monster_can.blend-badd219fc800c60df79096fba4cc6112.scn"
 
 [deps]
 
-source_file="res://Blender/oreo_pack.blend"
-dest_files=["res://.godot/imported/oreo_pack.blend-296d1829d6d6f9f6439a6348298f07bc.scn"]
+source_file="res://Blender/Food/monster_can.blend"
+dest_files=["res://.godot/imported/monster_can.blend-badd219fc800c60df79096fba4cc6112.scn"]
 
 [params]
 
@@ -43,8 +43,8 @@ _subresources={
 "materials": {
 "Material": {
 "use_external/enabled": true,
-"use_external/fallback_path": "res://Textures/Oreo/Oreo.tres",
-"use_external/path": "uid://dnuen6a1yhcv8"
+"use_external/fallback_path": "res://Textures/Monster/Monster.tres",
+"use_external/path": "uid://bqs62dg3u7dqk"
 }
 }
 }

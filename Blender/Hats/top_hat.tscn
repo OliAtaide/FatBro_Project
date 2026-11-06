@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bxt4phjsb68rc"]
+
+[ext_resource type="PackedScene" uid="uid://crtxviw3ehtpd" path="res://Blender/Hats/top_hat.blend" id="1_n0c4y"]
+
+[node name="top_hat" unique_id=657031826 instance=ExtResource("1_n0c4y")]

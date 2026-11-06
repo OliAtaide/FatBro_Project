@@ -1,5 +1,5 @@
 [gd_scene format=3 uid="uid://41585dn1til3"]
 
-[ext_resource type="PackedScene" uid="uid://eg6m0s7aro0c" path="res://Blender/monster_can.blend" id="1_edmh8"]
+[ext_resource type="PackedScene" uid="uid://eg6m0s7aro0c" path="res://Blender/Food/monster_can.blend" id="1_edmh8"]
 
 [node name="monster_can" unique_id=1007574811 instance=ExtResource("1_edmh8")]

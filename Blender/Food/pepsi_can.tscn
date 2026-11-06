@@ -1,5 +1,5 @@
 [gd_scene format=3 uid="uid://i5qknlusjh06"]
 
-[ext_resource type="PackedScene" uid="uid://14irkvp3s7w1" path="res://Blender/pepsi_can.blend" id="1_kf81l"]
+[ext_resource type="PackedScene" uid="uid://14irkvp3s7w1" path="res://Blender/Food/pepsi_can.blend" id="1_kf81l"]
 
 [node name="pepsi_can" unique_id=2060009472 instance=ExtResource("1_kf81l")]

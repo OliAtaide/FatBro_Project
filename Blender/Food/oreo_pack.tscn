@@ -1,5 +1,5 @@
 [gd_scene format=3 uid="uid://s26mnfkqujv6"]
 
-[ext_resource type="PackedScene" uid="uid://r1wcebhenueh" path="res://Blender/oreo_pack.blend" id="1_tdoyj"]
+[ext_resource type="PackedScene" uid="uid://r1wcebhenueh" path="res://Blender/Food/oreo_pack.blend" id="1_tdoyj"]
 
 [node name="oreo_pack" unique_id=656734664 instance=ExtResource("1_tdoyj")]

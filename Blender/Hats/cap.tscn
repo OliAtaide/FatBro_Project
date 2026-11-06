@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://b8nf05co122ws"]
+
+[ext_resource type="PackedScene" uid="uid://ca4kk5r70drhk" path="res://Blender/Hats/cap.blend" id="1_huiwi"]
+
+[node name="cap" unique_id=503593743 instance=ExtResource("1_huiwi")]

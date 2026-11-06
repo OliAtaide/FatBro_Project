@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cob3j8exbgaye"]
+
+[ext_resource type="PackedScene" uid="uid://c4pi563ggqbsq" path="res://Blender/Hats/cowboy_hat.blend" id="1_62fan"]
+
+[node name="cowboy_hat" unique_id=1707523814 instance=ExtResource("1_62fan")]

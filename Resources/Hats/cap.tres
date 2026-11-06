@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HatData" format=3 uid="uid://dv7khiw7kr1uv"]
+
+[ext_resource type="Script" uid="uid://chp21twuba1y2" path="res://Scripts/hat.gd" id="1_3qu0u"]
+[ext_resource type="PackedScene" uid="uid://b8nf05co122ws" path="res://Blender/Hats/cap.tscn" id="1_u1imv"]
+
+[resource]
+script = ExtResource("1_3qu0u")
+title = "Cap"
+model = ExtResource("1_u1imv")
+metadata/_custom_type_script = "uid://chp21twuba1y2"
