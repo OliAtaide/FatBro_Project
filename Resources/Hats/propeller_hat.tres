@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="HatData" format=3 uid="uid://vw1qw6gb7ham"]
+[gd_resource type="Resource" script_class="HatData" format=3 uid="uid://bkds7apvqdoux"]
 
-[ext_resource type="PackedScene" uid="uid://ds3jpl8gxlx5u" path="res://Blender/Hats/crown.tscn" id="1_n2a7e"]
-[ext_resource type="Script" uid="uid://chp21twuba1y2" path="res://Scripts/hat.gd" id="2_3kinp"]
+[ext_resource type="PackedScene" uid="uid://bfbejyely0sgs" path="res://Blender/Hats/propeller_hat.tscn" id="1_f13yw"]
+[ext_resource type="Script" uid="uid://chp21twuba1y2" path="res://Scripts/hat.gd" id="2_wevme"]
 
 [resource]
-script = ExtResource("2_3kinp")
+script = ExtResource("2_wevme")
 title = "Propeller Hat"
-model = ExtResource("1_n2a7e")
+model = ExtResource("1_f13yw")
 metadata/_custom_type_script = "uid://chp21twuba1y2"

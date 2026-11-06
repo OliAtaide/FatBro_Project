@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/bottom_sheet.tscn" id="1_sheet"]
+[ext_resource type="Script" path="res://Scripts/hat_menu.gd" id="2_menu"]
+[ext_resource type="Script" uid="uid://chp21twuba1y2" path="res://Scripts/hat.gd" id="3_hat"]
+[ext_resource type="Resource" uid="uid://dv7khiw7kr1uv" path="res://Resources/Hats/cap.tres" id="4_cap"]
+[ext_resource type="Resource" uid="uid://bnqmxxjb7nwdn" path="res://Resources/Hats/chef_hat.tres" id="5_chef"]
+[ext_resource type="Resource" path="res://Resources/Hats/cowboy_hat.tres" id="6_cowb"]
+[ext_resource type="Resource" uid="uid://vw1qw6gb7ham" path="res://Resources/Hats/crown.tres" id="7_crwn"]
+[ext_resource type="Resource" uid="uid://bkds7apvqdoux" path="res://Resources/Hats/propeller_hat.tres" id="8_prop"]
+[ext_resource type="Resource" uid="uid://7y4j6cxp6nos" path="res://Resources/Hats/top_hat.tres" id="9_toph"]
+[ext_resource type="Texture2D" path="res://UI/back_button.svg" id="10_none"]
+
+[node name="HatMenu" instance=ExtResource("1_sheet")]
+script = ExtResource("2_menu")
+title = "Hats"
+hats = Array[ExtResource("3_hat")]([ExtResource("4_cap"), ExtResource("5_chef"), ExtResource("6_cowb"), ExtResource("7_crwn"), ExtResource("8_prop"), ExtResource("9_toph")])
+no_hat_icon = ExtResource("10_none")

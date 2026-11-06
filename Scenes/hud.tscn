@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/food_menu.tscn" id="4_menu"]
 [ext_resource type="PackedScene" path="res://Scenes/emote_menu.tscn" id="5_emote"]
 [ext_resource type="Texture2D" path="res://UI/back_button.svg" id="6_back"]
+[ext_resource type="PackedScene" path="res://Scenes/hat_menu.tscn" id="7_hats"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjfho"]
 
@@ -70,6 +71,19 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon = ExtResource("3_bjfho")
 
+[node name="HatButton" type="Button" parent="."]
+custom_minimum_size = Vector2(110, 110)
+offset_right = 110.0
+offset_bottom = 110.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bjfho")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_fccik")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_6fbih")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
+expand_icon = true
+
 [node name="FoodMenu" parent="." unique_id=902114367 instance=ExtResource("4_menu")]
 
 [node name="EmoteMenu" parent="." instance=ExtResource("5_emote")]
+
+[node name="HatMenu" parent="." instance=ExtResource("7_hats")]

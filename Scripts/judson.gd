@@ -56,6 +56,12 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 ## Where food goes in, relative to his head bone (metres, in his own space; +Z is forward).
 @export var mouth_offset := Vector3(0.0, 0.03, 0.3)
 @export var bites := 3
+@export_group("Hats")
+## Where a hat's brim sits, relative to his head bone (metres, in the bone's space).
+@export var hat_spot := Vector3(0.0, 0.32, 0.0)
+## How wide a hat comes out (metres), before its own [member HatData.scale_tweak].
+@export var hat_width := 0.5
+@export_group("")
 ## How many taps within [member spam_window] seconds knock him over.
 @export var taps_to_fall := 6
 @export var spam_window := 2.0
@@ -74,6 +80,9 @@ var _warned_no_head := false
 ## The emote whose sound is playing, if any.
 var _performing := &""
 var _emote_sound_tween: Tween
+## Follows his head bone; the hat being worn (if any) is its only child.
+var _hat_mount: BoneAttachment3D
+var _hat: Node3D
 
 @onready var _anim := find_children("*", "AnimationPlayer").front() as AnimationPlayer
 @onready var _skeleton := find_children("*", "Skeleton3D").front() as Skeleton3D
@@ -154,6 +163,31 @@ func poke() -> void:
 func emote(animation: StringName) -> void:
 	if not _down and animation in EMOTES and _anim.current_animation != animation:
 		_anim.play(animation)
+
+
+## Pops [param hat] onto his head, swapping out any he had on. Null takes it off.
+func wear(hat: HatData) -> void:
+	if not _hat_mount:
+		_hat_mount = BoneAttachment3D.new()
+		_hat_mount.bone_name = head_bone
+		_skeleton.add_child(_hat_mount)
+	if _hat:
+		var old := _hat
+		var tween := create_tween()
+		tween.tween_property(old, "scale", Vector3.ZERO, 0.15) \
+				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tween.tween_callback(old.queue_free)
+	_hat = null
+	if not hat or not hat.model:
+		return
+	var spot := Node3D.new()
+	spot.position = hat_spot
+	spot.add_child(hat.instantiate_fitted(hat_width))
+	_hat_mount.add_child(spot)
+	_hat = spot
+	spot.scale = Vector3.ZERO
+	create_tween().tween_property(spot, "scale", Vector3.ONE, 0.25) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 ## The clip behind [param animation] (a "library/clip" name), straight from [constant LIBRARIES].

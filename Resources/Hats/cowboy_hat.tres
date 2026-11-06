@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HatData" format=3]
+
+[ext_resource type="PackedScene" uid="uid://cob3j8exbgaye" path="res://Blender/Hats/cowboy_hat.tscn" id="1_cowb"]
+[ext_resource type="Script" uid="uid://chp21twuba1y2" path="res://Scripts/hat.gd" id="2_hat"]
+
+[resource]
+script = ExtResource("2_hat")
+title = "Cowboy Hat"
+model = ExtResource("1_cowb")
+metadata/_custom_type_script = "uid://chp21twuba1y2"
