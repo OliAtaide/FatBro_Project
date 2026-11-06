@@ -4,9 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://j5gnor0ultj" path="res://UI/wave_button.png" id="2_fccik"]
 [ext_resource type="Texture2D" uid="uid://ctyhl4fd7o0l" path="res://UI/food_button.png" id="3_bjfho"]
 [ext_resource type="PackedScene" path="res://Scenes/food_menu.tscn" id="4_menu"]
+[ext_resource type="Texture2D" uid="uid://bvwkawsns5o8g" path="res://UI/empty_button.png" id="5_7gr8i"]
 [ext_resource type="PackedScene" path="res://Scenes/emote_menu.tscn" id="5_emote"]
-[ext_resource type="Texture2D" path="res://UI/back_button.svg" id="6_back"]
+[ext_resource type="Texture2D" uid="uid://c0n4i8eyn3am1" path="res://UI/back_button.svg" id="6_back"]
 [ext_resource type="PackedScene" path="res://Scenes/hat_menu.tscn" id="7_hats"]
+[ext_resource type="PackedScene" uid="uid://cjmk34ad8jhb5" path="res://Blender/judson.tscn" id="8_5ep0j"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjfho"]
 
@@ -47,7 +49,7 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon = ExtResource("3_bjfho")
 
-[node name="BackButton" type="Button" parent="."]
+[node name="BackButton" type="Button" parent="." unique_id=1367568242]
 custom_minimum_size = Vector2(130, 72)
 offset_right = 130.0
 offset_bottom = 120.0
@@ -59,7 +61,7 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon = ExtResource("6_back")
 
-[node name="SwapFoodButton" type="Button" parent="."]
+[node name="SwapFoodButton" type="Button" parent="." unique_id=1237718252]
 custom_minimum_size = Vector2(130, 72)
 offset_right = 130.0
 offset_bottom = 120.0
@@ -71,7 +73,7 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
 icon = ExtResource("3_bjfho")
 
-[node name="HatButton" type="Button" parent="."]
+[node name="HatButton" type="Button" parent="." unique_id=849645628]
 custom_minimum_size = Vector2(110, 110)
 offset_right = 110.0
 offset_bottom = 110.0
@@ -80,10 +82,15 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_fccik")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_6fbih")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_t1xeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_36asn")
+icon = ExtResource("5_7gr8i")
 expand_icon = true
 
 [node name="FoodMenu" parent="." unique_id=902114367 instance=ExtResource("4_menu")]
 
-[node name="EmoteMenu" parent="." instance=ExtResource("5_emote")]
+[node name="EmoteMenu" parent="." unique_id=1263281917 instance=ExtResource("5_emote")]
+character_scene = ExtResource("8_5ep0j")
+pose_at = 0.5
+camera_eye = Vector3(0, 0.55, 2.6)
+camera_target = Vector3(0, 0.45, 0)
 
-[node name="HatMenu" parent="." instance=ExtResource("7_hats")]
+[node name="HatMenu" parent="." unique_id=496072762 instance=ExtResource("7_hats")]

@@ -1,7 +1,19 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://bg68a1jy6ag83"]
 
-[ext_resource type="Shader" path="res://shaders/toon_glass.gdshader" id="1_glass"]
+[ext_resource type="Shader" uid="uid://c83i4gqooxvt0" path="res://shaders/toon_glass.gdshader" id="1_glass"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_glass")
+shader_parameter/tint = Color(0.75, 0.9, 1, 0.25)
+shader_parameter/top_tint = Color(0.55, 0.75, 0.95, 0.45)
+shader_parameter/top_split = 0.35
+shader_parameter/glint_color = Color(1, 1, 1, 1)
+shader_parameter/glint_angle = 40.0
+shader_parameter/glint_offset = -0.25
+shader_parameter/glint_width = 0.14
+shader_parameter/glint2_width = 0.05
+shader_parameter/glint2_gap = 0.32
+shader_parameter/glint_view_shift = 1.2
+shader_parameter/lens_center = Vector2(0.1024, 0.1983)
+shader_parameter/lens_half_size = Vector2(0.0677, 0.0541)
