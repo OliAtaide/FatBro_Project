@@ -14,7 +14,7 @@ uniform sampler2D normal_map : hint_normal;
 uniform float normal_strength : hint_range(-16.0, 16.0) = 1.0;
 
 uniform float shadow : hint_range(0.0, 1.0) = 0.5;
-uniform float shadow_width : hint_range(0.001, 0.5) = 0.0;
+uniform float shadow_width : hint_range(0.0, 0.5) = 0.001;
 uniform vec4 shadow_color: source_color = vec4(0.705);
 
 uniform float _specular_smoothness : hint_range(0.0,0.5) = 0.01;
@@ -37,7 +37,9 @@ void fragment() {
 // standard materials. ALBEDO is applied by the engine afterwards.
 void light() {
 	// toon band: 0 on the shadow side, 1 on the lit side
-	float band = smoothstep(shadow - shadow_width, shadow + shadow_width, dot(NORMAL, LIGHT));
+	// (width kept above 0: smoothstep with equal edges is undefined, and some GPUs show it)
+	float width = max(shadow_width, 0.001);
+	float band = smoothstep(shadow - width, shadow + width, dot(NORMAL, LIGHT));
 	vec3 light_amount = LIGHT_COLOR * ATTENUATION / PI;
 
 	// diffuse: shadow side keeps a fraction of the light instead of going black
