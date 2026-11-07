@@ -4,7 +4,9 @@ extends CanvasLayer
 ## whatever the phone's aspect ratio. Normally they're emote and food, with the hat
 ## button over the food one and the AR button (phones only) over the emote one; once a
 ## snack is picked they become back (put it away) and swap snack, until back is pressed.
-## In AR the buttons stay put on screen, since the view turns with the phone.
+## In AR the buttons stay put on screen, since the view turns with the phone. The photo
+## button sits at the bottom of the screen and saves what's on screen (minus the buttons)
+## to the phone's Pictures, so it shows up in the gallery.
 
 @export var character: Judson
 @export var feeder: Feeder
@@ -20,10 +22,21 @@ extends CanvasLayer
 ## Where the AR button sits, in the character's space.
 @export var ar_button_spot := Vector3(0.8, 1.0, 0.0)
 @export var swap_time := 0.15
+## Gap between the photo button and the bottom of the screen (pixels).
+@export var photo_button_margin := 36.0
+## Where photos go. Empty means the system's Pictures folder (on Android 11+ that lands in
+## the gallery; older versions would need a storage permission, so it falls back to the
+## app's own folder there).
+@export var photo_folder := ""
 
 var _swap_tween: Tween
 ## Frames left before the buttons stop following him (in AR), or -1 while they follow.
 var _freeze_in := -1
+var _taking_photo := false
+var _flash := ColorRect.new()
+var _toast := PanelContainer.new()
+var _toast_label := Label.new()
+var _toast_tween: Tween
 
 @onready var _wave_button: Button = $WaveButton
 @onready var _food_button: Button = $FoodButton
@@ -34,8 +47,9 @@ var _freeze_in := -1
 @onready var _hat_button: Button = $HatButton
 @onready var _hat_menu: HatMenu = $HatMenu
 @onready var _ar_button: Button = $ARButton
-## Left-hand button, right-hand button (then the hat and AR buttons, for the main ones).
-@onready var _main_buttons: Array[Button] = [_food_button, _wave_button, _hat_button]
+@onready var _photo_button: Button = $PhotoButton
+## Left-hand button, right-hand button (then the hat, photo and AR buttons, for the main ones).
+@onready var _main_buttons: Array[Button] = [_food_button, _wave_button, _hat_button, _photo_button]
 @onready var _feeding_buttons: Array[Button] = [_back_button, _swap_food_button]
 
 
@@ -50,6 +64,8 @@ func _ready() -> void:
 	_hat_button.pressed.connect(_hat_menu.open)
 	_hat_menu.hat_chosen.connect(_on_hat_chosen)
 	_show_hat_on_button(null)
+	_photo_button.pressed.connect(take_photo)
+	_make_flash_and_toast()
 	if ar_view and ar_view.is_supported():
 		_main_buttons.append(_ar_button)
 		_ar_button.pressed.connect(ar_view.toggle)
@@ -67,6 +83,10 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	# (fixed on screen, so it's placed even while the others are frozen in AR)
+	var screen := get_viewport().get_visible_rect().size
+	_photo_button.position = Vector2((screen.x - _photo_button.size.x) / 2.0,
+			screen.y - _photo_button.size.y - photo_button_margin)
 	if _freeze_in == 0:
 		return
 	_freeze_in = maxi(_freeze_in - 1, -1)
@@ -75,6 +95,78 @@ func _process(_delta: float) -> void:
 		_place(buttons[1], button_spot)
 	_place(_hat_button, hat_button_spot)
 	_place(_ar_button, ar_button_spot)
+
+
+## Saves what's on screen, without the buttons, as a PNG in [member photo_folder].
+func take_photo() -> void:
+	if _taking_photo:
+		return
+	_taking_photo = true
+	# hide the HUD for one frame and grab that frame
+	visible = false
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	var image := get_viewport().get_texture().get_image()
+	visible = true
+	_flash.modulate.a = 0.85
+	create_tween().tween_property(_flash, "modulate:a", 0.0, 0.35)
+	var saved_to := _save_photo(image)
+	_show_toast("Photo saved to Pictures" if saved_to == "pictures"
+			else "Photo saved" if saved_to else "Couldn't save the photo")
+	_taking_photo = false
+
+
+## Returns "pictures" if it went to the Pictures folder, another non-empty string if it went
+## somewhere else, or "" if it couldn't be saved at all.
+func _save_photo(image: Image) -> String:
+	var stamp := Time.get_datetime_string_from_system().replace(":", "-").replace("T", "_")
+	var file := "Judson_%s.png" % stamp
+	var folder := photo_folder if photo_folder else OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
+	if folder and image.save_png(folder.path_join(file)) == OK:
+		return "pictures" if not photo_folder else folder
+	# no shared Pictures (or not allowed to write there): keep it in the app's own folder
+	var fallback := "user://photos"
+	DirAccess.make_dir_recursive_absolute(fallback)
+	var error := image.save_png(fallback.path_join(file))
+	if error != OK:
+		push_warning("Couldn't save the photo: %s" % error_string(error))
+		return ""
+	return fallback
+
+
+func _make_flash_and_toast() -> void:
+	_flash.color = Color.WHITE
+	_flash.modulate.a = 0.0
+	_flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_flash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_flash)
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.0, 0.0, 0.0, 0.7)
+	style.set_corner_radius_all(24)
+	style.set_content_margin_all(18)
+	style.content_margin_left = 30
+	style.content_margin_right = 30
+	_toast.add_theme_stylebox_override("panel", style)
+	_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_toast_label.add_theme_font_size_override("font_size", 30)
+	_toast_label.add_theme_color_override("font_color", Color.WHITE)
+	_toast.add_child(_toast_label)
+	_toast.modulate.a = 0.0
+	add_child(_toast)
+
+
+func _show_toast(text: String) -> void:
+	_toast_label.text = text
+	_toast.reset_size()
+	var screen := get_viewport().get_visible_rect().size
+	_toast.position = Vector2((screen.x - _toast.size.x) / 2.0, screen.y * 0.12)
+	if _toast_tween:
+		_toast_tween.kill()
+	_toast_tween = create_tween()
+	_toast_tween.tween_property(_toast, "modulate:a", 1.0, 0.15)
+	_toast_tween.tween_interval(1.6)
+	_toast_tween.tween_property(_toast, "modulate:a", 0.0, 0.4)
 
 
 func _on_ar_active_changed(active: bool) -> void:
