@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c0n4i8eyn3am1" path="res://UI/back_button.svg" id="6_back"]
 [ext_resource type="PackedScene" path="res://Scenes/hat_menu.tscn" id="7_hats"]
 [ext_resource type="PackedScene" uid="uid://cjmk34ad8jhb5" path="res://Blender/Chars/judson.tscn" id="8_5ep0j"]
+[ext_resource type="Texture2D" path="res://UI/camera_icon.svg" id="9_photo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bjfho"]
 

@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="CostumeData" format=3 uid="uid://dpjxiytlijlc0"]
+[gd_resource type="Resource" script_class="CostumeData" format=3 uid="uid://skrnorswto5x"]
 
-[ext_resource type="PackedScene" uid="uid://bfbh3nhrq3j4v" path="res://Blender/Chars/judson_2.tscn" id="1_lua21"]
-[ext_resource type="Texture2D" uid="uid://bnbladif8he0h" path="res://Textures/shirt_prints/monster_energy.png" id="2_lua21"]
-[ext_resource type="Script" uid="uid://cvstua40xrtcp" path="res://Scripts/costume.gd" id="3_jymkg"]
+[ext_resource type="PackedScene" uid="uid://bfbh3nhrq3j4v" path="res://Blender/Chars/judson_2.tscn" id="1_8hy5r"]
+[ext_resource type="Texture2D" uid="uid://h57i5cwdy51h" path="res://Textures/shirt_prints/mk.png" id="2_cqrth"]
+[ext_resource type="Script" uid="uid://cvstua40xrtcp" path="res://Scripts/costume.gd" id="3_n33sv"]
 
 [resource]
-script = ExtResource("3_jymkg")
-title = "Monster"
-model = ExtResource("1_lua21")
-print = ExtResource("2_lua21")
+script = ExtResource("3_n33sv")
+title = "Mortal Kombat"
+model = ExtResource("1_8hy5r")
+print = ExtResource("2_cqrth")
 metadata/_custom_type_script = "uid://cvstua40xrtcp"

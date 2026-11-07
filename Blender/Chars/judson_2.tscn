@@ -1,6 +1,24 @@
 [gd_scene format=3 uid="uid://bfbh3nhrq3j4v"]
 
-[node name="judson2" unique_id=1750870908]
+[ext_resource type="PackedScene" uid="uid://b41ddgfutb0xc" path="res://Blender/Chars/judson2.blend" id="1_judson2"]
+[ext_resource type="Script" uid="uid://db8lffquq5igw" path="res://Scripts/judson.gd" id="2_judsn"]
+[ext_resource type="Script" uid="uid://d226lvfmvj1jd" path="res://Scripts/arm_spread_modifier.gd" id="3_1npso"]
 
-[node name="Hair_001" parent="Armature/Skeleton3D/Head_2" parent_id_path=PackedInt32Array(857398623) index="3" unique_id=1867069785]
+[node name="judson2" instance=ExtResource("1_judson2")]
+script = ExtResource("2_judsn")
+
+[node name="Hair_001" parent="Armature/GeneralSkeleton/Head_2" index="3"]
 visible = false
+
+[node name="LeftHand" parent="Armature/GeneralSkeleton" index="1"]
+transform = Transform3D(0, 0.92718387, 0.3746066, 0, 0.3746066, -0.927184, -1.0000002, 0, 0, 0.531796, 0.59365165, 0)
+
+[node name="RightHand" parent="Armature/GeneralSkeleton" index="2"]
+transform = Transform3D(0, -0.92718387, -0.3746066, 0, 0.3746066, -0.927184, 1.0000002, 0, 0, -0.531796, 0.59365165, 0)
+
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="Armature/GeneralSkeleton" index="4"]
+bone_name = "Head"
+bone = 8
+
+[node name="ArmSpreadModifier3D" type="SkeletonModifier3D" parent="Armature/GeneralSkeleton" index="5"]
+script = ExtResource("3_1npso")
