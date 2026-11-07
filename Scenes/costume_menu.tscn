@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/bottom_sheet.tscn" id="1_sheet"]
+[ext_resource type="Script" path="res://Scripts/costume_menu.gd" id="2_menu"]
+[ext_resource type="Script" uid="uid://cvstua40xrtcp" path="res://Scripts/costume.gd" id="3_costume"]
+[ext_resource type="Resource" uid="uid://1ql5m8737mln" path="res://Resources/Costumes/default.tres" id="4_dflt"]
+[ext_resource type="Resource" uid="uid://de50fnuyi4kyx" path="res://Resources/Costumes/lol.tres" id="5_lol"]
+[ext_resource type="Resource" path="res://Resources/Costumes/mk.tres" id="6_mk"]
+[ext_resource type="Resource" path="res://Resources/Costumes/monster.tres" id="7_mnst"]
+
+[node name="CostumeMenu" instance=ExtResource("1_sheet")]
+script = ExtResource("2_menu")
+title = "Costumes"
+costumes = Array[ExtResource("3_costume")]([ExtResource("4_dflt"), ExtResource("5_lol"), ExtResource("6_mk"), ExtResource("7_mnst")])

@@ -48,6 +48,8 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 ## How wide a hat comes out (metres), before its own [member HatData.scale_tweak].
 @export var hat_width := 0.5
 @export_group("")
+## What he's wearing (see [method dress]). Null means whatever his model came with.
+@export var costume: CostumeData
 ## How many taps within [member spam_window] seconds knock him over.
 @export var taps_to_fall := 6
 @export var spam_window := 2.0
@@ -78,6 +80,7 @@ var _emote_sound_tween: Tween
 var _hat_mount: BoneAttachment3D
 var _hat: Node3D
 var _place_tween: Tween
+var _dress_tween: Tween
 # what you tap to poke him (touches arrive as emulated clicks, picked up by physics picking)
 var _tap_area := Area3D.new()
 var _tap_shape := CollisionShape3D.new()
@@ -108,6 +111,8 @@ func _ready() -> void:
 	_anim.play(IDLE)
 	# pose him right away, so the first frame isn't a T-pose
 	_anim.advance(0.0)
+	if costume:
+		costume.dress(self)
 
 	# look-at, arm spread, etc. get faded out while he's on the floor
 	for modifier in _skeleton.find_children("*", "SkeletonModifier3D", false):
@@ -254,6 +259,25 @@ func wear(hat: HatData) -> void:
 	spot.scale = Vector3.ZERO
 	create_tween().tween_property(spot, "scale", Vector3.ONE, 0.25) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+## Changes him into [param new_costume], with a little squash-and-pop as it goes on (or
+## straight away, if not [param animate]d).
+func dress(new_costume: CostumeData, animate := true) -> void:
+	if not new_costume or new_costume == costume:
+		return
+	costume = new_costume
+	if not animate:
+		costume.dress(self)
+		return
+	if _dress_tween:
+		_dress_tween.kill()
+	_dress_tween = create_tween()
+	_dress_tween.tween_property(_body, "scale", _body_scale * Vector3(1.12, 0.85, 1.12), 0.1) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_dress_tween.tween_callback(costume.dress.bind(self))
+	_dress_tween.tween_property(_body, "scale", _body_scale, 0.3) \
+			.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 
 
 ## [param model]'s AnimationPlayer. The importer only makes one if the .blend has an

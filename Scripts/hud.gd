@@ -2,8 +2,9 @@ extends CanvasLayer
 
 ## On-screen controls: a pair of buttons on either side of the character, kept there
 ## whatever the phone's aspect ratio. Normally they're emote and food, with the hat
-## button over the food one and the AR button (phones only) over the emote one; once a
-## snack is picked they become back (put it away) and swap snack, until back is pressed.
+## button over the food one (and the costume button over that) and the AR button (phones
+## only) over the emote one; once a snack is picked they become back (put it away) and
+## swap snack, until back is pressed.
 ## In AR the buttons stay put on screen, since the view turns with the phone. The photo
 ## button sits at the bottom of the screen and saves what's on screen (minus the buttons)
 ## to the phone's Pictures, so it shows up in the gallery.
@@ -21,6 +22,8 @@ extends CanvasLayer
 @export var hat_button_spot := Vector3(-0.8, 1.0, 0.0)
 ## Where the AR button sits, in the character's space.
 @export var ar_button_spot := Vector3(0.8, 1.0, 0.0)
+## Where the costume button sits, in the character's space.
+@export var costume_button_spot := Vector3(-0.8, 1.45, 0.0)
 @export var swap_time := 0.15
 ## Gap between the photo button and the bottom of the screen (pixels).
 @export var photo_button_margin := 36.0
@@ -28,6 +31,9 @@ extends CanvasLayer
 ## the gallery; older versions would need a storage permission, so it falls back to the
 ## app's own folder there).
 @export var photo_folder := ""
+
+## Remembers the player's choices (just the costume, for now) between launches.
+const SETTINGS_PATH := "user://settings.cfg"
 
 var _swap_tween: Tween
 ## Frames left before the buttons stop following him (in AR), or -1 while they follow.
@@ -46,10 +52,14 @@ var _toast_tween: Tween
 @onready var _emote_menu: EmoteMenu = $EmoteMenu
 @onready var _hat_button: Button = $HatButton
 @onready var _hat_menu: HatMenu = $HatMenu
+@onready var _costume_button: Button = $CostumeButton
+@onready var _costume_menu: CostumeMenu = $CostumeMenu
 @onready var _ar_button: Button = $ARButton
 @onready var _photo_button: Button = $PhotoButton
-## Left-hand button, right-hand button (then the hat, photo and AR buttons, for the main ones).
-@onready var _main_buttons: Array[Button] = [_food_button, _wave_button, _hat_button, _photo_button]
+## Left-hand button, right-hand button (then the hat, costume, photo and AR buttons, for the
+## main ones).
+@onready var _main_buttons: Array[Button] = [_food_button, _wave_button, _hat_button,
+		_costume_button, _photo_button]
 @onready var _feeding_buttons: Array[Button] = [_back_button, _swap_food_button]
 
 
@@ -64,6 +74,10 @@ func _ready() -> void:
 	_hat_button.pressed.connect(_hat_menu.open)
 	_hat_menu.hat_chosen.connect(_on_hat_chosen)
 	_show_hat_on_button(null)
+	_costume_button.pressed.connect(_costume_menu.open)
+	_costume_menu.costume_chosen.connect(_on_costume_chosen)
+	character.dress(_load_costume(), false)
+	_show_costume_on_button(character.costume)
 	_photo_button.pressed.connect(take_photo)
 	_make_flash_and_toast()
 	if ar_view and ar_view.is_supported():
@@ -94,6 +108,7 @@ func _process(_delta: float) -> void:
 		_place(buttons[0], button_spot * Vector3(-1.0, 1.0, 1.0))
 		_place(buttons[1], button_spot)
 	_place(_hat_button, hat_button_spot)
+	_place(_costume_button, costume_button_spot)
 	_place(_ar_button, ar_button_spot)
 
 
@@ -195,6 +210,40 @@ func _show_hat_on_button(hat: HatData) -> void:
 	if not hat and _hat_menu.hats:
 		hat = _hat_menu.hats[0]
 	_hat_button.icon = _hat_menu.icons.get(hat)
+
+
+func _on_costume_chosen(costume: CostumeData) -> void:
+	character.dress(costume)
+	_show_costume_on_button(costume)
+	_save_costume(costume)
+
+
+func _save_costume(costume: CostumeData) -> void:
+	var settings := ConfigFile.new()
+	settings.load(SETTINGS_PATH)  # (keeps whatever else is in there; fine if it's not there yet)
+	settings.set_value("wardrobe", "costume", costume.resource_path)
+	var error := settings.save(SETTINGS_PATH)
+	if error != OK:
+		push_warning("Couldn't save the costume: %s" % error_string(error))
+
+
+## The costume saved last time, or null if there isn't one (or it's gone from the game).
+func _load_costume() -> CostumeData:
+	var settings := ConfigFile.new()
+	if settings.load(SETTINGS_PATH) != OK:
+		return null
+	var path: String = settings.get_value("wardrobe", "costume", "")
+	if not path or not ResourceLoader.exists(path):
+		return null
+	return load(path) as CostumeData
+
+
+## The costume button shows him in what he's wearing (the first costume if he's in his own
+## clothes).
+func _show_costume_on_button(costume: CostumeData) -> void:
+	if not costume and _costume_menu.costumes:
+		costume = _costume_menu.costumes[0]
+	_costume_button.icon = _costume_menu.icons.get(costume)
 
 
 func _on_back_pressed() -> void:

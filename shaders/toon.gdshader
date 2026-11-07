@@ -24,8 +24,21 @@ uniform float _glossiness : hint_range(0.01,0.5) = 0.1;
 uniform float _rim_size : hint_range(0,1) = 0.5;
 uniform float _rim_smoothness : hint_range(0.0,0.5) = 0.01;
 
+// a decal (a costume's shirt print) laid over the texture, inside print_rect
+// (xy: its top-left corner in UV, zw: its size; zero size means no print)
+uniform sampler2D print_tex : source_color, hint_default_transparent, filter_linear_mipmap, repeat_disable;
+uniform vec4 print_rect = vec4(0.0);
+
 void fragment() {
 	ALBEDO = texture(tex, UV).rgb * color.rgb;
+
+	// sampled everywhere (mipmaps need it out of any branch), then masked to the rect
+	vec2 print_uv = (UV - print_rect.xy) / max(print_rect.zw, vec2(1e-5));
+	vec4 print_color = texture(print_tex, print_uv);
+	bool in_rect = all(greaterThanEqual(print_uv, vec2(0.0))) && all(lessThanEqual(print_uv, vec2(1.0)));
+	if (print_rect.z > 0.0 && in_rect) {
+		ALBEDO = mix(ALBEDO, print_color.rgb * color.rgb, print_color.a);
+	}
 
 	// unassigned normal_map defaults to a flat normal, so this is a no-op without one
 	NORMAL_MAP = texture(normal_map, UV).rgb;
