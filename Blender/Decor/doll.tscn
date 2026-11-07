@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://x3y7dpa0eoab"]
+
+[ext_resource type="PackedScene" uid="uid://btpuqd3mfswd" path="res://Blender/Decor/doll.blend" id="1_n07p5"]
+
+[node name="doll" unique_id=23714550 instance=ExtResource("1_n07p5")]

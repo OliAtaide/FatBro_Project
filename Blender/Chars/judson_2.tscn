@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bfbh3nhrq3j4v"]
+
+[node name="judson2" unique_id=1750870908]
+
+[node name="Hair_001" parent="Armature/Skeleton3D/Head_2" parent_id_path=PackedInt32Array(857398623) index="3" unique_id=1867069785]
+visible = false

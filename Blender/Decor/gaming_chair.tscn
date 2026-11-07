@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cajdapmfoewjd"]
+
+[ext_resource type="PackedScene" uid="uid://cd0vdht4qf5au" path="res://Blender/Decor/gaming_chair.blend" id="1_0tu0q"]
+[ext_resource type="Script" uid="uid://dfixt7it1gom5" path="res://Scripts/no_runtime_shadows.gd" id="2_noshd"]
+
+[node name="gaming_chair" unique_id=1229674328 instance=ExtResource("1_0tu0q")]
+script = ExtResource("2_noshd")

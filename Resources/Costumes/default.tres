@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CostumeData" format=3 uid="uid://1ql5m8737mln"]
+
+[ext_resource type="Script" uid="uid://cvstua40xrtcp" path="res://Scripts/costume.gd" id="1_cuv76"]
+[ext_resource type="PackedScene" uid="uid://cjmk34ad8jhb5" path="res://Blender/Chars/judson.tscn" id="1_i6mny"]
+
+[resource]
+script = ExtResource("1_cuv76")
+title = "Default"
+model = ExtResource("1_i6mny")
+metadata/_custom_type_script = "uid://cvstua40xrtcp"

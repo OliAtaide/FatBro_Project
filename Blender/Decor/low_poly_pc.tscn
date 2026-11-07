@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://2x6v7ir2yydf"]
+
+[ext_resource type="PackedScene" uid="uid://dl4h3pxkqc6vu" path="res://Blender/Decor/low poly pc.blend" id="1_owagd"]
+
+[node name="low poly pc" unique_id=1090948020 instance=ExtResource("1_owagd")]

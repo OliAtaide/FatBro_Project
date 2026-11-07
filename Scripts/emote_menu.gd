@@ -8,7 +8,7 @@ signal emote_chosen(emote: EmoteData)
 
 @export var emotes: Array[EmoteData] = []
 ## Posed and rendered for each card's picture.
-@export var character_scene: PackedScene = preload("res://Blender/judson.tscn")
+@export var character_scene: PackedScene = preload("res://Blender/Chars/judson.tscn")
 ## How far through each emote (0 to 1) its card's pose is taken from.
 @export_range(0.0, 1.0) var pose_at := 0.5
 ## Where the card camera looks from and at, in his space (metres; +Z is in front of him).

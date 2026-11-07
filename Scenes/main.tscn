@@ -1,20 +1,20 @@
 [gd_scene format=3 uid="uid://haix3nhm404"]
 
-[ext_resource type="PackedScene" uid="uid://obj3okuoa28" path="res://Blender/bedroom.tscn" id="1_bo1nx"]
-[ext_resource type="PackedScene" uid="uid://cjmk34ad8jhb5" path="res://Blender/judson.tscn" id="2_8gbba"]
-[ext_resource type="PackedScene" uid="uid://cajdapmfoewjd" path="res://Blender/gaming_chair.tscn" id="3_8gbba"]
-[ext_resource type="PackedScene" uid="uid://ilbaq6lgp2bb" path="res://Blender/gaming_table.tscn" id="4_jjvhh"]
-[ext_resource type="PackedScene" uid="uid://bsk8nvk32havo" path="res://Blender/bedroom_computer.tscn" id="5_kry3j"]
-[ext_resource type="PackedScene" uid="uid://vq0h1naw4wbj" path="res://Blender/trash_basket.tscn" id="6_21xkr"]
-[ext_resource type="PackedScene" uid="uid://dvlrfn2fyb8t4" path="res://Blender/poster.tscn" id="7_6bp64"]
+[ext_resource type="PackedScene" uid="uid://obj3okuoa28" path="res://Blender/Decor/bedroom.tscn" id="1_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://cjmk34ad8jhb5" path="res://Blender/Chars/judson.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://cajdapmfoewjd" path="res://Blender/Decor/gaming_chair.tscn" id="3_8gbba"]
+[ext_resource type="PackedScene" uid="uid://ilbaq6lgp2bb" path="res://Blender/Decor/gaming_table.tscn" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://bsk8nvk32havo" path="res://Blender/Decor/bedroom_computer.tscn" id="5_kry3j"]
+[ext_resource type="PackedScene" uid="uid://vq0h1naw4wbj" path="res://Blender/Decor/trash_basket.tscn" id="6_21xkr"]
+[ext_resource type="PackedScene" uid="uid://dvlrfn2fyb8t4" path="res://Blender/Decor/poster.tscn" id="7_6bp64"]
 [ext_resource type="LightmapGIData" uid="uid://dkbvxgh80s5cn" path="res://LightmapGI/main.lmbake" id="8_344ge"]
 [ext_resource type="PackedScene" uid="uid://jjx4rki0mpav" path="res://Scenes/hud.tscn" id="9_hud"]
 [ext_resource type="Script" uid="uid://ohhl5q5iahk4" path="res://Scripts/feeder.gd" id="10_feed"]
-[ext_resource type="PackedScene" uid="uid://x3y7dpa0eoab" path="res://Blender/doll.tscn" id="11_d1ilt"]
+[ext_resource type="PackedScene" uid="uid://x3y7dpa0eoab" path="res://Blender/Decor/doll.tscn" id="11_d1ilt"]
 [ext_resource type="Script" uid="uid://dx7j1jqno0ryj" path="res://Scripts/music.gd" id="12_music"]
 [ext_resource type="AudioStream" uid="uid://c15ghn1s0uiq4" path="res://Audio/main_theme.ogg" id="13_theme"]
 [ext_resource type="PackedScene" uid="uid://cuith06rueac7" path="res://Scenes/start_text.tscn" id="14_start"]
-[ext_resource type="Script" path="res://Scripts/ar_view.gd" id="15_ar"]
+[ext_resource type="Script" uid="uid://d0al21r83kiv2" path="res://Scripts/ar_view.gd" id="15_ar"]
 
 [sub_resource type="Environment" id="Environment_k1mfq"]
 background_energy_multiplier = 0.0
@@ -88,10 +88,10 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.785, 1.275, -1.555)
 
 [node name="MainChar" parent="." unique_id=1984091925 instance=ExtResource("2_8gbba")]
 
-[node name="Head_2" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 788057741) index="0" unique_id=837583496]
+[node name="Head_2" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 2055986185) index="0" unique_id=899756324]
 transform = Transform3D(1, 0, 0, 0, 0.99705446, 0.0766965, 0, -0.0766965, 0.99705446, 0, 0.70000005, 0)
 
-[node name="LookAtModifier3D" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 788057741) index="4" unique_id=1551249133]
+[node name="LookAtModifier3D" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 2055986185) index="4" unique_id=1551249133]
 target_node = NodePath("../../../../Camera3D")
 
 [node name="HUD" parent="." unique_id=1686899980 node_paths=PackedStringArray("character", "feeder", "start_text", "ar_view") instance=ExtResource("9_hud")]
@@ -111,7 +111,7 @@ character = NodePath("../MainChar")
 
 [node name="StartText" parent="." unique_id=2095732558 instance=ExtResource("14_start")]
 
-[node name="ArView" type="Node" parent="." node_paths=PackedStringArray("camera", "world_environment", "character", "feeder", "hide_in_ar")]
+[node name="ArView" type="Node" parent="." unique_id=865817137 node_paths=PackedStringArray("camera", "world_environment", "character", "feeder", "hide_in_ar")]
 script = ExtResource("15_ar")
 camera = NodePath("../Camera3D")
 world_environment = NodePath("../WorldEnvironment")

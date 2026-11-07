@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://bsk8nvk32havo"]
-
-[ext_resource type="PackedScene" uid="uid://bo4bstse3axml" path="res://Blender/bedroom_computer.blend" id="1_3rrbc"]
-
-[node name="bedroom_computer" unique_id=1402054447 instance=ExtResource("1_3rrbc")]

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CostumeData" format=3 uid="uid://de50fnuyi4kyx"]
+
+[ext_resource type="PackedScene" uid="uid://bfbh3nhrq3j4v" path="res://Blender/Chars/judson_2.tscn" id="1_fsdkl"]
+[ext_resource type="Texture2D" uid="uid://bqgyi0sibmilf" path="res://Textures/shirt_prints/lol.png" id="2_117xe"]
+[ext_resource type="Script" uid="uid://cvstua40xrtcp" path="res://Scripts/costume.gd" id="2_vkmog"]
+
+[resource]
+script = ExtResource("2_vkmog")
+title = "League of Legends"
+model = ExtResource("1_fsdkl")
+print = ExtResource("2_117xe")
+metadata/_custom_type_script = "uid://cvstua40xrtcp"
