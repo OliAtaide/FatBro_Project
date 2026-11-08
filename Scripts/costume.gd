@@ -20,10 +20,6 @@ class_name CostumeData
 @export var uv_per_metre := Vector2(0.625, 0.964)
 @export_group("")
 
-## The mesh the print goes on, relative to the character's root.
-const PRINT_MESH := ^"Armature/GeneralSkeleton/Body"
-
-
 ## Puts this costume on [param character] (a Judson, or any instance of a costume model):
 ## each of its meshes is replaced by the one at the same path in [member model], and the
 ## print is applied.
@@ -35,25 +31,22 @@ func dress(character: Node3D) -> void:
 			if target:
 				target.mesh = mesh.mesh
 				target.skin = mesh.skin
+				# his own material copies were made from the old mesh's materials
+				for surface in target.get_surface_override_material_count():
+					target.set_surface_override_material(surface, null)
 		source.free()
 	apply_print(character)
 
 
 ## Sets just the print, for a character that already has [member model]'s meshes.
 func apply_print(character: Node3D) -> void:
-	var body := character.get_node_or_null(PRINT_MESH) as MeshInstance3D
-	if not body or not body.mesh:
-		return
-	if not print:
-		body.set_surface_override_material(0, null)
-		return
-	var material := body.mesh.surface_get_material(0).duplicate() as ShaderMaterial
+	var material := Judson.own_material(character, Judson.BODY_MESH)
 	if not material:
-		push_warning("Costume %s: the body's material can't take a print" % title)
+		if print:
+			push_warning("Costume %s: the body's material can't take a print" % title)
 		return
 	material.set_shader_parameter(&"print_tex", print)
-	material.set_shader_parameter(&"print_rect", print_rect())
-	body.set_surface_override_material(0, material)
+	material.set_shader_parameter(&"print_rect", print_rect() if print else Vector4.ZERO)
 
 
 ## Where the print lands in UV: as big as fits in [member print_box] at its own shape.

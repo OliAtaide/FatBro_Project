@@ -32,7 +32,7 @@ extends CanvasLayer
 ## app's own folder there).
 @export var photo_folder := ""
 
-## Remembers the player's choices (just the costume, for now) between launches.
+## Remembers the player's choices (his costume, colours and hat) between launches.
 const SETTINGS_PATH := "user://settings.cfg"
 
 var _swap_tween: Tween
@@ -76,8 +76,11 @@ func _ready() -> void:
 	_show_hat_on_button(null)
 	_costume_button.pressed.connect(_costume_menu.open)
 	_costume_menu.costume_chosen.connect(_on_costume_chosen)
-	character.dress(_load_costume(), false)
+	_costume_menu.shirt_color_chosen.connect(_on_shirt_color_chosen)
+	_costume_menu.hair_color_chosen.connect(_on_hair_color_chosen)
+	_load_wardrobe()
 	_show_costume_on_button(character.costume)
+	_costume_menu.show_colors(character.shirt_color, character.hair_color)
 	_photo_button.pressed.connect(take_photo)
 	_make_flash_and_toast()
 	if ar_view and ar_view.is_supported():
@@ -203,6 +206,7 @@ func _on_food_chosen(food: FoodData) -> void:
 func _on_hat_chosen(hat: HatData) -> void:
 	character.wear(hat)
 	_show_hat_on_button(hat)
+	_save_wardrobe("hat", hat.resource_path if hat else "")
 
 
 ## The hat button shows the hat he's wearing, or the first one on offer if he's bare-headed.
@@ -215,27 +219,47 @@ func _show_hat_on_button(hat: HatData) -> void:
 func _on_costume_chosen(costume: CostumeData) -> void:
 	character.dress(costume)
 	_show_costume_on_button(costume)
-	_save_costume(costume)
+	_save_wardrobe("costume", costume.resource_path)
 
 
-func _save_costume(costume: CostumeData) -> void:
+func _on_shirt_color_chosen(color: Color) -> void:
+	character.shirt_color = color
+	_save_wardrobe("shirt_color", color)
+
+
+func _on_hair_color_chosen(color: Color) -> void:
+	character.hair_color = color
+	_save_wardrobe("hair_color", color)
+
+
+func _save_wardrobe(key: String, value: Variant) -> void:
 	var settings := ConfigFile.new()
 	settings.load(SETTINGS_PATH)  # (keeps whatever else is in there; fine if it's not there yet)
-	settings.set_value("wardrobe", "costume", costume.resource_path)
+	settings.set_value("wardrobe", key, value)
 	var error := settings.save(SETTINGS_PATH)
 	if error != OK:
-		push_warning("Couldn't save the costume: %s" % error_string(error))
+		push_warning("Couldn't save the %s: %s" % [key, error_string(error)])
 
 
-## The costume saved last time, or null if there isn't one (or it's gone from the game).
-func _load_costume() -> CostumeData:
+## Dresses him as he was last time: costume, hat (each if still in the game) and colours.
+func _load_wardrobe() -> void:
 	var settings := ConfigFile.new()
 	if settings.load(SETTINGS_PATH) != OK:
-		return null
+		return
 	var path: String = settings.get_value("wardrobe", "costume", "")
-	if not path or not ResourceLoader.exists(path):
-		return null
-	return load(path) as CostumeData
+	if path and ResourceLoader.exists(path):
+		character.dress(load(path) as CostumeData, false)
+	var shirt: Variant = settings.get_value("wardrobe", "shirt_color", character.shirt_color)
+	if shirt is Color:
+		character.shirt_color = shirt
+	var hair: Variant = settings.get_value("wardrobe", "hair_color", character.hair_color)
+	if hair is Color:
+		character.hair_color = hair
+	var hat_path: String = settings.get_value("wardrobe", "hat", "")
+	if hat_path and ResourceLoader.exists(hat_path):
+		var hat := load(hat_path) as HatData
+		character.wear(hat)
+		_show_hat_on_button(hat)
 
 
 ## The costume button shows him in what he's wearing (the first costume if he's in his own

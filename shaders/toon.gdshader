@@ -24,6 +24,10 @@ uniform float _glossiness : hint_range(0.01,0.5) = 0.1;
 uniform float _rim_size : hint_range(0,1) = 0.5;
 uniform float _rim_smoothness : hint_range(0.0,0.5) = 0.01;
 
+// recolouring: tint_color multiplies the texture where tint_mask is white (his shirt)
+uniform sampler2D tint_mask : hint_default_black, filter_linear;
+uniform vec4 tint_color : source_color = vec4(1.0);
+
 // a decal (a costume's shirt print) laid over the texture, inside print_rect
 // (xy: its top-left corner in UV, zw: its size; zero size means no print)
 uniform sampler2D print_tex : source_color, hint_default_transparent, filter_linear_mipmap, repeat_disable;
@@ -31,6 +35,7 @@ uniform vec4 print_rect = vec4(0.0);
 
 void fragment() {
 	ALBEDO = texture(tex, UV).rgb * color.rgb;
+	ALBEDO = mix(ALBEDO, ALBEDO * tint_color.rgb, texture(tint_mask, UV).r);
 
 	// sampled everywhere (mipmaps need it out of any branch), then masked to the rect
 	vec2 print_uv = (UV - print_rect.xy) / max(print_rect.zw, vec2(1e-5));

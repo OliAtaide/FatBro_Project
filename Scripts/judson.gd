@@ -30,6 +30,11 @@ const TWIN_SUFFIX := "_again"
 ## Clips his head follows on its own, instead of looking at the camera (emotes do too).
 const NO_LOOK_AT := [GUT_REACT]
 const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
+## His body mesh (shirt and all) and hair, in every costume model.
+const BODY_MESH := ^"Armature/GeneralSkeleton/Body"
+const HAIR_MESHES := [^"Armature/GeneralSkeleton/Head_2/Hair", ^"Armature/GeneralSkeleton/Head_2/Hair_001"]
+## White where the body texture is his shirt (the same spot in every costume's texture).
+const SHIRT_MASK := preload("res://Textures/judson/judson_shirt_mask.png")
 
 @export var squeak: AudioStream = preload("res://Audio/squeak.ogg")
 ## Played on each bite when he's fed. Optional.
@@ -50,6 +55,17 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 @export_group("")
 ## What he's wearing (see [method dress]). Null means whatever his model came with.
 @export var costume: CostumeData
+## Dyes his shirt (white leaves it as it is). Any print stays its own colours.
+@export var shirt_color := Color.WHITE:
+	set(value):
+		shirt_color = value
+		if is_node_ready():
+			apply_colors(self, shirt_color, hair_color)
+@export var hair_color := Color.BLACK:
+	set(value):
+		hair_color = value
+		if is_node_ready():
+			apply_colors(self, shirt_color, hair_color)
 ## How many taps within [member spam_window] seconds knock him over.
 @export var taps_to_fall := 6
 @export var spam_window := 2.0
@@ -113,6 +129,7 @@ func _ready() -> void:
 	_anim.advance(0.0)
 	if costume:
 		costume.dress(self)
+	apply_colors(self, shirt_color, hair_color)
 
 	# look-at, arm spread, etc. get faded out while he's on the floor
 	for modifier in _skeleton.find_children("*", "SkeletonModifier3D", false):
@@ -268,16 +285,48 @@ func dress(new_costume: CostumeData, animate := true) -> void:
 		return
 	costume = new_costume
 	if not animate:
-		costume.dress(self)
+		_put_on(costume)
 		return
 	if _dress_tween:
 		_dress_tween.kill()
 	_dress_tween = create_tween()
 	_dress_tween.tween_property(_body, "scale", _body_scale * Vector3(1.12, 0.85, 1.12), 0.1) \
 			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	_dress_tween.tween_callback(costume.dress.bind(self))
+	_dress_tween.tween_callback(_put_on.bind(costume))
 	_dress_tween.tween_property(_body, "scale", _body_scale, 0.3) \
 			.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+
+
+func _put_on(outfit: CostumeData) -> void:
+	outfit.dress(self)
+	# (new meshes come without his colours)
+	apply_colors(self, shirt_color, hair_color)
+
+
+## Dyes [param model]'s shirt and hair (a Judson, or any instance of a costume model).
+static func apply_colors(model: Node, shirt: Color, hair: Color) -> void:
+	var body := own_material(model, BODY_MESH)
+	if body:
+		body.set_shader_parameter(&"tint_mask", SHIRT_MASK)
+		body.set_shader_parameter(&"tint_color", shirt)
+	for path: NodePath in HAIR_MESHES:
+		var material := own_material(model, path)
+		if material:
+			material.set_shader_parameter(&"color", hair)
+
+
+## [param model]'s own copy of the material on a surface of the mesh at [param path], made
+## (as a surface override) the first time it's asked for, so changing it only changes him.
+## Null if there's no such mesh, or its material isn't a shader one.
+static func own_material(model: Node, path: NodePath, surface := 0) -> ShaderMaterial:
+	var mesh_instance := model.get_node_or_null(path) as MeshInstance3D
+	if not mesh_instance or not mesh_instance.mesh:
+		return null
+	var material := mesh_instance.get_surface_override_material(surface) as ShaderMaterial
+	if not material:
+		material = mesh_instance.mesh.surface_get_material(surface).duplicate() as ShaderMaterial
+		mesh_instance.set_surface_override_material(surface, material)
+	return material
 
 
 ## [param model]'s AnimationPlayer. The importer only makes one if the .blend has an
