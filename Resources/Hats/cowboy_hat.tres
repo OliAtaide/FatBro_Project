@@ -7,7 +7,7 @@
 script = ExtResource("2_hat")
 title = "Buu Morgan"
 model = ExtResource("1_cowb")
-scale_tweak = 1.4
-offset = Vector3(0, -0.07, 0)
+scale_tweak = 1.7
+offset = Vector3(0, -0.2, 0)
 rotation_tweak = Vector3(8, 0, 0)
 metadata/_custom_type_script = "uid://chp21twuba1y2"
