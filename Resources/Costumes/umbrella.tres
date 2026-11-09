@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CostumeData" format=3 uid="uid://jekjofvkgq67"]
+
+[ext_resource type="PackedScene" uid="uid://bfbh3nhrq3j4v" path="res://Blender/Chars/judson_2.tscn" id="1_eloob"]
+[ext_resource type="Texture2D" uid="uid://dd6hpwpny06nm" path="res://Textures/shirt_prints/umbrella.png" id="2_eloob"]
+[ext_resource type="Script" uid="uid://cvstua40xrtcp" path="res://Scripts/costume.gd" id="3_opjxw"]
+
+[resource]
+script = ExtResource("3_opjxw")
+title = "Umbrella Corp"
+model = ExtResource("1_eloob")
+print = ExtResource("2_eloob")
+metadata/_custom_type_script = "uid://cvstua40xrtcp"

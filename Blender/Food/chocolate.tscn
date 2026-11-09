@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bc37yr2i1ri3q"]
+
+[ext_resource type="PackedScene" uid="uid://ctj3lpyubuvlb" path="res://Blender/Food/chocolate.blend" id="1_bwy84"]
+
+[node name="chocolate" unique_id=891788753 instance=ExtResource("1_bwy84")]

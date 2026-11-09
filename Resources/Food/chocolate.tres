@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://biwcikc4bvl0d"]
+
+[ext_resource type="PackedScene" uid="uid://bc37yr2i1ri3q" path="res://Blender/Food/chocolate.tscn" id="1_r1diw"]
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="2_kgmgr"]
+
+[resource]
+script = ExtResource("2_kgmgr")
+title = "Toddynho"
+model = ExtResource("1_r1diw")
+metadata/_custom_type_script = "uid://clecpk4kys28i"

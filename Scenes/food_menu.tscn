@@ -1,15 +1,16 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://pw20q7ypf1tw"]
 
-[ext_resource type="PackedScene" path="res://Scenes/bottom_sheet.tscn" id="1_sheet"]
-[ext_resource type="Script" path="res://Scripts/food_menu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://bqd37m1jgmcw7" path="res://Scripts/food_menu.gd" id="1_menu"]
+[ext_resource type="PackedScene" uid="uid://dw3bwpkutf2pb" path="res://Scenes/bottom_sheet.tscn" id="1_sheet"]
 [ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="2_food"]
 [ext_resource type="Resource" uid="uid://bso2egadg3td6" path="res://Resources/Food/ramen.tres" id="3_ramn"]
 [ext_resource type="Resource" uid="uid://cct2nu6cfqbep" path="res://Resources/Food/kfc.tres" id="4_kfc"]
 [ext_resource type="Resource" uid="uid://d4mdwo5eif37v" path="res://Resources/Food/pepsi.tres" id="5_peps"]
 [ext_resource type="Resource" uid="uid://su34ivg7wq1u" path="res://Resources/Food/oreo.tres" id="6_oreo"]
 [ext_resource type="Resource" uid="uid://bt2o2fnfd4w1j" path="res://Resources/Food/monster.tres" id="7_mons"]
+[ext_resource type="Resource" uid="uid://biwcikc4bvl0d" path="res://Resources/Food/chocolate.tres" id="9_g8ocl"]
 
-[node name="FoodMenu" instance=ExtResource("1_sheet")]
+[node name="FoodMenu" unique_id=1038963217 instance=ExtResource("1_sheet")]
 script = ExtResource("1_menu")
+foods = Array[ExtResource("2_food")]([ExtResource("3_ramn"), ExtResource("4_kfc"), ExtResource("5_peps"), ExtResource("6_oreo"), ExtResource("7_mons"), ExtResource("9_g8ocl")])
 title = "Snacks"
-foods = Array[ExtResource("2_food")]([ExtResource("3_ramn"), ExtResource("4_kfc"), ExtResource("5_peps"), ExtResource("6_oreo"), ExtResource("7_mons")])
