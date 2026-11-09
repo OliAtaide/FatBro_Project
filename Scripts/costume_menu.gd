@@ -37,8 +37,8 @@ func _ready() -> void:
 		if costume and costume.model:
 			icons[costume] = _render(costume)
 			_add_card(costume.title, icons[costume], costume_chosen.emit.bind(costume))
-	_shirt_swatches = _add_swatches("Shirt", shirt_colors, shirt_color_chosen)
-	_hair_swatches = _add_swatches("Hair", hair_colors, hair_color_chosen)
+	_shirt_swatches = _add_swatches("Cor da Camisa", shirt_colors, shirt_color_chosen)
+	_hair_swatches = _add_swatches("Cor do Cabelo", hair_colors, hair_color_chosen)
 
 
 ## Rings the swatches matching [param shirt] and [param hair], as the current picks.
