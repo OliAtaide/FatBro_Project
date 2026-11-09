@@ -14,7 +14,7 @@ config/name="Judson Mobile"
 run/main_scene="uid://haix3nhm404"
 config/features=PackedStringArray("4.7", "Mobile")
 run/max_fps=30
-config/icon="res://icon.svg"
+config/icon="res://Icons/icon_512x512.png"
 
 [display]
 
