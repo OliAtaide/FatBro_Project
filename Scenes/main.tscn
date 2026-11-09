@@ -44,6 +44,7 @@ enable_shadows = true
 [node name="LightmapGI" type="LightmapGI" parent="." unique_id=834974876]
 quality = 3
 bounces = 16
+directional = true
 interior = true
 bias = 0.01
 light_data = ExtResource("8_344ge")
