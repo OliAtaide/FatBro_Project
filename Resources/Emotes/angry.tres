@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EmoteData" format=3 uid="uid://dtqhp8m2rir8f"]
+
+[ext_resource type="AnimationLibrary" uid="uid://dsled2vlucv8b" path="res://Mixamo/Emotes/Angry Gesture.fbx" id="1_mhyyv"]
+[ext_resource type="Script" uid="uid://cymll0xgxx1ci" path="res://Scripts/emote.gd" id="2_fylcb"]
+
+[resource]
+script = ExtResource("2_fylcb")
+title = "Bravo"
+animation = ExtResource("1_mhyyv")
+metadata/_custom_type_script = "uid://cymll0xgxx1ci"

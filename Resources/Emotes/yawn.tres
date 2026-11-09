@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EmoteData" format=3 uid="uid://bcj1q1xmwu411"]
+
+[ext_resource type="AnimationLibrary" uid="uid://c3ti2xep1hoai" path="res://Mixamo/Emotes/Yawn.fbx" id="1_ow141"]
+[ext_resource type="Script" uid="uid://cymll0xgxx1ci" path="res://Scripts/emote.gd" id="2_2iqhm"]
+
+[resource]
+script = ExtResource("2_2iqhm")
+title = "Com sono"
+animation = ExtResource("1_ow141")
+metadata/_custom_type_script = "uid://cymll0xgxx1ci"

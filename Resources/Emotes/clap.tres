@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EmoteData" format=3 uid="uid://bp0qunucif45m"]
+
+[ext_resource type="AnimationLibrary" uid="uid://ciy5u7kbbblau" path="res://Mixamo/Emotes/Clapping.fbx" id="1_lpuym"]
+[ext_resource type="Script" uid="uid://cymll0xgxx1ci" path="res://Scripts/emote.gd" id="2_v8dv6"]
+
+[resource]
+script = ExtResource("2_v8dv6")
+title = "Bater palmas"
+animation = ExtResource("1_lpuym")
+metadata/_custom_type_script = "uid://cymll0xgxx1ci"
