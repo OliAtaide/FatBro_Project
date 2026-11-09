@@ -7,8 +7,12 @@
 [ext_resource type="Resource" uid="uid://bjqddsvecp2ww" path="res://Resources/Emotes/ac_guitar.tres" id="5_acgt"]
 [ext_resource type="Resource" uid="uid://bfe0h3820s7pt" path="res://Resources/Emotes/el_guitar.tres" id="6_elgt"]
 [ext_resource type="Resource" uid="uid://dcmh0ecdqng32" path="res://Resources/Emotes/excited.tres" id="7_excd"]
+[ext_resource type="Resource" uid="uid://dtqhp8m2rir8f" path="res://Resources/Emotes/angry.tres" id="8_angry"]
+[ext_resource type="Resource" uid="uid://bp0qunucif45m" path="res://Resources/Emotes/clap.tres" id="9_clap"]
+[ext_resource type="Resource" uid="uid://4w5x4jv1wnkr" path="res://Resources/Emotes/victory.tres" id="10_vict"]
+[ext_resource type="Resource" uid="uid://bcj1q1xmwu411" path="res://Resources/Emotes/yawn.tres" id="11_yawn"]
 
 [node name="EmoteMenu" instance=ExtResource("1_sheet")]
 script = ExtResource("2_menu")
 title = "Ações"
-emotes = Array[ExtResource("3_emote")]([ExtResource("4_wave"), ExtResource("5_acgt"), ExtResource("6_elgt"), ExtResource("7_excd")])
+emotes = Array[ExtResource("3_emote")]([ExtResource("4_wave"), ExtResource("5_acgt"), ExtResource("6_elgt"), ExtResource("7_excd"), ExtResource("8_angry"), ExtResource("9_clap"), ExtResource("10_vict"), ExtResource("11_yawn")])
