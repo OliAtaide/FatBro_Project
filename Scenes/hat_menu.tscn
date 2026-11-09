@@ -13,6 +13,6 @@
 
 [node name="HatMenu" instance=ExtResource("1_sheet")]
 script = ExtResource("2_menu")
-title = "Hats"
+title = "Chapéus"
 hats = Array[ExtResource("3_hat")]([ExtResource("4_cap"), ExtResource("5_chef"), ExtResource("6_cowb"), ExtResource("7_crwn"), ExtResource("8_prop"), ExtResource("9_toph")])
 no_hat_icon = ExtResource("10_none")

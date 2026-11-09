@@ -17,7 +17,7 @@ var icons := {}
 
 func _ready() -> void:
 	super()
-	_add_card("No Hat", no_hat_icon, hat_chosen.emit.bind(null))
+	_add_card("Sem chapéu", no_hat_icon, hat_chosen.emit.bind(null))
 	for hat in hats:
 		icons[hat] = _render_icon(hat)
 		_add_card(hat.title, icons[hat], hat_chosen.emit.bind(hat))

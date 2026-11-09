@@ -20,4 +20,4 @@ swatch_size = 56.0
 character_scene = ExtResource("10_b3bu2")
 camera_eye = Vector3(0, 0.6, 2.4)
 camera_target = Vector3(0, 0.45, 0)
-title = "Costumes"
+title = "Roupas"

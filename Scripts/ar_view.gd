@@ -118,13 +118,13 @@ func start() -> void:
 	if not await _has_camera_permission():
 		_starting = false
 		# Android stops asking once it's been refused, so say where to turn it back on
-		failed.emit("AR needs the camera. Allow it in Settings > Apps > %s > Permissions > Camera, then try again."
+		failed.emit("O AR precisa da câmera. Permita em Configurações > Apps > %s > Permissões > Câmera e tente de novo."
 				% ProjectSettings.get_setting("application/config/name"))
 		return
 	_feed = await _find_back_camera()
 	_starting = false
 	if not _feed and not allow_without_camera:
-		failed.emit("No camera found")
+		failed.emit("Nenhuma câmera encontrada")
 		return
 
 	if _feed:

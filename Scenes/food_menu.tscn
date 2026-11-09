@@ -13,4 +13,4 @@
 [node name="FoodMenu" unique_id=1038963217 instance=ExtResource("1_sheet")]
 script = ExtResource("1_menu")
 foods = Array[ExtResource("2_food")]([ExtResource("3_ramn"), ExtResource("4_kfc"), ExtResource("5_peps"), ExtResource("6_oreo"), ExtResource("7_mons"), ExtResource("9_g8ocl")])
-title = "Snacks"
+title = "Lanches"

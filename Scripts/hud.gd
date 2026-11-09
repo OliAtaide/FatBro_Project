@@ -129,8 +129,8 @@ func take_photo() -> void:
 	_flash.modulate.a = 0.85
 	create_tween().tween_property(_flash, "modulate:a", 0.0, 0.35)
 	var saved_to := _save_photo(image)
-	_show_toast("Photo saved to Pictures" if saved_to == "pictures"
-			else "Photo saved" if saved_to else "Couldn't save the photo")
+	_show_toast("Foto salva em Imagens" if saved_to == "pictures"
+			else "Foto salva" if saved_to else "Não foi possível salvar a foto")
 	_taking_photo = false
 
 

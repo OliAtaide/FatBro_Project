@@ -77,8 +77,8 @@ text = "×"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/Sheet/VBox" unique_id=365741275]
 layout_mode = 2
-text = "Feliz Aniversário, Judson Vinicius.
-Como presente dou a você uma versão pequena sua. Eu quero que você o tenha."
+text = "Feliz aniversário, Judson Vinicius!
+De presente, te dou uma versão pequena de você. Quero que fique com ele."
 fit_content = true
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/Sheet/VBox" unique_id=434547283]

@@ -10,5 +10,5 @@
 
 [node name="EmoteMenu" instance=ExtResource("1_sheet")]
 script = ExtResource("2_menu")
-title = "Emotes"
+title = "Ações"
 emotes = Array[ExtResource("3_emote")]([ExtResource("4_wave"), ExtResource("5_acgt"), ExtResource("6_elgt"), ExtResource("7_excd")])
