@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://doj62cn7qkab"]
+
+[ext_resource type="PackedScene" uid="uid://bqg3lynenqic0" path="res://Blender/Food/birthday_cake.blend" id="1_k5byw"]
+
+[node name="birthday_cake" unique_id=1983444386 instance=ExtResource("1_k5byw")]

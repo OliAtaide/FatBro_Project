@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FoodData" format=3 uid="uid://sxvqam0bqchm"]
+
+[ext_resource type="PackedScene" uid="uid://doj62cn7qkab" path="res://Blender/Food/birthday_cake.tscn" id="1_uw484"]
+[ext_resource type="Script" uid="uid://clecpk4kys28i" path="res://Scripts/food.gd" id="2_xa6gb"]
+
+[resource]
+script = ExtResource("2_xa6gb")
+title = "Bolo de Aniversário"
+model = ExtResource("1_uw484")
+metadata/_custom_type_script = "uid://clecpk4kys28i"

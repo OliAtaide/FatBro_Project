@@ -92,10 +92,10 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.785, 1.275, -1.555)
 
 [node name="MainChar" parent="." unique_id=1984091925 instance=ExtResource("2_8gbba")]
 
-[node name="Head_2" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 353599638) index="0" unique_id=853441455]
+[node name="Head_2" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 1739432934) index="0" unique_id=452441548]
 transform = Transform3D(1, 0, 0, 0, 0.99705446, 0.0766965, 0, -0.0766965, 0.99705446, 0, 0.70000005, 0)
 
-[node name="LookAtModifier3D" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 353599638) index="4" unique_id=1551249133]
+[node name="LookAtModifier3D" parent="MainChar/Armature/GeneralSkeleton" parent_id_path=PackedInt32Array(1984091925, 1739432934) index="4" unique_id=1551249133]
 target_node = NodePath("../../../../Camera3D")
 
 [node name="HUD" parent="." unique_id=1686899980 node_paths=PackedStringArray("character", "feeder", "start_text", "ar_view") instance=ExtResource("9_hud")]
