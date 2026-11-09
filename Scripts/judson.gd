@@ -33,6 +33,8 @@ const HIPS_TRACK := ^"%GeneralSkeleton:Hips"
 ## His body mesh (shirt and all) and hair, in every costume model.
 const BODY_MESH := ^"Armature/GeneralSkeleton/Body"
 const HAIR_MESHES := [^"Armature/GeneralSkeleton/Head_2/Hair", ^"Armature/GeneralSkeleton/Head_2/Hair_001"]
+## His face: the texture on it is swapped for the chewing and smiling faces.
+const FACE_MESH := ^"Armature/GeneralSkeleton/Head_2/Head"
 ## White where the body texture is his shirt (the same spot in every costume's texture).
 const SHIRT_MASK := preload("res://Textures/judson/judson_shirt_mask.png")
 
@@ -47,6 +49,12 @@ const SHIRT_MASK := preload("res://Textures/judson/judson_shirt_mask.png")
 ## Where food goes in, relative to his head bone (metres, in his own space; +Z is forward).
 @export var mouth_offset := Vector3(0.0, 0.03, 0.3)
 @export var bites := 3
+## Faces he chews with: one bite per time through its "default" animation, at its own speed.
+@export var chew_face: SpriteFrames = preload("res://Textures/judson/chew.tres")
+## The face he pulls once he's swallowed.
+@export var happy_face: Texture2D = preload("res://Textures/judson/judson_face_happy.png")
+## How long he keeps smiling (seconds).
+@export var happy_time := 1.5
 @export_group("Hats")
 ## Where a hat's brim sits, relative to his head bone (metres, in the bone's space).
 @export var hat_spot := Vector3(0.0, 0.25, 0.0)
@@ -88,6 +96,7 @@ var _look_at: LookAtModifier3D
 var _arm_spread: ArmSpreadModifier3D
 var _arm_tween: Tween
 var _chew_tween: Tween
+var _face_tween: Tween
 var _warned_no_head := false
 ## Emotes played so far: animation name -> its [EmoteData].
 var _emotes := {}
@@ -367,21 +376,67 @@ func mouth_position() -> Vector3:
 	return head + global_basis * mouth_offset
 
 
-## Purely for show: a few squashy chomps and some hearts.
+## Purely for show: a few squashy chomps, chewing all the while, some hearts, then a smile.
 func eat() -> void:
 	if _down:
 		return
 	if _chew_tween:
 		_chew_tween.kill()
+	if _face_tween:
+		_face_tween.kill()
 	_chew_tween = create_tween()
+	_face_tween = create_tween()
+	var chew_time := _chew_cycle_time()
 	for bite in bites:
+		# each bite: a chomp and a squash as his mouth starts a chew, then the rest of the chew
 		_chew_tween.tween_callback(_play_chomp)
 		_chew_tween.tween_property(_body, "scale", _body_scale * Vector3(1.06, 0.94, 1.06), 0.08) \
 				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		_chew_tween.tween_property(_body, "scale", _body_scale, 0.14) \
 				.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		_chew_tween.tween_interval(maxf(chew_time - 0.22, 0.0))
+		_chew_once(_face_tween)
+	_face_tween.tween_callback(_set_face.bind(happy_face))
+	_face_tween.tween_interval(happy_time)
+	_face_tween.tween_callback(_set_face.bind(null))
 	for i in 3:
 		get_tree().create_timer(0.15 * i).timeout.connect(_float_heart)
+
+
+## How long one chew (once through [member chew_face]) takes, in seconds.
+func _chew_cycle_time() -> float:
+	if not chew_face or not chew_face.has_animation(&"default"):
+		return 0.22
+	var speed := chew_face.get_animation_speed(&"default")
+	var time := 0.0
+	for frame in chew_face.get_frame_count(&"default"):
+		time += chew_face.get_frame_duration(&"default", frame) / speed
+	return time
+
+
+## Adds one chew to [param tween]: each of [member chew_face]'s frames for as long as it says.
+func _chew_once(tween: Tween) -> void:
+	if not chew_face or not chew_face.has_animation(&"default"):
+		tween.tween_interval(0.22)
+		return
+	var speed := chew_face.get_animation_speed(&"default")
+	for frame in chew_face.get_frame_count(&"default"):
+		tween.tween_callback(_set_face.bind(chew_face.get_frame_texture(&"default", frame)))
+		tween.tween_interval(chew_face.get_frame_duration(&"default", frame) / speed)
+
+
+## Puts [param face] on him, or his own face back when it's null.
+func _set_face(face: Texture2D) -> void:
+	var head := get_node_or_null(FACE_MESH) as MeshInstance3D
+	if not head:
+		return
+	var material := own_material(self, FACE_MESH)
+	if not material:
+		return
+	if not face:
+		# (his own face is whatever his current model's face material has)
+		face = head.mesh.surface_get_material(0).get_shader_parameter(&"tex")
+	material.set_shader_parameter(&"tex", face)
 
 
 func _play_chomp() -> void:
