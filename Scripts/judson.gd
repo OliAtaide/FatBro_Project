@@ -85,6 +85,8 @@ var _home: Vector3
 var _modifier_influence := {}
 var _modifier_tweens := {}
 var _look_at: LookAtModifier3D
+var _arm_spread: ArmSpreadModifier3D
+var _arm_tween: Tween
 var _chew_tween: Tween
 var _warned_no_head := false
 ## Emotes played so far: animation name -> its [EmoteData].
@@ -137,6 +139,10 @@ func _ready() -> void:
 	# and the look-at alone while he emotes, so his head follows the emote instead
 	var look_ats := _skeleton.find_children("*", "LookAtModifier3D", false)
 	_look_at = look_ats.front() if look_ats else null
+	# and the arm spread gets steered by each emote's arm settings
+	for modifier in _skeleton.get_children():
+		if modifier is ArmSpreadModifier3D:
+			_arm_spread = modifier
 	_anim.current_animation_changed.connect(_on_current_animation_changed)
 
 	_squeak_player.stream = squeak
@@ -455,6 +461,20 @@ func _set_down(down: bool) -> void:
 
 
 ## Eases [param modifier] to [param influence], taking over from any fade already running.
+## Eases his arms into [param emote]'s arm settings, or back to normal when it's null,
+## alongside the crossfade into the new clip.
+func _steer_arms(emote: EmoteData) -> void:
+	if not _arm_spread:
+		return
+	if _arm_tween:
+		_arm_tween.kill()
+	_arm_tween = create_tween().set_parallel()
+	_arm_tween.tween_property(_arm_spread, "extra_spread_degrees", emote.arm_spread if emote else 0.0, blend_time)
+	_arm_tween.tween_property(_arm_spread, "inward_degrees", emote.arm_inward if emote else 0.0, blend_time)
+	_arm_tween.tween_property(_arm_spread, "forward_degrees", emote.arm_forward if emote else 0.0, blend_time)
+	_arm_tween.tween_property(_arm_spread, "forearm_forward_degrees", emote.forearm_forward if emote else 0.0, blend_time)
+
+
 func _fade(modifier: SkeletonModifier3D, influence: float, time: float) -> void:
 	if _modifier_tweens.has(modifier):
 		(_modifier_tweens[modifier] as Tween).kill()
@@ -465,6 +485,7 @@ func _fade(modifier: SkeletonModifier3D, influence: float, time: float) -> void:
 
 func _on_current_animation_changed(animation: StringName) -> void:
 	_set_emote_sound(animation)
+	_steer_arms(_emotes.get(animation) as EmoteData)
 	# while he's down every modifier is already off, and getting up turns them back on
 	if _down or not _look_at:
 		return

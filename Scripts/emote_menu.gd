@@ -20,13 +20,21 @@ func _ready() -> void:
 	super()
 	for emote in emotes:
 		if emote and emote.animation:
-			_add_card(emote.title, _render_pose(emote.clip()), emote_chosen.emit.bind(emote))
+			_add_card(emote.title, _render_pose(emote), emote_chosen.emit.bind(emote))
 
 
-func _render_pose(clip: Animation) -> Texture2D:
+func _render_pose(emote: EmoteData) -> Texture2D:
+	var clip := emote.clip()
 	var model := character_scene.instantiate() as Node3D
 	# just the body: his script would add taps, sounds and an idle loop
 	model.set_script(null)
+	# (so the arms get steered for this emote as they will be when he does it)
+	for modifier in model.find_children("*", "SkeletonModifier3D", true, false):
+		if modifier is ArmSpreadModifier3D:
+			modifier.extra_spread_degrees = emote.arm_spread
+			modifier.inward_degrees = emote.arm_inward
+			modifier.forward_degrees = emote.arm_forward
+			modifier.forearm_forward_degrees = emote.forearm_forward
 	var texture := _snapshot(model, camera_eye, camera_target)
 	var library := AnimationLibrary.new()
 	library.add_animation(&"pose", clip)

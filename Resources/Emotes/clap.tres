@@ -7,4 +7,6 @@
 script = ExtResource("2_v8dv6")
 title = "Bater palmas"
 animation = ExtResource("1_lpuym")
+arm_forward = 45.0
+forearm_forward = 70.0
 metadata/_custom_type_script = "uid://cymll0xgxx1ci"

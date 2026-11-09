@@ -7,4 +7,7 @@
 script = ExtResource("2_ee4k1")
 title = "Vitória"
 animation = ExtResource("1_sb1wa")
+arm_inward = -60.0
+arm_forward = -25.0
+forearm_forward = -45.0
 metadata/_custom_type_script = "uid://cymll0xgxx1ci"
