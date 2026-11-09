@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="HatData" format=3 uid="uid://cis2pb8pemueu"]
+
+[ext_resource type="PackedScene" uid="uid://cvq2sg6po5l3y" path="res://Blender/Hats/birthday_hat.tscn" id="1_0k7e6"]
+[ext_resource type="Script" uid="uid://chp21twuba1y2" path="res://Scripts/hat.gd" id="2_k6gof"]
+
+[resource]
+script = ExtResource("2_k6gof")
+title = "Chapéu de Aniversário"
+model = ExtResource("1_0k7e6")
+scale_tweak = 0.75
+offset = Vector3(0, 0, 0.05)
+metadata/_custom_type_script = "uid://chp21twuba1y2"
