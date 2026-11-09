@@ -1,8 +1,9 @@
 class_name CostumeMenu
 extends BottomSheet
 
-## The closet: a card for every costume in [member costumes], each a little render of him
-## wearing it, so a new costume only needs its resource adding to the list. Under them,
+## The closet: a card for every costume in [member costumes], showing its shirt print, or a
+## little render of him wearing it when it has none, so a new costume only needs its
+## resource adding to the list. Under them,
 ## rows of swatches dye his shirt and hair; those apply straight away and leave it open.
 
 signal costume_chosen(costume: CostumeData)
@@ -18,6 +19,8 @@ signal hair_color_chosen(color: Color)
 		Color("e8c872"), Color("c1440e"), Color("b8b8b8"), Color("3a86ff"), Color("ff5fa2"),
 		Color("38b000")]
 @export var swatch_size := 56.0
+## Tallest a shirt print is drawn on its card (pixels).
+@export var print_icon_height := 100.0
 ## Dressed and rendered for each card's picture.
 @export var character_scene: PackedScene = preload("res://Blender/Chars/judson.tscn")
 ## Where the card camera looks from and at, in his space (metres; +Z is in front of him).
@@ -35,8 +38,14 @@ func _ready() -> void:
 	super()
 	for costume in costumes:
 		if costume and costume.model:
-			icons[costume] = _render(costume)
-			_add_card(costume.title, icons[costume], costume_chosen.emit.bind(costume))
+			# a printed shirt is told apart by its print; the rest by how he looks in them
+			icons[costume] = costume.print if costume.print else _render(costume)
+			var card := _add_card(costume.title, icons[costume], costume_chosen.emit.bind(costume))
+			if costume.print:
+				# prints run edge to edge (renders have room round him), so keep them clear of the title
+				# (capped by height: a wide logo can use the whole card, a square one stays short)
+				var width := print_icon_height * costume.print.get_size().aspect()
+				card.add_theme_constant_override(&"icon_max_width", int(width))
 	_shirt_swatches = _add_swatches("Cor da Camisa", shirt_colors, shirt_color_chosen)
 	_hair_swatches = _add_swatches("Cor do Cabelo", hair_colors, hair_color_chosen)
 
