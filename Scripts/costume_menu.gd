@@ -18,7 +18,7 @@ signal hair_color_chosen(color: Color)
 @export var hair_colors: Array[Color] = [Color.BLACK, Color("4a2c17"), Color("8b5a2b"),
 		Color("e8c872"), Color("c1440e"), Color("b8b8b8"), Color("3a86ff"), Color("ff5fa2"),
 		Color("38b000")]
-@export var swatch_size := 56.0
+@export var swatch_size := 40.0
 ## Tallest a shirt print is drawn on its card (pixels).
 @export var print_icon_height := 100.0
 ## Dressed and rendered for each card's picture.

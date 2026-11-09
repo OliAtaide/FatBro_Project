@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CostumeData" format=3 uid="uid://b6jbvwvp0q88c"]
+
+[ext_resource type="PackedScene" uid="uid://bfbh3nhrq3j4v" path="res://Blender/Chars/judson_2.tscn" id="1_g1k4k"]
+[ext_resource type="Texture2D" uid="uid://fwko6oygy47w" path="res://Textures/shirt_prints/mickey_mouse.png" id="2_g1k4k"]
+[ext_resource type="Script" uid="uid://cvstua40xrtcp" path="res://Scripts/costume.gd" id="3_talqx"]
+
+[resource]
+script = ExtResource("3_talqx")
+title = "Mickey Mouse"
+model = ExtResource("1_g1k4k")
+print = ExtResource("2_g1k4k")
+metadata/_custom_type_script = "uid://cvstua40xrtcp"

@@ -10,13 +10,15 @@
 [ext_resource type="Resource" uid="uid://bl00a8ep8lkmj" path="res://Resources/Costumes/slytherin.tres" id="8_yi1wm"]
 [ext_resource type="Resource" uid="uid://jekjofvkgq67" path="res://Resources/Costumes/umbrella.tres" id="9_otukr"]
 [ext_resource type="PackedScene" uid="uid://cjmk34ad8jhb5" path="res://Blender/Chars/judson.tscn" id="10_b3bu2"]
+[ext_resource type="Resource" uid="uid://b6jbvwvp0q88c" path="res://Resources/Costumes/mickey.tres" id="10_otukr"]
 
 [node name="CostumeMenu" unique_id=1402243507 instance=ExtResource("1_sheet")]
 script = ExtResource("2_menu")
-costumes = Array[ExtResource("3_costume")]([ExtResource("4_dflt"), ExtResource("5_lol"), ExtResource("6_mk"), ExtResource("7_mnst"), ExtResource("8_yi1wm"), ExtResource("9_otukr")])
+costumes = Array[ExtResource("3_costume")]([ExtResource("4_dflt"), ExtResource("5_lol"), ExtResource("6_mk"), ExtResource("7_mnst"), ExtResource("8_yi1wm"), ExtResource("9_otukr"), ExtResource("10_otukr")])
 shirt_colors = Array[Color]([Color(1, 1, 1, 1), Color(0.9019608, 0.22352941, 0.27450982, 1), Color(0.95686275, 0.63529414, 0.38039216, 1), Color(1, 0.8235294, 0.24705882, 1), Color(0.32156864, 0.7176471, 0.53333336, 1), Color(0.28235295, 0.58431375, 0.9372549, 1), Color(0.60784316, 0.3647059, 0.8980392, 1), Color(0.94509804, 0.35686275, 0.70980394, 1), Color(0.42352942, 0.45882353, 0.49019608, 1), Color(0.16862746, 0.1764706, 0.25882354, 1)])
 hair_colors = Array[Color]([Color(0, 0, 0, 1), Color(0.2901961, 0.17254902, 0.09019608, 1), Color(0.54509807, 0.3529412, 0.16862746, 1), Color(0.9098039, 0.78431374, 0.44705883, 1), Color(0.75686276, 0.26666668, 0.05490196, 1), Color(0.72156864, 0.72156864, 0.72156864, 1), Color(0.22745098, 0.5254902, 1, 1), Color(1, 0.37254903, 0.63529414, 1), Color(0.21960784, 0.6901961, 0, 1)])
-swatch_size = 56.0
+swatch_size = 40.0
+print_icon_height = 100.0
 character_scene = ExtResource("10_b3bu2")
 camera_eye = Vector3(0, 0.6, 2.4)
 camera_target = Vector3(0, 0.45, 0)
