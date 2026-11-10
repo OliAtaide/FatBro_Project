@@ -27,9 +27,10 @@ extends CanvasLayer
 @export var swap_time := 0.15
 ## Gap between the photo button and the bottom of the screen (pixels).
 @export var photo_button_margin := 36.0
-## Where photos go. Empty means the system's Pictures folder (on Android 11+ that lands in
-## the gallery; older versions would need a storage permission, so it falls back to the
-## app's own folder there).
+## Where photos go. Empty means the gallery: the Pictures folder, or Download/Judson on
+## Android 10+, where Godot can't write to Pictures (it files everything in Android's
+## generic files collection, which only takes Download and Documents). The gallery shows
+## Download/Judson as an album all the same.
 @export var photo_folder := ""
 
 ## Remembers the player's choices (his costume, colours and hat) between launches.
@@ -128,28 +129,39 @@ func take_photo() -> void:
 	visible = true
 	_flash.modulate.a = 0.85
 	create_tween().tween_property(_flash, "modulate:a", 0.0, 0.35)
-	var saved_to := _save_photo(image)
-	_show_toast("Foto salva em Imagens" if saved_to == "pictures"
-			else "Foto salva" if saved_to else "Não foi possível salvar a foto")
+	_show_toast(_save_photo(image))
 	_taking_photo = false
 
 
-## Returns "pictures" if it went to the Pictures folder, another non-empty string if it went
-## somewhere else, or "" if it couldn't be saved at all.
+## Saves [param image] in the first place that takes it; returns the toast saying where.
 func _save_photo(image: Image) -> String:
 	var stamp := Time.get_datetime_string_from_system().replace(":", "-").replace("T", "_")
 	var file := "Judson_%s.png" % stamp
-	var folder := photo_folder if photo_folder else OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
-	if folder and image.save_png(folder.path_join(file)) == OK:
-		return "pictures" if not photo_folder else folder
-	# no shared Pictures (or not allowed to write there): keep it in the app's own folder
+	# [folder, toast]
+	var places := []
+	if photo_folder:
+		places.append([photo_folder, "Foto salva"])
+	else:
+		places.append([OS.get_system_dir(OS.SYSTEM_DIR_PICTURES), "Foto salva na galeria"])
+		var downloads := OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+		if downloads:
+			places.append([downloads.path_join("Judson"), "Foto salva na galeria (Download/Judson)"])
+	for place in places:
+		var folder: String = place[0]
+		if not folder:
+			continue
+		var error := image.save_png(folder.path_join(file))
+		if error == OK:
+			return place[1]
+		push_warning("Couldn't save the photo to %s: %s" % [folder, error_string(error)])
+	# nowhere shared would take it: keep it in the app's own folder (out of the gallery's reach)
 	var fallback := "user://photos"
 	DirAccess.make_dir_recursive_absolute(fallback)
 	var error := image.save_png(fallback.path_join(file))
 	if error != OK:
 		push_warning("Couldn't save the photo: %s" % error_string(error))
-		return ""
-	return fallback
+		return "Não foi possível salvar a foto"
+	return "Foto salva no app"
 
 
 func _make_flash_and_toast() -> void:

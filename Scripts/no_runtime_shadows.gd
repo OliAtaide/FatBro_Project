@@ -1,8 +1,9 @@
 extends Node3D
 
 # Stops this scene's meshes from casting real-time shadows. Runs only in game,
-# so the shadows already baked into the lightmap stay. Meant for heavy props
-# that would otherwise be redrawn into the omni light's shadow map every frame.
+# so the shadows already baked into the lightmap stay. Meant for props (on the
+# whole room in main) that would otherwise be redrawn into every shadowed light's
+# shadow maps each frame, since he moves.
 
 
 func _ready() -> void:

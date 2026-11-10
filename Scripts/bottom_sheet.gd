@@ -76,7 +76,22 @@ func _snapshot(subject: Node3D, eye: Vector3, target: Vector3, fov := 30.0) -> T
 	var light := DirectionalLight3D.new()
 	viewport.add_child(light)
 	light.look_at_from_position(Vector3(1.0, 1.5, 2.0), Vector3.ZERO)
-	return viewport.get_texture()
+
+	# blank until it's drawn (callers still pose the subject after this returns)
+	var picture := ImageTexture.create_from_image(
+			Image.create_empty(icon_size, icon_size, false, Image.FORMAT_RGBA8))
+	_keep_picture(viewport, picture)
+	return picture
+
+
+## Once [param viewport] has drawn, copies its picture into [param picture] and frees it.
+## (Left alive, every icon kept its own 3D world and buffers, and a posed character in
+## each was animated every frame: a real cost on phones.)
+func _keep_picture(viewport: SubViewport, picture: ImageTexture) -> void:
+	await RenderingServer.frame_post_draw
+	if is_instance_valid(viewport):
+		picture.set_image(viewport.get_texture().get_image())
+		viewport.queue_free()
 
 
 func _slide_to(target: float) -> Tween:
